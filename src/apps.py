@@ -1,7 +1,10 @@
 from flask import Flask
 from flask_restful import Api
 
-from resources.upload import Upload
+'''
+@ import API
+'''
+from resources.dataService.upload import Upload
 
 app = Flask(__name__)
 api = Api(app)
