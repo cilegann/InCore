@@ -50,11 +50,11 @@ The validator is `tokenValidator` in `src/utils.py`
     30.57,43,6
     22.89,99,30
     ```
-  - NLP project: A `tsv` with column name. There should be a column named **"value"** which contains the numerical value. For example:
+  - NLP project: A `tsv` with column name. For project with label, there should be at least one column  which contains the numerical value. For example:
     ```
-    Sentence1	value
-    I am happy	1
-    I am sad	0
+    Sentence1	value	value2
+    I am happy	1	1
+    I am sad	0	0
     ```
     or
     ```
@@ -62,7 +62,7 @@ The validator is `tokenValidator` in `src/utils.py`
     I am happy	So am I :)	1
     I am happy	I am a student	0
     ```
-  - CV project: A `zip` file. There should be a (only one) `csv` file in the zip directly, not in a folder. There should be a column that contains the numerical value and named **"value"**. Other columns are the image file path (related path in zip). For example:
+  - CV project: A `zip` file. There should be a (only one) `csv` file in the zip directly, not in a folder. For project with label, here should be at least one column that contains the numerical value. Other columns are the image file path (related path in zip). For example:
     ```
     file.zip
         |--lables.csv

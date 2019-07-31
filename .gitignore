@@ -1,1 +1,7 @@
 __pycache__
+test
+*.csv
+*.tsv
+*.zip
+*.h5
+*.pkl
