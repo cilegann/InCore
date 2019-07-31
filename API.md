@@ -1,7 +1,7 @@
 # InCore services API Document
 ## Run
 - Under `incore` folder, run `python3 apps.py`
-## token algorithm
+## About Token
 When requesting a service, the request should contain a random `tokenstr` and its `tokenint` to validate the request source.
 The algorithm to convert `tokenstr` to `tokenint` is
 ```
@@ -11,7 +11,7 @@ for i from 0 to len(tokenstr):
 ```
 The validator is `tokenValidator` in `src/utils.py`
 
-## parameters setting
+## Parameters setting
 - file location: `src/params.py`
 - Description: File folder, model folder, acceptable files, acceptable projects are defined in this file. 
 - Usage: In each py
@@ -52,15 +52,15 @@ The validator is `tokenValidator` in `src/utils.py`
     ```
   - NLP project: A `tsv` with column name. There should be a column named **"value"** which contains the numerical value. For example:
     ```
-    Sentence1  \t value
-    I am happy \t 1
-    I am sad   \t 0
+    Sentence1	value
+    I am happy	1
+    I am sad	0
     ```
     or
     ```
-    Sentence1  \t Sentence2      \t value
-    I am happy \t So am I        \t 1
-    I am happy \t I am a student \t 0
+    Sentence1	Sentence2	value
+    I am happy	So am I :)	1
+    I am happy	I am a student	0
     ```
   - CV project: A `zip` file. There should be a (only one) `csv` file in the zip directly, not in a folder. There should be a column that contains the numerical value and named **"value"**. Other columns are the image file path (related path in zip). For example:
     ```

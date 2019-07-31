@@ -5,6 +5,7 @@ from params import params
 from utils import tokenValidator
 import glob
 import uuid
+from resources.dataService.fileChecker import fileChecker
 
 # app = Flask(__name__)
 # api = Api(app)
@@ -52,26 +53,17 @@ class Upload(Resource):
         uid=uuid.uuid1()
         while len(glob.glob(r(param.filepath+"/"+uid+"*")))!=0:
             uid=uuid.uuid1()
-        savedPath='./'+param.filepath+"/"+uid+filetype
-        file.save(savedPath)
+        savedPath=param.filepath+"/"+uid+filetype
+        try:
+            file.save(savedPath)
+        except Exception as e:
+            return {"status":"error","msg":"file error","data":{}},201
 
         '''
         @ check file content
         '''
-        if filetype=='.csv':
-            pass
-            #TODO call csv checker
-        if filetype=='.tsv':
-            pass
-            #TODO call tsv checker
-        if filetype=='.zip':
-            import zipfile
-            with zipfile.ZipFile(savedPath, 'r') as zip_ref:
-                zip_ref.extractall('./'+param.filepath+'/'+uid)
-            csvFiles=glob.glob(r(param.filepath+"/"+uid+"/*.csv"))
-            if len(csvFiles)!=1:
-                return {"status":"error","msg":"zip should contains only 1 csv file","data":{}},201
-            # TODO call zip checker
+        fileCheck=fileChecker(savedPath)
+        if fileCheck['status']!='success':
+            return {"status":"error","msg":fileCheck['msg'],"data":{}},201
 
-        
-        return file.name, 201
+        return {"status":"success","msg":"","data":{"fileUid":uid}},201
