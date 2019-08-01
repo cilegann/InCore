@@ -8,6 +8,8 @@ par=params()
 
 #import API
 from resources.dataService.upload import Upload
+from resources.dataService.download import Download
+from resources.dataService.getColumn import getColumn
 
 
 app = Flask(__name__)
@@ -15,7 +17,8 @@ api = Api(app)
 
 # bind api
 api.add_resource(Upload, "/upload")
-
+api.add_resource(Download,'/download')
+api.add_resource(getColumn,'/getcol')
 
 if __name__ == "__main__":
 

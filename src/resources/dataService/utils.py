@@ -84,7 +84,7 @@ class fileChecker():
         
     def nlpTsvChecker(self):
         try:
-            data=pd.read_csv(self.filepath, sep='\t', header=0)
+            data=pd.read_csv(self.filepath, sep='\t')
         except Exception as e:
             return {"status":"error","msg":"error when parsing tsv using panda. "+str(e),"data":{}}
         return {"status":"success","msg":"",'data':{}}
@@ -210,3 +210,22 @@ class fileChecker():
     #         return {"status":"error","msg":str(e),"data":{}}
 
     #     return {"status":"success","msg":"","data":{}}
+
+class getColType():
+    def __init__(self,filepath,dataType):
+        self.filepath=filepath
+        self.dataType=dataType
+    def get(self):
+        if self.dataType=='num':
+            data=pd.read_csv(self.filepath)
+            logging.debug(f'[getColType] filepath:{self.filepath}')
+            pass
+        if self.dataType=='cv':
+            csvFile=glob.glob(self.filepath+"/*.csv")
+            logging.debug(f'[getColType] filepath:{csvFile}')
+            pass
+        if self.dataType=='nlp':
+            data=pd.read_csv(self.filepath,sep='\t')
+            logging.debug(f'[getColType] filepath:{self.filepath}')
+            pass
+        pass 

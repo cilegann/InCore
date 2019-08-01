@@ -18,13 +18,18 @@ The validator is `tokenValidator` in `src/utils.py`
   - use `from params import params` to import
   - create instance `param=params()`
   - Then get var with `param.var`
-## data collection service
+
+## Data collection service
 - Folder location: `src/resources/dataService`
-- Description: this service contains **upload**, **download** service
-### upload service
+- Description: this service contains **upload**, **download** API
+
+
+<details>
+<summary>[API] upload</summary>
+
 - File location: `src/resources/dataService/upload.py`
 - Description: This py is a upload API. When uploading a file, the service will check the file type and project type. Then generate a file UID. After that, the service will check the file content with checkers in `src/resources/dataService/fileChecker.py`.
-- Usage: Call the API with `POST` with a form
+- Usage: Call the API with `GET http://host/download` with a form
     ```
     {
         'file': binary file,
@@ -84,3 +89,149 @@ The validator is `tokenValidator` in `src/utils.py`
     folder_bar/imgl.png,0
     imgt.jpg,1
     ```
+</details>
+
+
+
+<details>
+<summary>[API] download</summary>
+
+- File location: `src/resources/dataService/download.py`
+- Description: This py is a download API. When being request a file IDuploading a file, the service will return the binary file and renamed to the given file name.
+- API: Call the API with `POST http://host/download` with a form
+    ```
+    {
+        'fileUid': file id,
+        'fileName': file name,
+        'tokenstr': The random token string,
+        'tokenint': The converted token value
+    }
+    ```
+    and get a binary response
+
+    ```
+    </details>
+    ```
+
+<details>
+<summary>[Method] file uid generator</summary>
+
+- File location: `src/resources/dataService/utils.py`
+- Description: Generate unique file id
+- Usage: 
+
+    `from resources.dataService.utils import fileUidGenerator`
+    `uid=fileUidGenerator().uid`
+
+</details>
+
+<details>
+<summary>[Method] file checker</summary>
+
+- File location: `src/resources/dataService/utils.py`
+- Description: Validate file content
+- Usage: 
+
+    `from resources.dataService.utils import fileUidGenerator`
+    `fileCheck=fileChecker(savedPath,prjtype).check()`
+</details>
+
+<details>
+<summary>[API] getColumn</summary>
+
+- File location: `src/resources/dataService/getColumn.py`
+- Description: Get column names and type
+- API: Call the API with `POST http://host/download` with a form
+    ```
+    {
+        'fileUid': file id,
+        'type': project type (defined in params),
+        'tokenstr': The random token string,
+        'tokenint': The converted token value
+    }
+    ```
+    get a json
+    ```
+    {
+        'status': 'success' or 'error',
+        'msg': error msg,
+        'data':{
+            'cols':[
+                {
+                    'name':'col1_name',
+                    'type': col1_type (num/path/sentence)
+                }
+            ]
+        }
+    }
+    ```
+</details>
+
+<details>
+<summary>[API] getFileStatus</summary>
+</details>
+
+## Analytic Service
+
+<details>
+<summary> [API] doPreprocess</summary>
+
+</details>
+
+<details>
+<summary> [API] getPreprocessPreview</summary>
+
+</details>
+
+<details>
+<summary> [API] getCorrelation</summary>
+
+</details>
+
+<details>
+<summary> [API] doSelection</summary>
+
+</details>
+
+<details>
+<summary> [API] getAlgoList</summary>
+
+</details>
+
+<details>
+<summary> [API] getAlgoParam</summary>
+
+</details>
+
+<details>
+<summary> [API] doModelTrain</summary>
+
+</details>
+
+<details>
+<summary> [API] doModelPredict</summary>
+
+</details>
+
+<details>
+<summary> [API] doModelTest</summary>
+
+</details>
+
+<details>
+<summary> [API] getModelStatus</summary>
+
+</details>
+
+<details>
+<summary> [API] getModelFailReason</summary>
+
+</details>
+
+<details>
+<summary> [API] getModelPreview</summary>
+
+</details>
+
+
+## Visualize Service

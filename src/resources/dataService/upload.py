@@ -30,7 +30,7 @@ class Upload(Resource):
         args = parser.parse_args()
         logging.debug(f"[Upload] args: {args}")
         file = args['file']
-        prjtype=args['type']
+        dataType=args['type']
         # user=args['user']
         tokenstr=args['tokenstr']
         tokenint=args['tokenint']
@@ -40,9 +40,9 @@ class Upload(Resource):
         if not tokenValidator(tokenstr,tokenint):
             return {"status":"error","msg":"token error","data":{}},201
         
-        pft=param.projectFileType
+        pft=param.dataFileType
         #check project type
-        if prjtype not in pft:
+        if dataType not in pft:
             return {"status":"error","msg":"project type not supported","data":{}},201
         
         #check filetype
@@ -50,7 +50,7 @@ class Upload(Resource):
         filename=file.filename
         filetype=filename[filename.rfind("."):]
         logging.debug("[Upload] File type:{filetype}")
-        if filetype not in pft[prjtype]:
+        if filetype not in pft[dataType]:
             return {"status":"error","msg":"file type error","data":{}},201
 
         #generate file UID and save
