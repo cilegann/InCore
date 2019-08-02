@@ -19,6 +19,7 @@ class getColumn(Resource):
         @ tokenstr: keypair1
         @ tokenint: keypair2
         '''
+        #TODO remove arg dataType
         parser = reqparse.RequestParser()
         parser.add_argument('fileUid', type=str,required=True)
         parser.add_argument('type',type=str,required=True)
