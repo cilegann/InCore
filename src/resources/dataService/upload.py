@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from werkzeug.datastructures import FileStorage
 from params import params
-from utils import tokenValidator
+from utils import tokenValidator,sql
 import glob
 import uuid
 from resources.dataService.utils import fileChecker,fileUidGenerator
@@ -68,5 +68,15 @@ class Upload(Resource):
         fileCheck=fileChecker(savedPath,dataType).check()
         if fileCheck['status']!='success':
             return {"status":"error","msg":fileCheck['msg'],"data":{}},201
+        if filetype=='.zip':
+            savedPath=savedPath[:savedPath.rfind(".")]
+        try:
+            db=sql()
+            db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`inuse`) values ('{uid}','{dataType}','{savedPath}',False);")
+            db.conn.commit()
+        except Exception as e:
+            db.conn.rollback()
+        finally:
+            db.conn.close()
         logging.info(f"[Upload] OK with file uid {uid}")
         return {"status":"success","msg":"","data":{"fileUid":uid}},201
