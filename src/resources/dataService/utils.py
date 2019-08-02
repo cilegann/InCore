@@ -61,7 +61,8 @@ class fileChecker():
         except Exception as e:
             os.remove(self.filepath)
             return {"status":"error","msg":"unzip error","data":{}}
-        
+
+        os.remove(self.filepath)
         #check #.csv and location
         csvFiles=glob.glob((folder+"/*.csv"))
         if len(csvFiles)!=1 or len(csvFiles)==0:
