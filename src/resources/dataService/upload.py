@@ -38,12 +38,12 @@ class Upload(Resource):
         
         #check token
         if not tokenValidator(tokenstr,tokenint):
-            return {"status":"error","msg":"token error","data":{}},201
+            return {"status":"error","msg":"token error","data":{}},401
         
         pft=param.dataFileType
         #check project type
         if dataType not in pft:
-            return {"status":"error","msg":"project type not supported","data":{}},201
+            return {"status":"error","msg":"project type not supported","data":{}},412
         
         #check filetype
         
@@ -51,7 +51,7 @@ class Upload(Resource):
         filetype=filename[filename.rfind("."):]
         logging.debug("[Upload] File type:{filetype}")
         if filetype not in pft[dataType]:
-            return {"status":"error","msg":"file type error","data":{}},201
+            return {"status":"error","msg":"file type error","data":{}},412
 
         #generate file UID and save
         uid=fileUidGenerator().uid
@@ -60,14 +60,14 @@ class Upload(Resource):
         try:
             file.save(savedPath)
         except Exception as e:
-            return {"status":"error","msg":f"file error:{e}","data":{}},201
+            return {"status":"error","msg":f"file error:{e}","data":{}},412
 
         '''
         @ check file content
         '''
         fileCheck=fileChecker(savedPath,dataType).check()
         if fileCheck['status']!='success':
-            return {"status":"error","msg":fileCheck['msg'],"data":{}},201
+            return {"status":"error","msg":fileCheck['msg'],"data":{}},412
         if filetype=='.zip':
             savedPath=savedPath[:savedPath.rfind(".")]
         try:

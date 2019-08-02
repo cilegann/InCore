@@ -8,6 +8,7 @@ import logging
 import zipfile
 import os
 import shutil
+from resources.dataService.utils import getFileInfo
 
 param=params()
 
@@ -29,16 +30,10 @@ class Download(Resource):
             # #check token
             # if not tokenValidator(tokenstr,tokenint):
             #     return {"status":"error","msg":"token error","data":{}},201
-            try:
-                db=sql()
-                db.cursor.execute(f"select * from files where `fid`='{fileUid}';")
-                table=db.cursor.fetchall()
-            except Exception as e:
-                logging.error(e)
-                return {"status":"error","msg":str(e),"data":{}},201
-            finally:
-                db.conn.close()
-            table=[[tt for tt in t] for t in table]
+            table=getFileInfo(fileUid)
+            if table['status']!='success':
+                return {"status":"error","msg":table['msg'],"data":{}},412
+            table=table['data']
             logging.debug(f'[Download] {table}')
             if len(table)==0:
                 logging.debug("[Download] file not found")
@@ -64,9 +59,9 @@ class Download(Resource):
                 fileName=fileUid
             headers['Content-Type']='application/octet-stream; charset=utf-8'
             headers['Content-Disposition'] = 'attachment; filename='+fileName+filetype
-            return make_response(data,201,headers)
+            return make_response(data,200,headers)
         except Exception as e:
             logging.error(e)
-            return {"status":"error","msg":str(e),"data":{}},201
+            return {"status":"error","msg":str(e),"data":{}},412
         
         

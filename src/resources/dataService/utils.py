@@ -113,7 +113,7 @@ class getColType():
                 data=pd.read_csv(self.filepath)
                 logging.debug(f'[getColType] filepath:{self.filepath}')
                 colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
+                j=[{"name":c,"type":dTypeConverter(data[c].dtype) } for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
                 return {"status":"error","msg":str(e),'data':{}}
