@@ -1,2 +1,2 @@
 # InCore
-[Document](https://hackmd.io/@cilegann/incoreapi)
+## [Document](https://hackmd.io/@cilegann/incoreapi)
