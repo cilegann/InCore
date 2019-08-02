@@ -33,7 +33,7 @@ The validator is `tokenValidator` in `src/utils.py`
     ```
     {
         'file': binary file,
-        'type': project type (defined in params),
+        'type': project (type num/cv/nlp),
         'tokenstr': The random token string,
         'tokenint': The converted token value
     }
@@ -109,9 +109,7 @@ The validator is `tokenValidator` in `src/utils.py`
     ```
     and get a binary response
 
-    ```
     </details>
-    ```
 
 <details>
 <summary>[Method] file uid generator</summary>
@@ -141,11 +139,11 @@ The validator is `tokenValidator` in `src/utils.py`
 
 - File location: `src/resources/dataService/getColumn.py`
 - Description: Get column names and type
-- API: Call the API with `POST http://host/download` with a form
+- API: Call the API with `POST http://host/getcol` with a form
     ```
     {
         'fileUid': file id,
-        'type': project type (defined in params),
+        'type': project type (num/cv/nlp),
         'tokenstr': The random token string,
         'tokenint': The converted token value
     }
@@ -169,6 +167,27 @@ The validator is `tokenValidator` in `src/utils.py`
 
 <details>
 <summary>[API] getFileStatus</summary>
+
+- File location: `src/resources/dataService/getFileStatus.py`
+- Description: Get column names and type
+- API: Call the API with `POST http://host/getfilestatus` with a form
+    ```
+    {
+        'fileUid': [file id1, file id 2..],
+        'tokenstr': The random token string,
+        'tokenint': The converted token value
+    }
+    ```
+    get a json
+    ```
+    {
+        'status': 'success' or 'error',
+        'msg': error msg,
+        'data':{
+            'status': 1
+        }
+    }
+    ```
 </details>
 
 ## Analytic Service

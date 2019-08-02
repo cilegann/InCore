@@ -65,7 +65,7 @@ class Upload(Resource):
         '''
         @ check file content
         '''
-        fileCheck=fileChecker(savedPath,prjtype).check()
+        fileCheck=fileChecker(savedPath,dataType).check()
         if fileCheck['status']!='success':
             return {"status":"error","msg":fileCheck['msg'],"data":{}},201
         logging.info(f"[Upload] OK with file uid {uid}")

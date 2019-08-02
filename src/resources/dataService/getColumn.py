@@ -50,5 +50,4 @@ class getColumn(Resource):
             filepath=filePaths[0]
 
         gct=getColType(filepath,dataType).get()
-       
-        return {"status":"success","msg":"","data":{}},201
+        return gct,201

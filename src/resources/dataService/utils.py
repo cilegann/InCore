@@ -7,6 +7,7 @@ import zipfile
 import uuid
 import shutil
 import logging
+import numpy as np
 
 class fileUidGenerator():
     def __init__(self):
@@ -38,13 +39,12 @@ class fileChecker():
             data=pd.read_csv(self.filepath)
 
             # check numerical value
-            for v in data.values:
-                for vv in v:
-                    try:
-                        tmp=float(vv)
-                    except Exception as e:
-                        os.remove(self.filepath)
-                        return {"status":"error","msg":"csv should only contain numerical value: "+str(vv),"data":{}}
+            cols=data.columns.tolist()
+            for c in cols:
+                if data[c].dtype!=np.float64 and data[c].dtype!=np.int64:
+                    os.remove(self.filepath)
+                    return {"status":"error","msg":"csv should only contain numerical value: (Col "+c+")","data":{}}
+                        
         except Exception as e:
             os.remove(self.filepath)
             return {"status":"error","msg":str(e),"data":{}}
@@ -70,12 +70,6 @@ class fileChecker():
             return {"status":"error","msg":"zip should contains only 1 csv file and be placed in the top path","data":{}}
         csvFile=csvFiles[0]
         csvFile=csvFile.replace("\\","/")
-        # if csvFile.count("/")!=3:
-        #     os.remove(self.filepath)
-        #     shutil.rmtree(folder)
-        #     return {"status":"error","msg":"csv file should be placed in the top path","data":{}}
-
-        #check csv parse using pandas
         try:
             data=pd.read_csv(csvFile)
         except Exception as e:
@@ -211,21 +205,48 @@ class fileChecker():
 
     #     return {"status":"success","msg":"","data":{}}
 
+def dTypeConverter(dtype):
+    if dtype==np.float64:
+        return "float"
+    elif dtype==np.int64:
+        return "int"
+    else:
+        return "str"
+
 class getColType():
     def __init__(self,filepath,dataType):
         self.filepath=filepath
         self.dataType=dataType
     def get(self):
         if self.dataType=='num':
-            data=pd.read_csv(self.filepath)
-            logging.debug(f'[getColType] filepath:{self.filepath}')
-            pass
+            try:
+                data=pd.read_csv(self.filepath)
+                logging.debug(f'[getColType] filepath:{self.filepath}')
+                colNames=data.columns.tolist()
+                j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
+                logging.debug(f'[getColType]{j}')
+            except Exception as e:
+                return {"status":"error","msg":str(e),'data':{}}
+            return {"status":"success","msg":"",'data':{"cols":j}}
+
         if self.dataType=='cv':
-            csvFile=glob.glob(self.filepath+"/*.csv")
-            logging.debug(f'[getColType] filepath:{csvFile}')
-            pass
+            try:
+                csvFile=glob.glob(self.filepath+"/*.csv")[0]
+                logging.debug(f'[getColType] filepath:{csvFile}')
+                data=pd.read_csv(csvFile)
+                colNames=data.columns.tolist()
+                j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
+                logging.debug(f'[getColType]{j}')
+            except Exception as e:
+                return {"status":"error","msg":str(e),'data':{}}
+            return {"status":"success","msg":"",'data':{"cols":j}}
         if self.dataType=='nlp':
-            data=pd.read_csv(self.filepath,sep='\t')
-            logging.debug(f'[getColType] filepath:{self.filepath}')
-            pass
-        pass 
+            try:
+                data=pd.read_csv(self.filepath,sep='\t')
+                logging.debug(f'[getColType] filepath:{self.filepath}')
+                colNames=data.columns.tolist()
+                j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
+                logging.debug(f'[getColType]{j}')
+            except Exception as e:
+                return {"status":"error","msg":str(e),'data':{}}
+            return {"status":"success","msg":"",'data':{"cols":j}}
