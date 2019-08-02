@@ -10,6 +10,7 @@ par=params()
 from resources.dataService.upload import Upload
 from resources.dataService.download import Download
 from resources.dataService.getColumn import getColumn
+from resources.dataService.getFileStatus import getFileStatus
 
 
 app = Flask(__name__)
@@ -19,6 +20,7 @@ api = Api(app)
 api.add_resource(Upload, "/upload")
 api.add_resource(Download,'/download')
 api.add_resource(getColumn,'/getcol')
+api.add_resource(getFileStatus,'/getfilestatus')
 
 if __name__ == "__main__":
 
