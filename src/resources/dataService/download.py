@@ -32,7 +32,7 @@ class Download(Resource):
             #     return {"status":"error","msg":"token error","data":{}},201
             table=getFileInfo(fileUid)
             if table['status']!='success':
-                return {"status":"error","msg":table['msg'],"data":{}},412
+                return {"status":"error","msg":table['msg'],"data":{}},403
             table=table['data']
             logging.debug(f'[Download] {table}')
             if len(table)==0:
@@ -62,6 +62,6 @@ class Download(Resource):
             return make_response(data,200,headers)
         except Exception as e:
             logging.error(e)
-            return {"status":"error","msg":str(e),"data":{}},412
+            return {"status":"error","msg":str(e),"data":{}},403
         
         

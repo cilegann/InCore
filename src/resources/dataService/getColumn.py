@@ -35,7 +35,7 @@ class getColumn(Resource):
         
         fileInfo=getFileInfo(fid)
         if fileInfo['status']!='success':
-            return fileInfo,412
+            return fileInfo,403
         fileInfo=fileInfo['data'][0]
         filePath=fileInfo[2]
         dataType=fileInfo[1]
