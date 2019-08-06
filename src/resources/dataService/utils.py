@@ -101,7 +101,7 @@ def dTypeConverter(dtype):
     elif dtype==np.int64:
         return "int"
     else:
-        return "str"
+        return "string"
 
 class getColType():
     def __init__(self,filepath,dataType):
