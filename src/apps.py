@@ -11,16 +11,18 @@ from resources.dataService.upload import Upload
 from resources.dataService.download import Download
 from resources.dataService.getColumn import getColumn
 from resources.dataService.getFileStatus import getFileStatus
+from resources.dataService.delete import DeleteFile
 
 
 app = Flask(__name__)
 api = Api(app)
 
 # bind api
-api.add_resource(Upload, "/upload")
-api.add_resource(Download,'/download')
-api.add_resource(getColumn,'/getcol')
-api.add_resource(getFileStatus,'/getfilestatus')
+api.add_resource(Upload, "/data/upload")
+api.add_resource(Download,'/data/download')
+api.add_resource(getColumn,'/data/getcol')
+api.add_resource(getFileStatus,'/data/getstatus')
+api.add_resource(DeleteFile,'/data/delete')
 
 if __name__ == "__main__":
 
