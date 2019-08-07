@@ -3,6 +3,7 @@ class params():
         self.port=8787
         self.filepath='./files'
         self.modelpath='./models'
+        self.imgpath='./images'
         self.dataFileType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
         self.dbhost='140.112.26.132'
         self.dbuser='ican'
