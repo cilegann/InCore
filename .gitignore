@@ -6,3 +6,4 @@ test
 *.h5
 *.pkl
 src/resources/visualizeService/1.jpg
+src/resources/visualizeService/save_icon.png
