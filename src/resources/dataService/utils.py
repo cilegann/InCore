@@ -49,6 +49,7 @@ class fileChecker():
                 return self.numCsvChecker()
 
     def numCsvChecker(self):
+        # check if parsable, if numerical
         try:
             data=pd.read_csv(self.filepath)
 
@@ -60,17 +61,19 @@ class fileChecker():
                     return {"status":"error","msg":"csv should only contain numerical value: (Col "+c+")","data":{}}
         except Exception as e:
             os.remove(self.filepath)
+            logging.error(f'[fileChecker]{e}')
             return {"status":"error","msg":str(e),"data":{}}
         return {"status":"success","msg":"","data":{}}
 
     def cvZipChecker(self):
-
+        # try unzippable, csv location, csv parsable
         folder=self.filepath[:self.filepath.rfind(".")]
         try:
             with zipfile.ZipFile(self.filepath, 'r') as zip_ref:
                 zip_ref.extractall(folder)
         except Exception as e:
             os.remove(self.filepath)
+            logging.error(f'[fileChecker]{e}')
             return {"status":"error","msg":"unzip error","data":{}}
         os.remove(self.filepath)
 
@@ -85,13 +88,16 @@ class fileChecker():
         try:
             data=pd.read_csv(csvFile)
         except Exception as e:
+            logging.error(f'[fileChecker]{e}')
             return {"status":"error","msg":"error when parsing csv using panda. "+str(e),"data":{}}
         return {"status":"success","msg":"",'data':{}}
         
     def nlpTsvChecker(self):
+        # try tsv parsable
         try:
             data=pd.read_csv(self.filepath, sep='\t')
         except Exception as e:
+            logging.error(f'[fileChecker]{e}')
             return {"status":"error","msg":"error when parsing tsv using panda. "+str(e),"data":{}}
         return {"status":"success","msg":"",'data':{}}
 
@@ -116,6 +122,7 @@ class getColType():
                 j=[{"name":c,"type":dTypeConverter(data[c].dtype) } for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
+                logging.error(f'[getColType]{e}')
                 return {"status":"error","msg":str(e),'data':{}}
             return {"status":"success","msg":"",'data':{"cols":j}}
 
@@ -128,8 +135,10 @@ class getColType():
                 j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
+                logging.error(f'[getColType]{e}')
                 return {"status":"error","msg":str(e),'data':{}}
             return {"status":"success","msg":"",'data':{"cols":j}}
+
         if self.dataType=='nlp':
             try:
                 data=pd.read_csv(self.filepath,sep='\t')
@@ -138,5 +147,6 @@ class getColType():
                 j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
+                logging.error(f'[getColType]{e}')
                 return {"status":"error","msg":str(e),'data':{}}
             return {"status":"success","msg":"",'data':{"cols":j}}
