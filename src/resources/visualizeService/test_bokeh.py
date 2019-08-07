@@ -89,25 +89,44 @@ def srd():
   return response
   # return page2.render(resources=CDN.render())
 
+@app.route('/getimg')
+def getimg():
+  file=open('1.jpg','rb')
+  data=file.read()
+  response=make_response(data)
+  response.headers['Access-Control-Allow-Origin'] = '*'
+  response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+  response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+  return response
+
 @app.route('/img1com')
 def img1com():
   from PIL import Image
   import numpy as np
-  img=np.asarray(Image.open("1.jpg"))
-  p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=600, plot_height=400)
-  # p.image_url(url="https://img.ltn.com.tw/Upload/liveNews/BigPic/600_phpHjtgO0.jpg", x=0, y=0, w=720, h=898)
-  p.image_url(url=["https://img.ltn.com.tw/Upload/liveNews/BigPic/600_phpHjtgO0.jpg"], x=0, y=0, w=720, h=898)
+  p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=625, plot_height=400)
+  p.xaxis.major_tick_line_color = None  # turn off x-axis major ticks
+  p.xaxis.minor_tick_line_color = None  # turn off x-axis minor ticks
+
+  p.yaxis.major_tick_line_color = None  # turn off y-axis major ticks
+  p.yaxis.minor_tick_line_color = None  # turn off y-axis minor ticks
+  p.xaxis.major_label_text_font_size = '0pt'  # turn off x-axis tick labels
+  p.yaxis.major_label_text_font_size = '0pt'  # turn off y-axis tick labels
+  p.image_url(url=["http://140.112.26.135:8787/getimg"], x=0, y=0, w=1200, h=675,anchor='bottom_left')
   script,div=components(p,wrap_script=False)
-  return json.dumps({"div":div,"script":script})
+  response=make_response(json.dumps({"div":div,"script":script}))
+  response.headers['Access-Control-Allow-Origin'] = '*'
+  response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+  response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+  return response
+  # return json.dumps({"div":div,"script":script})
 
 @app.route('/circle1com')
 def circle1com():
-    p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=600, plot_height=400)
+    p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=625, plot_height=400)
     p.xaxis.axis_label = 'petal_width'
     p.yaxis.axis_label = 'petal_length'
     p.circle(flowers['petal_width'], flowers['petal_length'], color=colors, fill_alpha=0.2, size=10)
     script,div=components(p,wrap_script=False)
-    print(type(script))
     return json.dumps({"div":div,"script":script})
 
 @app.route('/circle1')
