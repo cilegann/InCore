@@ -21,6 +21,7 @@ class Upload(Resource):
         @ tokenstr: keypair1
         @ tokenint: keypair2
         '''
+        fName='[Upload]'
         parser = reqparse.RequestParser()
         parser.add_argument('file', type=FileStorage, location='files',required=True)
         parser.add_argument('type',type=str,required=True)
@@ -43,7 +44,7 @@ class Upload(Resource):
         pft=param.dataFileType
         #check project type
         if dataType not in pft:
-            return {"status":"error","msg":"project type not supported","data":{}},403
+            return {"status":"error","msg":"project type not supported","data":{}},400
         
         #check filetype
         
@@ -51,7 +52,7 @@ class Upload(Resource):
         filetype=filename[filename.rfind("."):]
         logging.debug("[Upload] File type:{filetype}")
         if filetype not in pft[dataType]:
-            return {"status":"error","msg":"file type error","data":{}},403
+            return {"status":"error","msg":"file type error","data":{}},400
 
         #generate file UID and save
         uid=fileUidGenerator().uid
@@ -60,14 +61,16 @@ class Upload(Resource):
         try:
             file.save(savedPath)
         except Exception as e:
-            return {"status":"error","msg":f"file error:{e}","data":{}},403
+            return {"status":"error","msg":f"file error:{e}","data":{}},400
 
         '''
         @ check file content
         '''
-        fileCheck=fileChecker(savedPath,dataType).check()
-        if fileCheck['status']!='success':
-            return {"status":"error","msg":fileCheck['msg'],"data":{}},403
+        try:
+            fileChecker(savedPath,dataType).check()
+        except Exception as e:
+            logging.error(f'{fName}{e}')
+            return {"status":"error","msg":str(e),"data":{}},400
         if filetype=='.zip':
             savedPath=savedPath[:savedPath.rfind(".")]
             numFilePath=glob.glob((savedPath+"/*.csv"))[0]

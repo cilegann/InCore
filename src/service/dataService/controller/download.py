@@ -30,17 +30,20 @@ class Download(Resource):
             # #check token
             # if not tokenValidator(tokenstr,tokenint):
             #     return {"status":"error","msg":"token error","data":{}},201
-            table=getFileInfo(fileUid)
-            if table['status']!='success':
-                return {"status":"error","msg":table['msg'],"data":{}},403
-            table=table['data']
-            logging.debug(f'[Download] {table}')
-            if len(table)==0:
+            
+            try:
+                fileInfo=getFileInfo(fileUid)
+            except Exception as e:
+                logging.error(f'[Download]{e}')
+                return {'status':'error','msg':str(e),'data':{}},400
+            fileInfo=fileInfo[0]
+            logging.debug(f'[Download] {fileInfo}')
+            if len(fileInfo)==0:
                 logging.debug("[Download] file not found")
                 abort(404)
             
 
-            table=table[0]
+            table=fileInfo[0]
             if table[1]=='cv':
                 filepath=table[2]+'.zip'
                 shutil.make_archive(table[2], 'zip', table[2])
@@ -61,7 +64,7 @@ class Download(Resource):
             headers['Content-Disposition'] = 'attachment; filename='+fileName+filetype
             return make_response(data,200,headers)
         except Exception as e:
-            logging.error(e)
-            return {"status":"error","msg":str(e),"data":{}},403
+            logging.error(f'[Download]{e}')
+            return {"status":"error","msg":str(e),"data":{}},400
         
         

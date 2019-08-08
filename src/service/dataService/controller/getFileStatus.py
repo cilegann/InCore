@@ -19,6 +19,7 @@ class getFileStatus(Resource):
         @ tokenstr: keypair1
         @ tokenint: keypair2
         '''
+        fName='[getFileStatus]'
         parser = reqparse.RequestParser()
         parser.add_argument('fileUids', type=str,required=True)
         parser.add_argument('tokenstr',type=str,required=True)
@@ -35,11 +36,13 @@ class getFileStatus(Resource):
         #check token
         if not tokenValidator(tokenstr,tokenint):
             return {"status":"error","msg":"token error","data":{}},401
-        
-        fileInfo=[getFileInfo(fid) for fid in fids]
-        for fi in fileInfo:
-            if fi['status']!='success':
-                return fi,403
-        fileInfo=[f['data'][0][4] for f in fileInfo]
+        try:
+            fileInfo=[getFileInfo(fid) for fid in fids]
+
+        except Exception as e:
+            logging.error(f'{fName}{e}')
+            return {'status':'error','msg':str(e),'data':{}},400
+
+        fileInfo=[f[4] for f in fileInfo]
         logging.debug(json.dumps(fileInfo))
         return {"status":"success","msg":"","data":{"status":fileInfo}},200

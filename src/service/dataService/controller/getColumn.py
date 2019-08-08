@@ -18,6 +18,7 @@ class getColumn(Resource):
         @ tokenstr: keypair1
         @ tokenint: keypair2
         '''
+        fName='[getCol]'
         parser = reqparse.RequestParser()
         parser.add_argument('fileUid', type=str,required=True)
         parser.add_argument('tokenstr',type=str,required=True)
@@ -33,12 +34,18 @@ class getColumn(Resource):
         if not tokenValidator(tokenstr,tokenint):
             return {"status":"error","msg":"token error","data":{}},401
         
-        fileInfo=getFileInfo(fid)
-        if fileInfo['status']!='success':
-            return fileInfo,403
-        fileInfo=fileInfo['data'][0]
+        try:
+            fileInfo=getFileInfo(fid)
+        except Exception as e:
+            logging.error(f'{fName}{e}')
+            return {'status':'error','msg':str(e),'data':{}},400
+        fileInfo=fileInfo[0]
+
         filePath=fileInfo[2]
         dataType=fileInfo[1]
-        
-        gct=getColType(filePath,dataType).get()
-        return gct,200
+        try:
+            gct=getColType(filePath,dataType).get()
+        except Exception as e:
+            logging.error(f'{fName}{e}')
+            return {'status':'error','msg':str(e),'data':{}},400
+        return {'status':'success','msg':'','data':{"cols":gct}},200

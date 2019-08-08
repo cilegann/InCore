@@ -37,16 +37,17 @@ class DeleteFile(Resource):
         #check token
         if not tokenValidator(tokenstr,tokenint):
             return {"status":"error","msg":"token error","data":{}},401
-        
-        fileInfo=getFileInfo(fid)
-        if fileInfo['status']!='success':
-            return fileInfo,403
+        try:
+            fileInfo=getFileInfo(fid)
+        except Exception as e:
+            logging.error(f'[Delfile]{e}')
+            return {'status':'error','msg':str(e),'data':{}},400
 
-        fileInfo=fileInfo['data'][0]
+        fileInfo=fileInfo[0]
 
         if fileInfo[3]==1:
             logging.debug(f'[DelFile] file {fid} in use')
-            return {"status":"error","msg":"The file is in-used","data":{}},403
+            return {"status":"error","msg":"The file is in-used","data":{}},400
         
         filePath=fileInfo[2]
         dataType=fileInfo[1]
