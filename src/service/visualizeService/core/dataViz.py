@@ -44,6 +44,7 @@ class dataViz():
         
 
     def init_figure(self):
+        if self.algoInfo['lib']!='bokeh':
         p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset')
         pass
 
