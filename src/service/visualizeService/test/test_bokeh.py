@@ -152,8 +152,7 @@ def circle1com():
 @app.route('/circle1')
 def circle1():
     
-    p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset')
-    p.tools='pan,wheel_zoom,box_zoom,reset'
+    p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
     p.toolbar.logo=None
     p.xaxis.axis_label = 'petal_width'
     p.yaxis.axis_label = 'petal_length'
