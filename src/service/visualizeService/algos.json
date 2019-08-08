@@ -1,0 +1,47 @@
+{
+    "algos":[
+        {
+            "Name":"2D circle",
+            "lib":"bokeh",
+            "target":"data",
+            "algo":"",
+            "Description":"2D scatter with circle markers"
+        },{
+            "Name":"2D scatter",
+            "lib":"bokeh",
+            "target":"data",
+            "algo":"",
+            "Description":"2D scatter with dot markers"
+        },{
+            "Name":"2D circle with class",
+            "lib":"bokeh",
+            "target":"data",
+            "algo":"",
+            "Description":"2D scatter with circle markers, give different class different color"
+        },{
+            "Name":"2D scatter with class",
+            "lib":"bokeh",
+            "target":"data",
+            "algo":"",
+            "Description":"2D scatter with dot markers, give different class different color"
+        },{
+            "Name":"Histogram",
+            "lib":"bokeh",
+            "target":"data",
+            "algo":"",
+            "Description":"Count the occurence of the value in given column"
+        },{
+            "Name":"PCA to 2D circle",
+            "lib":"bokeh",
+            "target":"data",
+            "algo":"",
+            "Description":"Reduct data to 2D and plot using 2D circle"
+        },{
+            "Name":"PCA to 2D circle with class",
+            "lib":"bokeh",
+            "target":"data",
+            "algo":"",
+            "Description":"Reduct data to 2D and plot using 2D circle"
+        }
+    ]
+}
