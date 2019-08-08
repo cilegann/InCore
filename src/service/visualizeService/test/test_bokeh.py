@@ -5,7 +5,7 @@ from bokeh.embed import json_item,components
 from bokeh.plotting import figure
 from bokeh.resources import CDN
 from bokeh.sampledata.iris import flowers
-from bokeh.models import CustomJS,SaveTool,Tool,CustomAction,HoverTool,CustomJSHover,ColumnDataSource
+from bokeh.models import CustomJS,SaveTool,Tool,CustomAction,HoverTool,CustomJSHover,ColumnDataSource,Range1d
 
 from flask import Flask,make_response
 from jinja2 import Template
@@ -233,7 +233,6 @@ def bar1():
   cnt=[[str(x),list(flowers['species']).count(x)] for x in set(flowers['species'])]
   p=figure(x_range=[d[0] for d in cnt],title = "bar1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
   p.toolbar.logo=None
-
   source = ColumnDataSource(data=dict( counts=[d[1] for d in cnt]))
   p.add_tools(
     HoverTool(
