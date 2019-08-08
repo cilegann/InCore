@@ -101,13 +101,16 @@ class fileChecker():
             return {"status":"error","msg":"error when parsing tsv using panda. "+str(e),"data":{}}
         return {"status":"success","msg":"",'data':{}}
 
-def dTypeConverter(dtype):
+def dTypeConverter(dtype,dataType):
     if dtype==np.float64:
         return "float"
     elif dtype==np.int64:
         return "int"
     else:
-        return "string"
+        if dataType=='cv':
+            return "path"
+        if dataType=='nlp':
+            return "string"
 
 class getColType():
     def __init__(self,filepath,dataType):
@@ -116,10 +119,10 @@ class getColType():
     def get(self):
         if self.dataType=='num':
             try:
-                data=pd.read_csv(self.filepath)
+                data=getDf(self.filepath,'num').get()
                 logging.debug(f'[getColType] filepath:{self.filepath}')
                 colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c].dtype) } for c in colNames]
+                j=[{"name":c,"type":dTypeConverter(data[c].dtype,self.dataType) } for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
                 logging.error(f'[getColType]{e}')
@@ -130,9 +133,9 @@ class getColType():
             try:
                 csvFile=glob.glob(self.filepath+"/*.csv")[0]
                 logging.debug(f'[getColType] filepath:{csvFile}')
-                data=pd.read_csv(csvFile)
+                data=getDf(csvFile,'cv').get()
                 colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
+                j=[{"name":c,"type":dTypeConverter(data[c].dtype,self.dataType)} for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
                 logging.error(f'[getColType]{e}')
@@ -141,12 +144,38 @@ class getColType():
 
         if self.dataType=='nlp':
             try:
-                data=pd.read_csv(self.filepath,sep='\t')
+                data=getDf(self.filepath,'nlp').get()
                 logging.debug(f'[getColType] filepath:{self.filepath}')
                 colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c].dtype)} for c in colNames]
+                j=[{"name":c,"type":dTypeConverter(data[c].dtype,self.dataType)} for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
                 logging.error(f'[getColType]{e}')
                 return {"status":"error","msg":str(e),'data':{}}
             return {"status":"success","msg":"",'data':{"cols":j}}
+
+
+class getDf():
+    def __init__(self,filepath,dataType):
+        self.filepath=filepath
+        self.dataType=dataType
+    def get(self):
+        if self.dataType=='num':
+            try:
+                data=pd.read_csv(self.filepath)
+            except Exception as e:
+                logging.error(f'[getDf]{e}')
+                return {"status":'error','msg':str(e),'data':{}}
+        if self.dataType=='cv':
+            try:
+                data=pd.read_csv(self.filepath)
+            except Exception as e:
+                logging.error(f'[getDf]{e}')
+                return {"status":'error','msg':str(e),'data':{}}
+        if self.dataType=='nlp':
+            try:
+                data=pd.read_csv(self.filepath,sep='\t')
+            except Exception as e:
+                logging.error(f'[getDf]{e}')
+                return {"status":'error','msg':str(e),'data':{}}
+        return {'status':'success','msg':'','data':data}

@@ -40,6 +40,6 @@ class getFileStatus(Resource):
         for fi in fileInfo:
             if fi['status']!='success':
                 return fi,403
-        fileInfo=[f['data'][0][3] for f in fileInfo]
+        fileInfo=[f['data'][0][4] for f in fileInfo]
         logging.debug(json.dumps(fileInfo))
         return {"status":"success","msg":"","data":{"status":fileInfo}},200

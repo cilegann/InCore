@@ -70,9 +70,13 @@ class Upload(Resource):
             return {"status":"error","msg":fileCheck['msg'],"data":{}},403
         if filetype=='.zip':
             savedPath=savedPath[:savedPath.rfind(".")]
+            numFilePath=glob.glob((savedPath+"/*.csv"))[0]
         try:
             db=sql()
-            db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`inuse`) values ('{uid}','{dataType}','{savedPath}',False);")
+            if filetype=='.zip':
+                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`) values ('{uid}','{dataType}','{savedPath}','{numFilePath}',False);")
+            else:
+                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`inuse`) values ('{uid}','{dataType}','{savedPath}',False);")
             db.conn.commit()
         except Exception as e:
             db.conn.rollback()
