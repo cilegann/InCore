@@ -1,4 +1,4 @@
-from resources.dataService.utils import getColType
+from service.dataService.utils import getColType
 import logging
 import pymysql
 from params import params 

@@ -8,7 +8,7 @@ import logging
 import zipfile
 import os
 import shutil
-from resources.dataService.utils import getFileInfo
+from service.dataService.utils import getFileInfo
 
 param=params()
 

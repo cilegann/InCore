@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse
 from params import params
 from utils import tokenValidator,sql
-from resources.dataService.utils import getColType,getFileInfo
+from service.dataService.utils import getColType,getFileInfo
 import glob
 import logging
 import json

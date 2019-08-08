@@ -15,11 +15,11 @@ from params import params
 par=params()
 
 #import API
-from resources.dataService.upload import Upload
-from resources.dataService.download import Download
-from resources.dataService.getColumn import getColumn
-from resources.dataService.getFileStatus import getFileStatus
-from resources.dataService.delete import DeleteFile
+from service.dataService.controller.upload import Upload
+from service.dataService.controller.download import Download
+from service.dataService.controller.getColumn import getColumn
+from service.dataService.controller.getFileStatus import getFileStatus
+from service.dataService.controller.delete import DeleteFile
 
 
 app = Flask(__name__)

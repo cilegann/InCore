@@ -5,7 +5,7 @@ from params import params
 from utils import tokenValidator,sql
 import glob
 import uuid
-from resources.dataService.utils import fileChecker,fileUidGenerator
+from service.dataService.utils import fileChecker,fileUidGenerator
 import logging
 
 # app = Flask(__name__)
