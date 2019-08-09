@@ -51,7 +51,7 @@ page = Template("""
     .then(function(item) { Bokeh.embed.embed_item(item, "scatter1"); })
   </script>
   <script>
-  fetch('/scatter1')
+  fetch('/bar1')
     .then(function(response) { return response.json(); })
     .then(function(item) { Bokeh.embed.embed_item(item, "bar1"); })
   </script>
@@ -240,17 +240,17 @@ def bar1():
   cnt=[[str(x),list(flowers['species']).count(x)] for x in set(flowers['species'])]
   p=figure(x_range=[d[0] for d in cnt],title = "bar1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
   p.toolbar.logo=None
-  source = ColumnDataSource(data=dict( counts=[d[1] for d in cnt]))
+  source = ColumnDataSource(pd.DataFrame({'counts':[d[1] for d in cnt],'x':[d[0] for d in cnt]}) )
   p.add_tools(
     HoverTool(
       show_arrow=False, 
       line_policy='next',
       tooltips=[
-          ('count_value', '$top'),
+          ('count', '@counts'),
       ]
     )
   )
-  p.vbar(x=[d[0] for d in cnt], top=[d[1] for d in cnt], width=0.9)
+  p.vbar(source=source,x='x', top='counts', width=0.9)
   return json.dumps(json_item(p))
 
 @app.route('/histogram1')
@@ -264,7 +264,7 @@ def his1():
                           ('count','@arr_hist')
                           ])
   )
-  a=np.random.normal(size=1000)
+  a=np.random.normal(size=10000)
   arr_hist,edges=np.histogram(a, bins = 100, range = [a.min(), a.max()])
   his = pd.DataFrame({'arr_hist': arr_hist, 
                        'left': edges[:-1], 
@@ -273,18 +273,7 @@ def his1():
   p.quad(source = src, bottom=0, top='arr_hist',
        left='left', right='right', 
        line_color='black')
-
-  callback=CustomJS(args=dict(source=src),code="""
-    var data=source.data
-    var f = cb_obj.value
-    console.log(f)
-  
-  """)
-    
-  slider = Slider(start=50, end=1000, value=50, step=50, title="power",
-  callback=callback)
-  layout = column(slider, p)
-  return json.dumps(json_item(layout))
+  return json.dumps(json_item(p))
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=8787)
