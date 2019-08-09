@@ -1,4 +1,5 @@
 from service.dataService.utils import getColType
+from service.visualizeService.core.dataViz import dataViz
 import logging
 import pymysql
 from params import params 
@@ -18,5 +19,24 @@ def test_getsql():
     table=[[tt for tt in t] for t in table]
     print(table)
 
+def test_viz():
+    algoInfo={
+        "name":"2D circle",
+        "lib":"bokeh",
+        "target":"data",
+        "algo":"",
+        "data":{
+            "x":1,
+            "y":1,
+            "value":0
+        },
+        "description":"2D scatter with circle markers"
+    }
+    try:
+        v=dataViz(algoInfo,{'x':'a','y':'b','value':'c'},'nlp')
+    except Exception as e:
+        logging.error(e)
+    print(v.data)
+
 if __name__=='__main__':
-    test_getsql()
+    test_viz()
