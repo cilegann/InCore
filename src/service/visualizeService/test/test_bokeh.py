@@ -11,6 +11,7 @@ from flask import Flask,make_response
 from jinja2 import Template
 from flask_cors import CORS
 import pandas as pd
+import numpy as np
 
 
 app = Flask(__name__)
@@ -28,6 +29,7 @@ page = Template("""
   <div id="line1"></div>
   <div id="scatter1"></div>
   <div id="bar1"></div>
+  <div id="his1"></div>
   <script>
   fetch('/circle1')
     .then(function(response) { return response.json(); })
@@ -49,9 +51,14 @@ page = Template("""
     .then(function(item) { Bokeh.embed.embed_item(item, "scatter1"); })
   </script>
   <script>
-  fetch('/bar1')
+  fetch('/scatter1')
     .then(function(response) { return response.json(); })
     .then(function(item) { Bokeh.embed.embed_item(item, "bar1"); })
+  </script>
+  <script>
+  fetch('/histogram1')
+    .then(function(response) { return response.json(); })
+    .then(function(item) { Bokeh.embed.embed_item(item, "his1"); })
   </script>
 </body>
 """)
@@ -152,7 +159,7 @@ def circle1com():
 @app.route('/circle1')
 def circle1():
     
-    p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+    p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset,save')
     p.toolbar.logo=None
     p.xaxis.axis_label = 'petal_width'
     p.yaxis.axis_label = 'petal_length'
@@ -227,13 +234,38 @@ def scatter1():
   p.scatter(flowers['sepal_width'],flowers['sepal_length'], color=colors)
   return json.dumps(json_item(p))
 
-@app.route('/bar1')
-def bar1():
-  flowers=pd.read_csv('1.csv')
-  cnt=[[str(x),list(flowers['species']).count(x)] for x in set(flowers['species'])]
-  p=figure(x_range=[d[0] for d in cnt],title = "bar1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+# @app.route('/bar1')
+# def bar1():
+#   flowers=pd.read_csv('1.csv')
+#   cnt=[[str(x),list(flowers['species']).count(x)] for x in set(flowers['species'])]
+#   p=figure(x_range=[d[0] for d in cnt],title = "bar1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+#   p.toolbar.logo=None
+#   source = ColumnDataSource(data=dict( counts=[d[1] for d in cnt]))
+#   p.add_tools(
+#     HoverTool(
+#       show_arrow=False, 
+#       line_policy='next',
+#       tooltips=[
+#           ('count_value', '$top'),
+#       ]
+#     )
+#   )
+#   p.vbar(x=[d[0] for d in cnt], top=[d[1] for d in cnt], width=0.9)
+#   return json.dumps(json_item(p))
+
+@app.route('/histogram1')
+def his1():
+  import random
+  a=np.random.normal(size=1000)
+  aMin=a.min()
+  aMax=a.max()
+  arr_hist,edges=np.histogram(a, bins = 300, range = [aMin, aMax])
+  his = pd.DataFrame({'arr_hist': arr_hist, 
+                       'left': edges[:-1], 
+                       'right': edges[1:]})
+  src = ColumnDataSource(his)
+  p=figure(title = "bar1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
   p.toolbar.logo=None
-  source = ColumnDataSource(data=dict( counts=[d[1] for d in cnt]))
   p.add_tools(
     HoverTool(
       show_arrow=False, 
@@ -243,7 +275,9 @@ def bar1():
       ]
     )
   )
-  p.vbar(x=[d[0] for d in cnt], top=[d[1] for d in cnt], width=0.9)
+  p.quad(source = src, bottom=0, top='arr_hist', 
+       left='left', right='right', 
+       fill_color='red', line_color='black')
   return json.dumps(json_item(p))
 
 if __name__ == '__main__':
