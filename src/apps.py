@@ -11,19 +11,19 @@ from flask_restful import Api
 import logging
 import sys
 from params import params
+from flask_cors import CORS
 
-par=params()
-
-#import API
 from service.dataService.controller.upload import Upload
 from service.dataService.controller.download import Download
 from service.dataService.controller.getColumn import getColumn
 from service.dataService.controller.getFileStatus import getFileStatus
 from service.dataService.controller.delete import DeleteFile
 
+from service.visualizeService.controller.getImg import getImg
 
+par=params()
 app = Flask(__name__)
-api = Api(app)
+cors = CORS(app, resources=r"/*")
 
 # bind api
 api.add_resource(Upload, "/data/upload")
@@ -31,6 +31,8 @@ api.add_resource(Download,'/data/download')
 api.add_resource(getColumn,'/data/getcol')
 api.add_resource(getFileStatus,'/data/getstatus')
 api.add_resource(DeleteFile,'/data/delete')
+
+api.add_resource(getImg,'/viz/getimg')
 
 if __name__ == "__main__":
 
