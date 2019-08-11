@@ -20,9 +20,10 @@ class getImg(Resource):
             db=sql()
             db.cursor.execute(f"select `path` from plottedImgs where id='{uid}'")
             info=db.cursor.fetchall()
-            info=[[tt for tt in t] for t in data]
+            info=[[tt for tt in t] for t in info]
             if len(info)==0:
                 abort(404)
+            logging.debug(f"[getImg] SQL: {info}")
             path=info[0][0]
             file=open(path,'rb')
             data=file.read()
@@ -33,6 +34,10 @@ class getImg(Resource):
             if action=='download':
                 response.headers['Content-Type']='application/octet-stream; charset=utf-8'
                 response.headers['Content-Disposition'] = 'attachment; filename=test.png'
+            elif action=='get':
+                pass
+            else:
+                return {"status":"error","msg":"action is not valid","data":{}},400
         except Exception as e:
             logging.error(f'[getImg] {e}')
             return {"status":"error","msg":str(e),"data":{}},400

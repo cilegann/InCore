@@ -23,6 +23,7 @@ from service.visualizeService.controller.getImg import getImg
 
 par=params()
 app = Flask(__name__)
+api = Api(app)
 cors = CORS(app, resources=r"/*")
 
 # bind api
