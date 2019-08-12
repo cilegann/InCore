@@ -27,13 +27,15 @@ class dataViz():
             self.component=None
             logging.debug(f'[dataViz] algoInfo: {self.algoInfo}')
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}] {e}')
+            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}]{e}')
         
 
     def getData(self):
         fileInfo=getFileInfo(self.fid)
         try:
             fileInfo=getFileInfo(self.fid)
+            if len(fileInfo)==0:
+                raise Exception(f'fileUid not found')
             fileInfo=fileInfo[0]
             filepath=fileInfo[2]
             if fileInfo[3]!=None:
@@ -50,7 +52,7 @@ class dataViz():
             if 'value' in self.dataCol:
                 data['value']=np.asarray(rawdata[self.dataCol['value']])
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][getData] {e}')
+            raise Exception(f'[getData] {e}')
             
         return data
         
@@ -71,7 +73,7 @@ class dataViz():
                 p.yaxis.major_label_text_font_size = '0pt'  # turn off y-axis tick labels
             p.toolbar.logo=None
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][initFig] {e}')
+            raise Exception(f'[initFig] {e}')
         return p
 
     def doBokehViz(self):
@@ -84,7 +86,7 @@ class dataViz():
         4. add hovertool if necessary
         5. ***** DONT'T save or show anything! *****
         '''
-        raise Exception(f'[dataViz][{self.algoInfo["algoname"]}] do_bokeh_viz not implemented')
+        raise Exception(f' do_bokeh_viz not implemented')
 
 
     def doMatpltViz(self):
@@ -96,7 +98,7 @@ class dataViz():
         3. implement matplotlib algorithm using self.data['x'], self.data['y'], self.data['all']
         4. ***** DONT'T save or show anything! *****
         '''
-        raise Exception(f'[dataViz][{self.algoInfo["algoname"]}] do_matplt_viz not implemented')
+        raise Exception(f' do_matplt_viz not implemented')
 
 
     def saveimg(self):
@@ -108,7 +110,7 @@ class dataViz():
             db.cursor.execute(f"INSERT INTO `incore`.`plottedImgs` (`id`, `path`, `width`, `height`, `createdTime`) VALUES ('{self.imgId}', '{self.params.imgpath}/{self.imgId}.png', '{self.imgWH[0]}', '{self.imgWH[1]}', '{td.year}-{td.month}-{td.day}');")
             db.conn.commit()
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][saveImg] {e}')
+            raise Exception(f'[saveImg] {e}')
         finally:
             db.conn.close()
 
@@ -116,11 +118,11 @@ class dataViz():
         try:
             self.bokeh_fig.image_url(url=[f"http://{self.params.host}:{self.params.port}/viz/getimg/?uid={self.imgId}&action=get"], x=0, y=0, w=self.imgWH[0], h=self.imgWH[1],anchor='bottom_left')
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][img2bokeh] {e}')
+            raise Exception(f'[img2bokeh] {e}')
 
     def getComp(self):
         try:
             script,div=components(self.bokeh_fig,wrap_script=False)
             self.component=({"div":div,"script":script})
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][getData] {e}')
+            raise Exception(f'[getData] {e}')
