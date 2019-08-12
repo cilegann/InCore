@@ -79,8 +79,6 @@ page2=Template("""
 </body>
 """)
 
-colormap = {'setosa': 'red', 'versicolor': 'green', 'virginica': 'blue'}
-colors = [colormap[x] for x in flowers['species']]
 
 @app.route('/')
 def root():
@@ -148,17 +146,24 @@ def img1com():
 
 @app.route('/circle1com')
 def circle1com():
+    
+    colormap = {'setosa': 'red', 'versicolor': 'green', 'virginica': 'blue'}
+    colors = [colormap[x] for x in flowers['species']]
     p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
     p.toolbar.logo=None
     p.xaxis.axis_label = 'petal_width'
     p.yaxis.axis_label = 'petal_length'
-    p.circle(flowers['petal_width'], flowers['petal_length'], color=colors, fill_alpha=0.2, size=10)
+    source=ColumnDataSource(flowers)
+    from bokeh.transform import factor_cmap
+    p.circle(flowers['petal_width'], flowers['petal_length'],source=source, color=colors, fill_alpha=0.2, size=10)
     script,div=components(p,wrap_script=False)
     return json.dumps({"div":div,"script":script})
 
 @app.route('/circle1')
 def circle1():
     
+    colormap = {'setosa': 'red', 'versicolor': 'green', 'virginica': 'blue'}
+    colors = [colormap[x] for x in flowers['species']]
     p = figure(title = "circle1 Iris Morphology", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset,save')
     p.toolbar.logo=None
     p.xaxis.axis_label = 'petal_width'
@@ -219,6 +224,8 @@ def line1():
 
 @app.route('/scatter1')
 def scatter1():
+  colormap = {'setosa': 'red', 'versicolor': 'green', 'virginica': 'blue'}
+  colors = [colormap[x] for x in flowers['species']]
   p=figure(title = "scatter1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
   p.toolbar.logo=None
   p.add_tools(
