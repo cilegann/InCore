@@ -1,5 +1,6 @@
 from service.dataService.utils import getColType
 from service.visualizeService.core.dataViz import dataViz
+# from service.visualizeService.core.dataVizAlgo.lineXY import lineXY
 import logging
 import pymysql
 from params import params 
@@ -21,10 +22,9 @@ def test_getsql():
 
 def test_viz():
     algoInfo={
-        "name":"2D circle",
+        "name":"2D line",
         "lib":"bokeh",
-        "target":"data",
-        "algo":"",
+        "algo":"lineXY",
         "data":{
             "x":1,
             "y":1,
@@ -32,8 +32,11 @@ def test_viz():
         },
         "description":"2D scatter with circle markers"
     }
+    import importlib
+    module = importlib.import_module("service.visualizeService.core.dataVizAlgo.lineXY")
+    algo=getattr(module,'lineXY')
     try:
-        v=dataViz(algoInfo,{'x':'a','y':'b','value':'c'},'nlp')
+        v=algo(algoInfo,{'x':'a','y':'b','value':'c'},'num')
     except Exception as e:
         logging.error(e)
     print(v.data)
