@@ -41,5 +41,14 @@ def test_viz():
         logging.error(e)
     print(v.data)
 
+def testPurger():
+    from apscheduler.schedulers.background import BackgroundScheduler
+    from purge import purger 
+    def purge():
+        purger().purgeImg()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(purge, 'cron',day_of_week='0-6', hour=1, minute=24)
+    scheduler.start()
+
 if __name__=='__main__':
-    test_viz()
+    testPurger()

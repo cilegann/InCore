@@ -13,6 +13,8 @@ import sys
 sys.dont_write_bytecode = True #disable __pycache__
 from params import params
 from flask_cors import CORS
+from apscheduler.schedulers.background import BackgroundScheduler
+from purge import purger 
 from service.dataService.controller.upload import Upload
 from service.dataService.controller.download import Download
 from service.dataService.controller.getColumn import getColumn
@@ -37,13 +39,19 @@ api.add_resource(DeleteFile,'/data/delete')
 api.add_resource(getImg,'/viz/getimg')
 api.add_resource(getDataVizAlgoList,'/viz/data/getalgo')
 api.add_resource(doDataViz,'/viz/data/do')
-if __name__ == "__main__":
 
+def purge():
+    purger().purgeImg()
+
+if __name__ == "__main__":
     if '--debug' in sys.argv:
         logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] %(message)s')
     else:
         logging.basicConfig(level=logging.INFO , format='[%(levelname)s] %(message)s')
     logging.info(f'InCore running at port {par.port}')
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(purge, 'cron',day_of_week='0-6', hour=1, minute=27)
+    scheduler.start()
     app.run(debug='--debug' in sys.argv,port=par.port,host='0.0.0.0')
     
 
