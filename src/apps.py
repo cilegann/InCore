@@ -5,14 +5,14 @@
 # 寫的時候只有我和神知道在幹嘛  (༼•̀ɷ•́༽)
 # 現在只有神知道了 ( ￣ 3￣)y▂ξ
 # 代碼成分：酒精 (80%)、尼古丁 (10%)、肝(6%)、青春歲月(3%)，以及一點點的 flask,sql,sklearn,keras,matplotlib (1%)
-
+import os
 from flask import Flask
 from flask_restful import Api
 import logging
 import sys
+sys.dont_write_bytecode = True #disable __pycache__
 from params import params
 from flask_cors import CORS
-
 from service.dataService.controller.upload import Upload
 from service.dataService.controller.download import Download
 from service.dataService.controller.getColumn import getColumn
