@@ -20,6 +20,7 @@ from service.dataService.controller.getFileStatus import getFileStatus
 from service.dataService.controller.delete import DeleteFile
 
 from service.visualizeService.controller.getImg import getImg
+from service.visualizeService.controller.dataViz import getDataVizAlgoList,doDataViz
 
 par=params()
 app = Flask(__name__)
@@ -34,7 +35,8 @@ api.add_resource(getFileStatus,'/data/getstatus')
 api.add_resource(DeleteFile,'/data/delete')
 
 api.add_resource(getImg,'/viz/getimg')
-
+api.add_resource(getDataVizAlgoList,'/viz/data/getalgo')
+api.add_resource(doDataViz,'/viz/data/do')
 if __name__ == "__main__":
 
     if '--debug' in sys.argv:
