@@ -10,6 +10,26 @@
                 "value":"none"
             },
             "description":"2D line plot"
+        },{
+            "friendlyname":"2D circle",
+            "lib":"bokeh",
+            "algoname":"circleXY",
+            "data":{
+                "x":"float",
+                "y":"float",
+                "value":"none"
+            },
+            "description":"2D circle plot"
+        },{
+            "friendlyname":"2D circle with class",
+            "lib":"bokeh",
+            "algoname":"circleXYClass",
+            "data":{
+                "x":"float",
+                "y":"float",
+                "value":"int"
+            },
+            "description":"2D circle plot"
         }
     ]
 }
