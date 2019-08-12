@@ -1,0 +1,15 @@
+{
+    "algos":[
+        {
+            "friendlyname":"2D line",
+            "lib":"bokeh",
+            "algoname":"lineXY",
+            "data":{
+                "x":"float",
+                "y":"float",
+                "value":"none"
+            },
+            "description":"2D line plot"
+        }
+    ]
+}
