@@ -35,19 +35,22 @@ class doDataViz(Resource):
             try:
                 datacol=json.loads(args['datacol'])
             except Exception as e:
-                return {"status":"error","msg":"can't parse datacol json","data":{}},401
+                return {"status":"error","msg":"can't parse datacol json","data":{}},400
             if not tokenValidator(args['tokenstr'],args['tokenint']):
                 return {"status":"error","msg":"token error","data":{}},401
-            
-            module=importlib.import_module(f"service.visualizeService.core.dataVizAlgo.{algoName}")
-            algo=getattr(module,algoName)
+
+            algoInfo=None
             reg=json.load(open(param.dataVizAlgoReg))
             for a in reg['algos']:
                 if a['algoname']==algoName:
                     algoInfo=a
                     break
             if algoInfo==None:
-                return {"status":"error","msg":f"algo {algoName} not found","data":{}},401
+                logging.info(f"[doDataViz] {algoName} not found")
+                return {"status":"error","msg":f"[doDataViz] algo {algoName} not found","data":{}},400
+
+            module=importlib.import_module(f"service.visualizeService.core.dataVizAlgo.{algoName}")
+            algo=getattr(module,algoName)
             v=algo(algoInfo,datacol,fid)
             if algoInfo['lib']=='bokeh':
                 v.doBokehViz()
@@ -56,13 +59,13 @@ class doDataViz(Resource):
                 v.saveimg()
                 v.img2bokeh()
             v.getComp()
-
+            # return {'status':'success','msg':'','data':v.component},201
+            response=make_response(json.dumps({'status':'success','msg':'','data':v.component}))
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+            response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
         except Exception as e:
             logging.error(f'[doDataViz]{e}')
-            return {'status':'error','msg':f'[doDataViz]{e}','data':{}},400
-        # return {'status':'success','msg':'','data':v.component},201
-        response=make_response(json.dumps({'status':'success','msg':'','data':v.component}))
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
-        response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+            return {'status':'error','msg':f'[doDataViz][{algoName}]{e}','data':{}},400
+        
         return response
