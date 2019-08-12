@@ -244,8 +244,10 @@ def scatter1():
 @app.route('/bar1')
 def bar1():
   flowers=pd.read_csv('1.csv')
-  cnt=[[str(x),list(flowers['species']).count(x)] for x in set(flowers['species'])]
-  p=figure(x_range=[d[0] for d in cnt],title = "bar1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+  cnt=[[x,list(flowers['species']).count(x)] for x in set(flowers['species'])]
+  p=figure(title = "bar1", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+  p.x_range=Range1d(0,4)#[d[0] for d in cnt]
+  p.yaxis.axis_label = "count"
   p.toolbar.logo=None
   source = ColumnDataSource(pd.DataFrame({'counts':[d[1] for d in cnt],'x':[d[0] for d in cnt]}) )
   p.add_tools(
@@ -257,7 +259,7 @@ def bar1():
       ]
     )
   )
-  p.vbar(source=source,x='x', top='counts', width=0.9)
+  p.vbar(source=source,x='x', top='counts', width=0.5,bottom=0)
   return json.dumps(json_item(p))
 
 @app.route('/histogram1')

@@ -29,7 +29,57 @@
                 "y":"float",
                 "value":"int"
             },
-            "description":"2D circle plot"
+            "description":"2D circle plot with class"
+        },{
+            "friendlyname":"2D scatter",
+            "lib":"bokeh",
+            "algoname":"scatterXY",
+            "data":{
+                "x":"float",
+                "y":"float",
+                "value":"none"
+            },
+            "description":"2D scatter plot"
+        },{
+            "friendlyname":"2D scatter with class",
+            "lib":"bokeh",
+            "algoname":"scatterXYClass",
+            "data":{
+                "x":"float",
+                "y":"float",
+                "value":"int"
+            },
+            "description":"2D scatter plot with class"
+        },{
+            "friendlyname":"Class counting",
+            "lib":"bokeh",
+            "algoname":"barCnt",
+            "data":{
+                "x":"int",
+                "y":"none",
+                "value":"none"
+            },
+            "description":"Count total number of each class"
+        },{
+            "friendlyname":"Histogram of column",
+            "lib":"bokeh",
+            "algoname":"histogramX",
+            "data":{
+                "x":"float",
+                "y":"none",
+                "value":"none"
+            },
+            "description":"Count total number of each class"
+        },{
+            "friendlyname":"PCA of columns with class",
+            "lib":"bokeh",
+            "algoname":"scatterPCAClass",
+            "data":{
+                "x":"none",
+                "y":"none",
+                "value":"int"
+            },
+            "description":"Show PCA result, with different colors for each class"
         }
     ]
 }

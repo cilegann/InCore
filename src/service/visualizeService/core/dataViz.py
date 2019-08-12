@@ -20,7 +20,7 @@ class dataViz():
             self.fid=fid
             self.algoInfo=algoInfo
             self.dataCol=dataCol #{"x":"x_col","y":"y_col","value":"value_col"}
-            self.data=self.getData() #{"x":np.array,"y":np.array,"all":np.array,"value":np.array}
+            self.data=self.getData() #{"x":np.array,"y":np.array,"all":pd.datafreame,"value":np.array}
             self.bokeh_fig=self.init_figure()
             self.imgWH=None
             self.mat_plt=None
@@ -44,7 +44,7 @@ class dataViz():
 
             rawdata=getDf(filepath,fileInfo[1]).get()
 
-            data['all']=np.asarray([rawdata[c] for c in rawdata.columns.tolist()])
+            data['all']=rawdata
             if 'x' in self.dataCol:
                 data['x']=np.asarray(rawdata[self.dataCol['x']])
             if 'y' in self.dataCol:
