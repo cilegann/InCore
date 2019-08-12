@@ -6,6 +6,12 @@ class params():
         self.filepath='./db'
         self.modelpath='./models'
         self.imgpath='./images'
+        self.servicepath='./src/service/'
+
+        self.dataCollectServiceRoot=self.servicepath+'dataService/'
+        self.visualizeServiceRoot=self.servicepath+'visualizeService/'
+
+        self.dataVizAlgoReg=self.visualizeServiceRoot+'core/dataViz.json'
 
         self.dataFileType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
         self.dbhost='140.112.26.132'
