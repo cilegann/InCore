@@ -1,7 +1,7 @@
 from service.visualizeService.core.dataViz import dataViz
 from bokeh.models import HoverTool
 
-class lineXY(dataViz):
+class circleXY(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
         super().__init__(algoInfo,dataCol,fid)
 
@@ -19,6 +19,6 @@ class lineXY(dataViz):
                     ]
                 )
             )
-            self.bokeh_fig.line(self.data['x'],self.data['y'])
+            self.bokeh_fig.circle(self.data['x'],self.data['y'], fill_alpha=0.2, size=10)
         except Exception as e:
-            raise Exception(f'[{self.algoInfo["algoname"]}][do_bokeh_viz]{e}')
+            raise Exception(f'[{self.algoInfo["algoname"]}][do_bokeh_viz] {e}')
