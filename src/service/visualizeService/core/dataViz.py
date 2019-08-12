@@ -3,25 +3,32 @@ from bokeh.plotting import figure
 from bokeh.models import CustomJS,SaveTool,Tool,CustomAction,HoverTool,CustomJSHover,ColumnDataSource
 import pandas as pd
 import numpy as np
-from params import params
 from PIL import Image
 from datetime import date
 import uuid
-
+from params import params
 from service.dataService.utils import getFileInfo,getDf
 from utils import sql
+import logging
+import json
 
 class dataViz():
     def __init__(self,algoInfo,dataCol,fid):
-        self.fid=fid
-        self.algoInfo=algoInfo
-        self.dataCol=dataCol #{"x":"x_col","y":"y_col","value":"value_col"}
-        self.data=self.getData() #{"x":np.array,"y":np.array,"all":np.array,"value":np.array}
-        self.bokeh_fig=self.init_figure()
-        self.imgId=str(uuid.uuid1())
-        self.imgWH=None
-        self.plt_fig=None
-        self.params=params()
+        try:
+            self.params=params()
+            self.imgId=str(uuid.uuid1())
+            self.fid=fid
+            self.algoInfo=algoInfo
+            self.dataCol=dataCol #{"x":"x_col","y":"y_col","value":"value_col"}
+            self.data=self.getData() #{"x":np.array,"y":np.array,"all":np.array,"value":np.array}
+            self.bokeh_fig=self.init_figure()
+            self.imgWH=None
+            self.mat_plt=None
+            self.component=None
+            logging.debug(f'[dataViz] algoInfo: {self.algoInfo}')
+        except Exception as e:
+            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}] {e}')
+        
 
     def getData(self):
         fileInfo=getFileInfo(self.fid)
@@ -43,19 +50,19 @@ class dataViz():
             if 'value' in self.dataCol:
                 data['value']=np.asarray(rawdata[self.dataCol['value']])
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["name"]}][getData] {e}')
+            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][getData] {e}')
             
         return data
         
 
     def init_figure(self):
         try:
-            if self.algoInfo['lib']!='bokeh':
-                p = figure(title = self.algoInfo['name'], sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset,save')
+            if self.algoInfo['lib']=='bokeh':
+                p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset,save')
             else:
-                p = figure(title = self.algoInfo['name'], sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset')
+                p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset')
                 saveCallback=CustomJS(code=f"""window.open('http://{self.params.host}:{self.params.port}/viz/getimg/?uid={self.imgId}&action=download');""")
-                p.add_tools(CustomAction(icon="save_icon.png",callback=saveCallback))
+                p.add_tools(CustomAction(icon="./icons/save_icon.png",callback=saveCallback))
                 p.xaxis.major_tick_line_color = None  # turn off x-axis major ticks
                 p.xaxis.minor_tick_line_color = None  # turn off x-axis minor ticks
                 p.yaxis.major_tick_line_color = None  # turn off y-axis major ticks
@@ -64,16 +71,33 @@ class dataViz():
                 p.yaxis.major_label_text_font_size = '0pt'  # turn off y-axis tick labels
             p.toolbar.logo=None
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["name"]}][initFig] {e}')
+            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][initFig] {e}')
         return p
 
-    def do_bokeh_viz(self):
-        #implement in algo
-        pass
+    def doBokehViz(self):
+        '''
+        implement in each algo
+        0. the bokeh figure is self.bokeh_fig
+        1. set self.bokeh_fig.xaxis.axis_label using self.dataCol['x']
+        2. set self.bokeh_fig.yaxis.axis_label using self.dataCol['y']
+        3. implement bokeh algorithm using self.data['x'], self.data['y'], self.data['all']
+        4. add hovertool if necessary
+        5. ***** DONT'T save or show anything! *****
+        '''
+        raise Exception(f'[dataViz][{self.algoInfo["algoname"]}] do_bokeh_viz not implemented')
 
-    def do_matplt_viz(self):
-        #implement in algo
-        pass
+
+    def doMatpltViz(self):
+        '''
+        implement in each algo
+        0. the matplotlib plt is self.mat_plt
+        1. set xaxis name using self.dataCol['x']
+        2. set yaxis name using self.dataCol['y']
+        3. implement matplotlib algorithm using self.data['x'], self.data['y'], self.data['all']
+        4. ***** DONT'T save or show anything! *****
+        '''
+        raise Exception(f'[dataViz][{self.algoInfo["algoname"]}] do_matplt_viz not implemented')
+
 
     def saveimg(self):
         try:
@@ -84,20 +108,19 @@ class dataViz():
             db.cursor.execute(f"INSERT INTO `incore`.`plottedImgs` (`id`, `path`, `width`, `height`, `createdTime`) VALUES ('{self.imgId}', '{self.params.imgpath}/{self.imgId}.png', '{self.imgWH[0]}', '{self.imgWH[1]}', '{td.year}-{td.month}-{td.day}');")
             db.conn.commit()
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["name"]}][saveImg] {e}')
+            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][saveImg] {e}')
         finally:
             db.conn.close()
 
     def img2bokeh(self):
         try:
-            self.bokeh_fig.image_url(url=[f"http://{self.params.host}:{self.params.port}/viz/getimg/?uid={self.imgId}&action=get"], x=0, y=0, w=1200, h=675,anchor='bottom_left')
+            self.bokeh_fig.image_url(url=[f"http://{self.params.host}:{self.params.port}/viz/getimg/?uid={self.imgId}&action=get"], x=0, y=0, w=self.imgWH[0], h=self.imgWH[1],anchor='bottom_left')
         except Exception as e:
-            raise Exception(f'[dataViz][{self.algoInfo["name"]}][img2bokeh] {e}')
+            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][img2bokeh] {e}')
 
-    def returnComp(self):
-        script,div=components(self.bokeh_fig,wrap_script=False)
-        response=make_response(json.dumps({"div":div,"script":script}))
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
-        response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
-        return response
+    def getComp(self):
+        try:
+            script,div=components(self.bokeh_fig,wrap_script=False)
+            self.component=({"div":div,"script":script})
+        except Exception as e:
+            raise Exception(f'[dataViz][{self.algoInfo["algoname"]}][getData] {e}')
