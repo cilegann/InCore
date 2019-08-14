@@ -1,6 +1,7 @@
 from service.visualizeService.core.dataViz import dataViz
 from bokeh.models import HoverTool,Range1d,ColumnDataSource
 import pandas as pd
+from service.analyticService.core.preprocess.missingFiltering import filtCols
 
 class barCnt(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
@@ -8,7 +9,7 @@ class barCnt(dataViz):
 
     def doBokehViz(self):
         try:
-            c=self.data['x']
+            [c]=filtCols([self.data['x']],['int'])
             cnt=[[x,list(c).count(x)] for x in set(c)]
             self.bokeh_fig.x_range=Range1d(min(c)-1,max(c)+1)
             self.bokeh_fig.xaxis.axis_label = "class"

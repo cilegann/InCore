@@ -1,5 +1,6 @@
 from service.visualizeService.core.dataViz import dataViz
 from bokeh.models import HoverTool
+from service.analyticService.core.preprocess.missingFiltering import filtCols
 
 class lineXY(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
@@ -9,6 +10,7 @@ class lineXY(dataViz):
         try:
             self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
             self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
+            [x,y]=filtCols([self.data['x'],self.data['y']],['float','float'])
             self.bokeh_fig.add_tools(
                 HoverTool(
                     show_arrow=True, 
@@ -19,6 +21,6 @@ class lineXY(dataViz):
                     ]
                 )
             )
-            self.bokeh_fig.line(self.data['x'],self.data['y'])
+            self.bokeh_fig.line(x,y)
         except Exception as e:
             raise Exception(f'[{self.algoInfo["algoname"]}][do_bokeh_viz]{e}')

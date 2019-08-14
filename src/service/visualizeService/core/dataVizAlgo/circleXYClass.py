@@ -4,6 +4,7 @@ from bokeh.palettes import Category20,Category10
 from random import shuffle
 import pandas as pd
 import logging
+from service.analyticService.core.preprocess.missingFiltering import filtCols
 
 class circleXYClass(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
@@ -13,9 +14,8 @@ class circleXYClass(dataViz):
         try:
             self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
             self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
-            x=self.data['x']
-            y=self.data['y']
-            c=self.data['value']
+            [x,y,c]=filtCols([self.data['x'],self.data['y'],self.data['value']],['float','float','int'])
+            
             if max(c)>9:
                 cmap=Category20[20]
             else:

@@ -6,6 +6,7 @@ import pandas as pd
 import logging
 import numpy as np
 from sklearn.decomposition import PCA
+from service.analyticService.core.preprocess.missingFiltering import filtCols
 
 class scatterPCAClass(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
@@ -20,19 +21,29 @@ class scatterPCAClass(dataViz):
             else:
                 cmap=Category10[10]
             # shuffle(cmap)
-            color=[cmap[i] for i in c]
-            
+
             data=[]
             for col in rawdata.columns.tolist():
                 if col!=self.dataCol['value']:
                     tmp=np.asarray(rawdata[col])
                     if tmp.dtype==np.int64 or tmp.dtype==np.float64:
                         data.append(tmp)
+            data.append(c)
+            types=['float' for i in range(len(data)-1)]+['int']
+            filted=filtCols(data,types)
+            data=filted[:-1]
+            c=filted[-1]
+            color=[cmap[i] for i in c]
             data=np.asarray(data)
-            data=np.transpose(data)
-            pca=PCA(n_components=2)
-            pcaed=np.transpose(pca.fit_transform(data))
-            source=ColumnDataSource(pd.DataFrame({'x':pcaed[0],'y':pcaed[1],'class':c,'color':color}))
+            if len(data)>2:
+                data=np.transpose(data)
+                pca=PCA(n_components=2)
+                pcaed=np.transpose(pca.fit_transform(data))
+                source=ColumnDataSource(pd.DataFrame({'x':pcaed[0],'y':pcaed[1],'class':c,'color':color}))
+            elif len(data)==2:
+                source=ColumnDataSource(pd.DataFrame({'x':data[0],'y':data[1],'class':c,'color':color}))
+            else:
+                raise Exception(f'[{self.algoInfo["algoname"]}][do_bokeh_viz] num of column must greater than 2')
             self.bokeh_fig.add_tools(
                 HoverTool(
                     show_arrow=True, 
