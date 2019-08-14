@@ -95,9 +95,18 @@ class fileChecker():
             raise Exception(f'[fileChecker]{e}')
         return True
 
-def dTypeConverter(dtype,dataType):
+def dTypeConverter(data,dataType):
+    dtype=data.dtype
     if dtype==np.float64:
-        return "float"
+        intCheck=True
+        for i in data:
+            try:
+                if i!=int(i):
+                    intCheck=0
+                    break
+            except Exception as e:
+                continue
+        return "int" if intCheck else "float"
     elif dtype==np.int64:
         return "int"
     else:
@@ -116,7 +125,7 @@ class getColType():
                 data=getDf(self.filepath,'num').get()
                 logging.debug(f'[getColType] filepath:{self.filepath}')
                 colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c].dtype,self.dataType) } for c in colNames]
+                j=[{"name":c,"type":dTypeConverter(data[c],self.dataType) } for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
                 raise Exception(f'[getColType]{e}')
@@ -128,7 +137,7 @@ class getColType():
                 logging.debug(f'[getColType] filepath:{csvFile}')
                 data=getDf(csvFile,'cv').get()
                 colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c].dtype,self.dataType)} for c in colNames]
+                j=[{"name":c,"type":dTypeConverter(data[c],self.dataType)} for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
                 raise Exception(f'[getColType]{e}')
@@ -139,7 +148,7 @@ class getColType():
                 data=getDf(self.filepath,'nlp').get()
                 logging.debug(f'[getColType] filepath:{self.filepath}')
                 colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c].dtype,self.dataType)} for c in colNames]
+                j=[{"name":c,"type":dTypeConverter(data[c],self.dataType)} for c in colNames]
                 logging.debug(f'[getColType]{j}')
             except Exception as e:
                 raise Exception(f'[getColType]{e}')
