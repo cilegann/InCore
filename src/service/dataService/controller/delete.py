@@ -28,7 +28,7 @@ class DeleteFile(Resource):
         parser.add_argument('tokenstr',type=str,required=True)
         parser.add_argument('tokenint',type=int,required=True)
         args = parser.parse_args()
-        logging.debug(f"[DelFile] args: {args}")
+        logging.info(f"[DelFile] args: {args}")
         fid = args['fileUid']
         tokenstr=args['tokenstr']
         tokenint=args['tokenint']

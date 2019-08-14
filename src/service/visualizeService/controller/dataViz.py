@@ -29,7 +29,7 @@ class doDataViz(Resource):
             parser.add_argument('algoname',type=str,required=True)
             parser.add_argument('datacol',type=str,required=True)
             args = parser.parse_args()
-            logging.debug(f"[{fName}] args: {args}")
+            logging.info(f"[{fName}] args: {args}")
             fid=args['fileUid']
             algoName=args['algoname']
             try:

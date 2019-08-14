@@ -24,7 +24,7 @@ class getColumn(Resource):
         parser.add_argument('tokenstr',type=str,required=True)
         parser.add_argument('tokenint',type=int,required=True)
         args = parser.parse_args()
-        logging.debug(f"[getColumn] args: {args}")
+        logging.info(f"[getColumn] args: {args}")
         fid=args['fileUid']
         tokenstr=args['tokenstr']
         tokenint=args['tokenint']

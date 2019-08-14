@@ -37,7 +37,7 @@ class Download(Resource):
                 logging.error(f'[Download]{e}')
                 return {'status':'error','msg':str(e),'data':{}},400
             fileInfo=fileInfo[0]
-            logging.debug(f'[Download] {fileInfo}')
+            logging.info(f'[Download] {fileInfo}')
             if len(fileInfo)==0:
                 logging.debug("[Download] file not found")
                 abort(404)

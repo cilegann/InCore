@@ -29,7 +29,7 @@ class Upload(Resource):
         parser.add_argument('tokenstr',type=str,required=True)
         parser.add_argument('tokenint',type=int,required=True)
         args = parser.parse_args()
-        logging.debug(f"[Upload] args: {args}")
+        logging.info(f"[Upload] args: {args}")
         file = args['file']
         dataType=args['type']
         # user=args['user']

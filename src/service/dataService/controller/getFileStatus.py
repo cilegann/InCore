@@ -31,7 +31,7 @@ class getFileStatus(Resource):
         tokenint=args['tokenint']
 
         fids=json.loads(fids)
-        logging.debug(f'[getFileStatus]{fids}')
+        logging.info(f'[getFileStatus]{fids}')
 
         #check token
         if not tokenValidator(tokenstr,tokenint):
