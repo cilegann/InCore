@@ -7,7 +7,7 @@ from PIL import Image
 from datetime import date
 import uuid
 from params import params
-from service.dataService.utils import getFileInfo,getDf
+from service.dataService.utils import getFileInfo,getDf,getColType
 from utils import sql
 import logging
 import json
@@ -41,16 +41,56 @@ class dataViz():
             if fileInfo[3]!=None:
                 filepath=fileInfo[3]
             data={}
-
+            colTypes=getColType(fileInfo[2],fileInfo[1]).get()
+            colTypes={c["name"]:c['type'] for c in colTypes}
             rawdata=getDf(filepath,fileInfo[1]).get()
 
             data['all']=rawdata
             if 'x' in self.dataCol:
                 data['x']=np.asarray(rawdata[self.dataCol['x']])
+                if self.dataCol['x']!="none":
+                    if self.algoInfo['data']['x']=="float":
+                        if colTypes[self.dataCol['x']]!="float" and colTypes[self.dataCol['x']]!="int":
+                            raise Exception(f"col type of x error: can't convert {colTypes[self.dataCol['x']]} to {self.algoInfo['data']['x']}")
+                    if self.algoInfo['data']['x']=="int":
+                        if colTypes[self.dataCol['x']]!="int":
+                            raise Exception(f"col type of x error: can't convert {colTypes[self.dataCol['x']]} to {self.algoInfo['data']['x']}")
+                    if self.algoInfo['data']['x']=="path":
+                        if colTypes[self.dataCol['x']]!="path":
+                            raise Exception(f"col type of x error: can't convert {colTypes[self.dataCol['x']]} to {self.algoInfo['data']['x']}")
+                    if self.algoInfo['data']['x']=="string":
+                        if colTypes[self.dataCol['x']]!="string":
+                            raise Exception(f"col type of x error: can't convert {colTypes[self.dataCol['x']]} to {self.algoInfo['data']['x']}")
             if 'y' in self.dataCol:
                 data['y']=np.asarray(rawdata[self.dataCol['y']])
+                if self.dataCol['y']!="none":
+                    if self.algoInfo['data']['y']=="float":
+                        if colTypes[self.dataCol['y']]!="float" and colTypes[self.dataCol['y']]!="int":
+                            raise Exception(f"col type of y error: can't convert {colTypes[self.dataCol['y']]} to {self.algoInfo['data']['y']}")
+                    if self.algoInfo['data']['y']=="int":
+                        if colTypes[self.dataCol['y']]!="int":
+                            raise Exception(f"col type of y error: can't convert {colTypes[self.dataCol['y']]} to {self.algoInfo['data']['y']}")
+                    if self.algoInfo['data']['y']=="path":
+                        if colTypes[self.dataCol['y']]!="path":
+                            raise Exception(f"col type of y error: can't convert {colTypes[self.dataCol['y']]} to {self.algoInfo['data']['y']}")
+                    if self.algoInfo['data']['y']=="string":
+                        if colTypes[self.dataCol['y']]!="string":
+                            raise Exception(f"col type of y error: can't convert {colTypes[self.dataCol['y']]} to {self.algoInfo['data']['y']}")
             if 'value' in self.dataCol:
                 data['value']=np.asarray(rawdata[self.dataCol['value']])
+                if self.dataCol['value']!="none":
+                    if self.algoInfo['data']['value']=="float":
+                        if colTypes[self.dataCol['value']]!="float" and colTypes[self.dataCol['value']]!="int":
+                            raise Exception(f"col type of value error: can't convert {colTypes[self.dataCol['value']]} to {self.algoInfo['data']['value']}")
+                    if self.algoInfo['data']['value']=="int":
+                        if colTypes[self.dataCol['value']]!="int":
+                            raise Exception(f"col type of value error: can't convert {colTypes[self.dataCol['value']]} to {self.algoInfo['data']['value']}")
+                    if self.algoInfo['data']['value']=="path":
+                        if colTypes[self.dataCol['value']]!="path":
+                            raise Exception(f"col type of value error: can't convert {colTypes[self.dataCol['value']]} to {self.algoInfo['data']['value']}")
+                    if self.algoInfo['data']['value']=="string":
+                        if colTypes[self.dataCol['value']]!="string":
+                            raise Exception(f"col type of value error: can't convert {colTypes[self.dataCol['value']]} to {self.algoInfo['data']['value']}")
         except Exception as e:
             raise Exception(f'[getData] {e}')
             
