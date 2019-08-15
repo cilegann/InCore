@@ -30,7 +30,7 @@ class scatterPCAClass(dataViz):
                         data.append(tmp)
             data.append(c)
             types=['float' for i in range(len(data)-1)]+['int']
-            filted=filtCols(data,types)
+            filted=filtCols(data,types,[True for i in range(len(data))])
             data=filted[:-1]
             c=filted[-1]
             color=[cmap[i] for i in c]
