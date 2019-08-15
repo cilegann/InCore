@@ -9,7 +9,7 @@ class barCnt(dataViz):
 
     def doBokehViz(self):
         try:
-            [c]=filtCols([self.data['x']],['int'])
+            [c]=filtCols([self.data['x']],['int'],[True])
             cnt=[[x,list(c).count(x)] for x in set(c)]
             self.bokeh_fig.x_range=Range1d(min(c)-1,max(c)+1)
             self.bokeh_fig.xaxis.axis_label = "class"

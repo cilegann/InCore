@@ -10,7 +10,7 @@ class histogramX(dataViz):
 
     def doBokehViz(self):
         try:
-            [x]=filtCols([self.data['x']],['float'])
+            [x]=filtCols([self.data['x']],['float'],[True])
             arr_hist,edges=np.histogram(x, bins = 100, range = [x.min(), x.max()])
             his = pd.DataFrame({'arr_hist': arr_hist, 
                        'left': edges[:-1], 

@@ -37,17 +37,17 @@ def getStrMissing(data,length):
     except Exception as e:
         raise Exception(f'[getStrMissing]{e}')
 
-def filtCols(data,coltype,pathBase=None):
+def filtCols(data,coltype,doList,pathBase=None):
     try:
         numData=[]
         pathData=[]
         strData=[]
-        for d,t in zip(data,coltype):
-            if t=="string":
+        for d,t,do in zip(data,coltype,doList):
+            if t=="string" and do:
                 strData.append(d)
-            elif t=="path":
+            elif t=="path" and do:
                 pathData.append(d)
-            elif t=='int' or t =='float':
+            elif (t=='int' or t =='float') and do:
                 numData.append(d)
         nonNans=np.logical_and(~getNumMissing(numData,len(data[0])),np.logical_and(~getPathMissing(pathData,len(data[0]),pathBase),~getStrMissing(strData,len(data[0]))))
         for i in range(len(data)):
