@@ -1,0 +1,8 @@
+{
+    "algos":[
+        {
+            "friendlyname":"remove punctuation",
+            "algoname":"punctuation"
+        }
+    ]
+}
