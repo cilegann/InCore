@@ -2,7 +2,7 @@ from service.visualizeService.core.dataViz import dataViz
 from bokeh.models import HoverTool,Range1d,ColumnDataSource
 import pandas as pd
 import numpy as np
-from service.analyticService.core.preprocess.missingFiltering import filtCols
+from service.analyticService.core.preprocess.missingFiltering import missingFiltering
 
 class histogramX(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
@@ -10,7 +10,7 @@ class histogramX(dataViz):
 
     def doBokehViz(self):
         try:
-            [x]=filtCols([self.data['x']],['float'],[True])
+            [x]=missingFiltering().filtCols([self.data['x']],['float'],[True])
             arr_hist,edges=np.histogram(x, bins = 100, range = [x.min(), x.max()])
             his = pd.DataFrame({'arr_hist': arr_hist, 
                        'left': edges[:-1], 

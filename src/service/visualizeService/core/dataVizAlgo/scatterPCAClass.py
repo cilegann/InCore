@@ -6,7 +6,7 @@ import pandas as pd
 import logging
 import numpy as np
 from sklearn.decomposition import PCA
-from service.analyticService.core.preprocess.missingFiltering import filtCols
+from service.analyticService.core.preprocess.missingFiltering import missingFiltering
 
 class scatterPCAClass(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
@@ -30,7 +30,7 @@ class scatterPCAClass(dataViz):
                         data.append(tmp)
             data.append(c)
             types=['float' for i in range(len(data)-1)]+['int']
-            filted=filtCols(data,types,[True for i in range(len(data))])
+            filted=missingFiltering().filtCols(data,types,[True for i in range(len(data))])
             data=filted[:-1]
             c=filted[-1]
             color=[cmap[i] for i in c]
