@@ -1,0 +1,15 @@
+{
+    "algos":[
+        {
+            "friendlyName":"1st standard deviation ",
+            "algoName":"std1"
+        },{
+            "friendlyName":"2nd standard deviation ",
+            "algoName":"std2"
+        },{
+            "friendlyName":"3rd standard deviation ",
+            "algoName":"std3"
+        }
+
+    ]
+}
