@@ -45,7 +45,7 @@ api.add_resource(doDataViz,'/viz/data/do')
 api.add_resource(getPreprocessAlgoList,'/preprocess/getalgo')
 api.add_resource(doPreprocess,'/preprocess/do')
 api.add_resource(previewPreprocess,'/preprocess/preview')
-
+#
 def purge():
     purger().purgeImg()
 
