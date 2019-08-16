@@ -3,19 +3,17 @@ import pandas as pd
 import os
 
 class missingFiltering():
-    def getNumMissing(self,data,length):
+    def getNumMissing(self,data):
         try:
-            if len(data)==0:
-                return [False for i in range(length)]
             total=np.sum(data,axis=0)
             return np.isnan(total)
         except Exception as e:
             raise Exception(f'[getNumMissing]{e}')
 
-    def getPathMissing(self,data,length,pathBase):
+    def getPathMissing(self,data,pathBase):
         try:
-            if pathBase==None or len(data)==0:
-                return np.asarray([False for i in range(length)])
+            if pathBase==None:
+                raise Exception(f'[getPathMissing] pathBase cant be None')
             nan=[]
             for j in range(len(data[0])):
                 nan.append(False)
@@ -28,10 +26,8 @@ class missingFiltering():
         except Exception as e:
             raise Exception(f'[getPathMissing]{e}')
 
-    def getStrMissing(self,data,length):
+    def getStrMissing(self,data):
         try:
-            if len(data)==0:
-                return np.asarray([False for i in range(length)])
             rawNan=pd.isnull(data)
             nan=np.any(rawNan,axis=0)
             return np.asarray(nan)
@@ -50,7 +46,13 @@ class missingFiltering():
                     pathData.append(d)
                 elif (t=='int' or t =='float') and do:
                     numData.append(d)
-            nonNans=np.logical_and(~self.getNumMissing(numData,len(data[0])),np.logical_and(~self.getPathMissing(pathData,len(data[0]),pathBase),~self.getStrMissing(strData,len(data[0]))))
+            nonNans=np.asarray([True for i in range(len(data[0]))])
+            if len(numData)!=0:
+                nonNans=np.logical_and(nonNans,~self.getNumMissing(numData))
+            if len(pathData)!=0:
+                nonNans=np.logical_and(nonNans,~self.getPathMissing(pathData,pathBase))
+            if len(strData)!=0:
+                nonNans=np.logical_and(nonNans,~self.getStrMissing(strData))
             for i in range(len(data)):
                 data[i]=data[i][nonNans]
                 if coltype[i]=='int':
@@ -59,19 +61,25 @@ class missingFiltering():
         except Exception as e:
             raise Exception(f'[filtCols]{e}')
 
-    def getIndex(self,data,coltype,doList,pathBase=None):
+    def getRetainIndex(self,data,coltype,pathBase=None):
         try:
             numData=[]
             pathData=[]
             strData=[]
-            for d,t,do in zip(data,coltype,doList):
-                if t=="string" and do:
+            for d,t in zip(data,coltype):
+                if t=="string":
                     strData.append(d)
-                elif t=="path" and do:
+                elif t=="path":
                     pathData.append(d)
-                elif (t=='int' or t =='float') and do:
+                elif (t=='int' or t =='float'):
                     numData.append(d)
-            nonNans=np.logical_and(~self.getNumMissing(numData,len(data[0])),np.logical_and(~self.getPathMissing(pathData,len(data[0]),pathBase),~self.getStrMissing(strData,len(data[0]))))
+            nonNans=np.asarray([True for i in range(len(data[0]))])
+            if len(numData)!=0:
+                nonNans=np.logical_and(nonNans,~self.getNumMissing(numData))
+            if len(pathData)!=0:
+                nonNans=np.logical_and(nonNans,~self.getPathMissing(pathData,pathBase))
+            if len(strData)!=0:
+                nonNans=np.logical_and(nonNans,~self.getStrMissing(strData))
             return nonNans
         except Exception as e:
             raise Exception(f'[filtCols]{e}')
