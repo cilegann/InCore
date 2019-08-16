@@ -18,13 +18,13 @@ class getColumn(Resource):
         @ tokenstr: keypair1
         @ tokenint: keypair2
         '''
-        fName='[getCol]'
+        fName='[API_getCol]'
         parser = reqparse.RequestParser()
         parser.add_argument('fileUid', type=str,required=True)
         parser.add_argument('tokenstr',type=str,required=True)
         parser.add_argument('tokenint',type=int,required=True)
         args = parser.parse_args()
-        logging.info(f"[getColumn] args: {args}")
+        logging.info(f"[API_getCol] args: {args}")
         fid=args['fileUid']
         tokenstr=args['tokenstr']
         tokenint=args['tokenint']

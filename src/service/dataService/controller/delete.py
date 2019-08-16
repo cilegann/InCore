@@ -28,7 +28,7 @@ class DeleteFile(Resource):
         parser.add_argument('tokenstr',type=str,required=True)
         parser.add_argument('tokenint',type=int,required=True)
         args = parser.parse_args()
-        logging.info(f"[DelFile] args: {args}")
+        logging.info(f"[API_DelFile] args: {args}")
         fid = args['fileUid']
         tokenstr=args['tokenstr']
         tokenint=args['tokenint']
@@ -46,7 +46,7 @@ class DeleteFile(Resource):
         fileInfo=fileInfo[0]
 
         if fileInfo[3]==1:
-            logging.debug(f'[DelFile] file {fid} in use')
+            logging.debug(f'[API_DelFile] file {fid} in use')
             return {"status":"error","msg":"The file is in-used","data":{}},400
         
         filePath=fileInfo[2]
@@ -63,9 +63,9 @@ class DeleteFile(Resource):
             db.cursor.execute(f"delete from files where fid='{fid}'")
             db.conn.commit()
         except Exception as e:
-            logging.error(f"[DelFile] {e}")
+            logging.error(f"[API_DelFile] {e}")
         finally:
             db.conn.close()
         
-        logging.info(f"[DelFile] OK with file uid {fid}")
+        logging.info(f"[API_DelFile] OK with file uid {fid}")
         return {"status":"success","msg":"","data":{}},201

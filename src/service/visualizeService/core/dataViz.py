@@ -126,7 +126,7 @@ class dataViz():
         4. add hovertool if necessary
         5. ***** DONT'T save or show anything! *****
         '''
-        raise Exception(f' do_bokeh_viz not implemented')
+        raise NotImplementedError(f' do_bokeh_viz not implemented')
 
 
     def doMatpltViz(self):
@@ -138,7 +138,7 @@ class dataViz():
         3. implement matplotlib algorithm using self.data['x'], self.data['y'], self.data['all']
         4. ***** DONT'T save or show anything! *****
         '''
-        raise Exception(f' do_matplt_viz not implemented')
+        raise NotImplementedError(f' do_matplt_viz not implemented')
 
 
     def saveimg(self):

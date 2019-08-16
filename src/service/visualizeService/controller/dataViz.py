@@ -12,9 +12,9 @@ class getDataVizAlgoList(Resource):
     def get(self):
         try:
             reg=json.load(open(param.dataVizAlgoReg))
-            logging.debug(f'[getDataVizAlgo] reg list: {reg}')
+            logging.debug(f'[API_getDataVizAlgo] reg list: {reg}')
         except Exception as e:
-            logging.error(f'[getDataVizAlgo] {e}')
+            logging.error(f'[API_getDataVizAlgo] {e}')
             return  {'status':'error','msg':f'[getDataVizAlgo] {e}','data':{}},500
         return {'status':'success','msg':'','data':reg},200
 
@@ -29,7 +29,7 @@ class doDataViz(Resource):
             parser.add_argument('algoname',type=str,required=True)
             parser.add_argument('datacol',type=str,required=True)
             args = parser.parse_args()
-            logging.info(f"[{fName}] args: {args}")
+            logging.info(f"[API_{fName}] args: {args}")
             fid=args['fileUid']
             algoName=args['algoname']
             try:
@@ -46,7 +46,7 @@ class doDataViz(Resource):
                     algoInfo=a
                     break
             if algoInfo==None:
-                logging.info(f"[doDataViz] {algoName} not found")
+                logging.info(f"[API_doDataViz] {algoName} not found")
                 return {"status":"error","msg":f"[doDataViz] algo {algoName} not found","data":{}},400
             #TODO: check datacol and definition matching
             module=importlib.import_module(f"service.visualizeService.core.dataVizAlgo.{algoName}")
@@ -65,7 +65,7 @@ class doDataViz(Resource):
             response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
             response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
         except Exception as e:
-            logging.error(f'[doDataViz]{e}')
+            logging.error(f'[API_doDataViz]{e}')
             return {'status':'error','msg':f'[doDataViz][{algoName}]{e}','data':{}},400
         
         return response

@@ -14,7 +14,7 @@ class getImg(Resource):
             parser.add_argument('uid', type=str,required=True)
             parser.add_argument('action',type=str,required=True)
             args = parser.parse_args()
-            logging.debug(f"[getImg] args: {args}")
+            logging.debug(f"[API_getImg] args: {args}")
             uid = args['uid']
             action=args['action']
             db=sql()
@@ -23,7 +23,7 @@ class getImg(Resource):
             info=[[tt for tt in t] for t in info]
             if len(info)==0:
                 abort(404)
-            logging.debug(f"[getImg] SQL: {info}")
+            logging.debug(f"[API_getImg] SQL: {info}")
             path=info[0][0]
             file=open(path,'rb')
             data=file.read()
@@ -39,7 +39,7 @@ class getImg(Resource):
             else:
                 return {"status":"error","msg":"action is not valid","data":{}},400
         except Exception as e:
-            logging.error(f'[getImg] {e}')
+            logging.error(f'[API_getImg] {e}')
             return {"status":"error","msg":str(e),"data":{}},400
         return response
         

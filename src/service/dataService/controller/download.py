@@ -34,12 +34,12 @@ class Download(Resource):
             try:
                 fileInfo=getFileInfo(fileUid)
             except Exception as e:
-                logging.error(f'[Download]{e}')
+                logging.error(f'[API_Download]{e}')
                 return {'status':'error','msg':str(e),'data':{}},400
             fileInfo=fileInfo[0]
-            logging.info(f'[Download] {fileInfo}')
+            logging.info(f'[API_Download] {fileInfo}')
             if len(fileInfo)==0:
-                logging.debug("[Download] file not found")
+                logging.debug("[API_Download] file not found")
                 abort(404)
             
 
@@ -64,7 +64,7 @@ class Download(Resource):
             headers['Content-Disposition'] = 'attachment; filename='+fileName+filetype
             return make_response(data,200,headers)
         except Exception as e:
-            logging.error(f'[Download]{e}')
+            logging.error(f'[API_Download]{e}')
             return {"status":"error","msg":str(e),"data":{}},400
         
         

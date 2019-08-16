@@ -29,7 +29,7 @@ class Upload(Resource):
         parser.add_argument('tokenstr',type=str,required=True)
         parser.add_argument('tokenint',type=int,required=True)
         args = parser.parse_args()
-        logging.info(f"[Upload] args: {args}")
+        logging.info(f"[API_Upload] args: {args}")
         file = args['file']
         dataType=args['type']
         # user=args['user']
@@ -50,13 +50,13 @@ class Upload(Resource):
         
         filename=file.filename
         filetype=filename[filename.rfind("."):]
-        logging.debug("[Upload] File type:{filetype}")
+        logging.debug("[API_Upload] File type:{filetype}")
         if filetype not in pft[dataType]:
             return {"status":"error","msg":"file type error","data":{}},400
 
         #generate file UID and save
         uid=fileUidGenerator().uid
-        logging.debug(f'[Upload] file UID:{uid}')
+        logging.debug(f'[API_Upload] file UID:{uid}')
         savedPath=param.filepath+"/"+uid+filetype
         try:
             file.save(savedPath)
@@ -85,5 +85,5 @@ class Upload(Resource):
             db.conn.rollback()
         finally:
             db.conn.close()
-        logging.info(f"[Upload] OK with file uid {uid}")
+        logging.info(f"[API_Upload] OK with file uid {uid}")
         return {"status":"success","msg":"","data":{"fileUid":uid}},201
