@@ -10,6 +10,7 @@ class params():
 
         self.dataCollectServiceRoot=self.servicepath+'dataService/'
         self.visualizeServiceRoot=self.servicepath+'visualizeService/'
+        self.analyticServiceRoot=self.servicepath+'analyticService/'
 
         self.dataVizAlgoReg=self.visualizeServiceRoot+'core/dataViz.json'
 

@@ -24,6 +24,8 @@ from service.dataService.controller.delete import DeleteFile
 from service.visualizeService.controller.getImg import getImg
 from service.visualizeService.controller.dataViz import getDataVizAlgoList,doDataViz
 
+from servie.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess
+
 par=params()
 app = Flask(__name__)
 api = Api(app)
@@ -39,6 +41,10 @@ api.add_resource(DeleteFile,'/data/delete')
 api.add_resource(getImg,'/viz/getimg')
 api.add_resource(getDataVizAlgoList,'/viz/data/getalgo')
 api.add_resource(doDataViz,'/viz/data/do')
+
+api.add_resource(getPreprocessAlgoList,'/preprocess/getalgo')
+api.add_resource(doPreprocess,'/preprocess/do')
+api.add_resource(previewPreprocess,'/preprocess/preview')
 
 def purge():
     purger().purgeImg()

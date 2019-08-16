@@ -1,5 +1,11 @@
 {
-    "algos":[
+    "normalize":[
+        {
+            "friendlyname":"Min-Max to 0~1",
+            "algoname":"minmax01"
+        }
+    ],
+    "outlierFiltering":[
         {
             "friendlyname":"1st standard deviation ",
             "algoname":"std1"
@@ -11,5 +17,12 @@
             "algoname":"std3"
         }
 
+    ],
+    "stringCleaning":[
+        {
+            "friendlyname":"remove punctuation",
+            "algoname":"punctuation"
+        }
     ]
+
 }
