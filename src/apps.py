@@ -24,7 +24,7 @@ from service.dataService.controller.delete import DeleteFile
 from service.visualizeService.controller.getImg import getImg
 from service.visualizeService.controller.dataViz import getDataVizAlgoList,doDataViz
 
-from servie.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess
+from service.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess
 
 par=params()
 app = Flask(__name__)
