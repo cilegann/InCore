@@ -1,8 +1,8 @@
 {
     "algos":[
         {
-            "friendlyName":"Min-Max to 0~1",
-            "algoName":"minmax01"
+            "friendlyname":"Min-Max to 0~1",
+            "algoname":"minmax01"
         }
     ]
 }
