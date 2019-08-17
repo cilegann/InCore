@@ -7,6 +7,7 @@ from utils import tokenValidator,sql
 import logging
 import json
 import importlib
+from service.analyticService.core import preprocess
 params=params()
 
 class getPreprocessAlgoList(Resource):
@@ -20,7 +21,22 @@ class getPreprocessAlgoList(Resource):
             return {'status':'error','msg':str(e),'data':{}},400
 
 class doPreprocess(Resource):
-    pass
-
+    def post(self):
+        fName='API_doPreprocess'
+        try:
+            parser=reqparse.RequestParser()
+            parser.add_argument('tokenstr',type=str,required=True)
+            parser.add_argument('tokenint',type=int,required=True)
+            parser.add_argument('fileUid',type=str,required=True)
+            parser.add_argument('action',type=str,required=True)
+            args = parser.parse_args()
+            logging.info(f"[{fName}] args: {args}")
+            fid=args['fileUid']
+            try:
+                action=json.loads(args['action'])
+            except Exception as e:
+                return {"status":"error","msg":"can't parse action json","data":{}},400
+        except Exception as e:
+            pass
 class previewPreprocess(Resource):
     pass
