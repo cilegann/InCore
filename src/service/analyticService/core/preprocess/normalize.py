@@ -6,7 +6,7 @@ class normalize():
         self.algoName=algoName
     def do(self):
         '''
-        implement in each algo
+        implement in each algo (placed in normalize folder)
         return a normalized 1D numpy array based on self.data
         '''
         raise NotImplementedError(f'[Normalize][{algoName}] Not implement error')

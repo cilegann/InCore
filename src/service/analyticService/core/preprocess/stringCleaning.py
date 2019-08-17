@@ -4,7 +4,7 @@ class stringCleaning():
         self.algoName=algoName
     def do(self):
         '''
-        implement in each algo
+        implement in each algo (placed in strinCleaning folder)
         return a clean string based on self.data
         '''
         raise NotImplementedError(f'[stringCleaning][{self.algoName}] Not implemented error')

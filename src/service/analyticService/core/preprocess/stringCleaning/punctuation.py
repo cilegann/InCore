@@ -2,8 +2,7 @@ from service.analyticService.core.preprocess.stringCleaning import stringCleanin
 import string
 
 class punctuation(stringCleaning):
-    def __init__(self,data,algoName):
-        super().__init__(data,algoName)
+    def __init__(self,data):
+        super().__init__(data,"punctuation")
     def do(self):
-        for i in range(len(self.data)):
-            self.data[i]=self.data[i].translate(self.data[i].maketrans('', '', string.punctuation))
+        self.data=self.data.translate(self.data.maketrans('', '', string.punctuation))
