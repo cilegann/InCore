@@ -12,9 +12,12 @@ params=params()
 class getPreprocessAlgoList(Resource):
     def get(self):
         try:
-            pass
+            with open(params.dataPreprocessAlgoReg) as file:
+                j=file.read()
+            return {'status':'success','msg':'','data':json.loads(j)},200
         except Exception as e:
             logging.error(f'[API_getPreprocessAlgoList]{e}')
+            return {'status':'error','msg':str(e),'data':{}},400
 
 class doPreprocess(Resource):
     pass
