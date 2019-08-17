@@ -1,3 +1,5 @@
+InCore services API Document
+===
 
 <style type="text/css">
 .apiok{
@@ -15,8 +17,6 @@ color:#BDBDBD
 </style>
 
 
-InCore services API Document
-===
 ## About Document
 <font class='apiok'>Tested API</font>
 <font class='building'>Building API</font>
