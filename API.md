@@ -299,7 +299,7 @@ The validator is `tokenValidator` in `src/utils.py`
 <details>
 <summary class='apiok'> [API] getDataVisList</summary>
 
-- File location: `src/service/visualizeService/controller/doDataviz.py`
+- File location: `src/service/visualizeService/controller/dataviz.py`
 - Description: get data visualize algorithm
 - ==**Usage**==: `GET http://host/viz/data/getalgo`
 
@@ -497,14 +497,98 @@ The validator is `tokenValidator` in `src/utils.py`
 
 
 <details>
-<summary style="color:#BDBDBD"> [API] getNormalizeMethod</summary>
+<summary class='apiok'> [API] getPreprocessAlgo</summary>
 
+- File location: `src/service/analyticService/controller/doDataviz.py`
+- Description: get data visualize algorithm
+- ==**Usage**==: `GET http://host/preprocess/getalgo`
+
+    get a json
+    ```
+    {
+    "status": "success",
+    "msg": "",
+    "data": {
+        "normalize": [
+            {
+                "friendlyname": "Min-Max to 0~1",
+                "algoname": "minmax01"
+            }
+        ],
+        "outlierFiltering": [
+            {
+                "friendlyname": "1st standard deviation ",
+                "algoname": "std1"
+            },
+            {
+                "friendlyname": "2nd standard deviation ",
+                "algoname": "std2"
+            },
+            {
+                "friendlyname": "3rd standard deviation ",
+                "algoname": "std3"
+            }
+        ],
+        "stringCleaning": [
+            {
+                "friendlyname": "remove punctuation",
+                "algoname": "punctuation"
+            }
+        ]
+    }
+}
+    ```
 </details>
 
 
 <details>
-<summary style="color:#BDBDBD"> [API] doPreprocess</summary>
+<summary class='building'> [API] doPreprocess</summary>
 
+
+- File location: `src/service/analyticService/controller/preprocess.py`
+- Description: preprocess a file and save it to another file
+- ==**Usage**==: `POST http://host/preprocess/do` with param
+
+    ```
+    {
+        'fileUid': fileID,
+        'action':[
+            "col1":{
+                "missingFiltering": "0", -> no needed
+                "outliterFiletering": "0", -> no needed
+                "normalize": "0", -> no needed
+                "stringCleaning": ["0"] -> no needed
+            },
+            "col2":{
+                "missingFiltering": "1",  -> filt missing value
+                "outliterFiletering": "algoname", -> use algoname to filt outlier
+                "normalize": "algoname", -> normalize using algoname
+                "stringCleaning": ["0"] -> a numerical column, no needed
+            },
+            "col3":{
+                "missingFiltering": "1",
+                "outliterFiletering": "0", -> string column, no needed
+                "normalize": "0", -> string column, no needed
+                "stringCleaning": ["algoname1","algoname2"] -> use algo1 and algo2 to clean the string
+            }
+        ]
+        'tokenstr': The_random_token_string,
+        'tokenint': The_converted_token value
+    }
+    ```
+    
+    and get a response
+    
+    ```
+    {
+        'status': 'success' or 'error',
+        'msg': error_msg,
+        'data':{
+            'div': div of bokeh,
+            'script': script of bokeh
+        }
+    }
+    ```
 - missing value
 - normalize (multiple methods)
 - outlier (multi methods)
