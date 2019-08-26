@@ -45,16 +45,22 @@ class preprocess():
                 dataLen=len(v['data'])
 
             retainIndex=np.asarray([True for i in range(dataLen)])
-            # for k,v in self.data.items():
-            #     if v['outlierFiltering']!="0":
-            #         #TODO
-            #         module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFiltering.{v['outlierFiltering']}")
-            #         algo=getattr(module,v['outlierFiltering'])
-            #         
-            #filt outlier row
+            for k,v in self.data.items():
+                if v['outlierFiltering']!="0":
+                    module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFiltering.{v['outlierFiltering']}")
+                    algo=getattr(module,v['outlierFiltering'])
+                    ri=algo(v['data'],v['outlierFiltering']).getRetainIndex
+                    retainIndex=np.logical_and(retainIndex,ri)
+            for k,v in self.data.items():
+                v['data']=v['data'][retainIndex]
+                dataLen=len(v['data'])
 
             for c in self.data:
-                pass # normalize
+                for k,v in self.data.items():
+                    if v['normalize']!="0":
+                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalize.{v['normalize']}")
+                        algo=getattr(module,v['normalize'])
+                        v['data']=algo(v['data'],v['normalize']).do()
             
             for c in self.data:
                 pass # clean string
