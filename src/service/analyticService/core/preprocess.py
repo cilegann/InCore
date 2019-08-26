@@ -5,6 +5,7 @@ import logging
 import json
 import numpy as np
 import pandas as pd
+import importlib
 
 class preprocess():
     def __init__(self,fid,action):
@@ -38,19 +39,32 @@ class preprocess():
                     data.append(v['data'])
                     colType.append(v['colType'])
             retainIndex=missingFiltering().getRetainIndex(data,colType,self.path)
+            dataLen=0
             for k,v in self.data.items():
-                v['data']=v['data']
-            #filt missing row
-            for c in self.data:
-                pass # get outlier row
+                v['data']=v['data'][retainIndex]
+                dataLen=len(v['data'])
+
+            retainIndex=np.asarray([True for i in range(dataLen)])
+            # for k,v in self.data.items():
+            #     if v['outlierFiltering']!="0":
+            #         #TODO
+            #         module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFiltering.{v['outlierFiltering']}")
+            #         algo=getattr(module,v['outlierFiltering'])
+            #         
             #filt outlier row
+
             for c in self.data:
                 pass # normalize
+            
             for c in self.data:
                 pass # clean string
+            
             # generate uid
+            
             # generate new df
+            
             # write new df to uid file
+            
             # return uid
         except Exception as e:
             raise Exception(f"[Preprocess Do]{e}")
