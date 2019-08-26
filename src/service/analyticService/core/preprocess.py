@@ -1,5 +1,5 @@
 from params import params
-from service.dataService.utils import getFileInfo,getDf,getColType
+from service.dataService.utils import getFileInfo,getDf,getColType,fileUidGenerator
 from utils import sql
 import logging
 import json
@@ -46,7 +46,7 @@ class preprocess():
 
             retainIndex=np.asarray([True for i in range(dataLen)])
             for k,v in self.data.items():
-                if v['outlierFiltering']!="0":
+                if v['outlierFiltering']!="0" and v['colType']!='string' and v['colType']!='path':
                     module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFiltering.{v['outlierFiltering']}")
                     algo=getattr(module,v['outlierFiltering'])
                     ri=algo(v['data'],v['outlierFiltering']).getRetainIndex
@@ -55,22 +55,35 @@ class preprocess():
                 v['data']=v['data'][retainIndex]
                 dataLen=len(v['data'])
 
-            for c in self.data:
-                for k,v in self.data.items():
-                    if v['normalize']!="0":
-                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalize.{v['normalize']}")
-                        algo=getattr(module,v['normalize'])
-                        v['data']=algo(v['data'],v['normalize']).do()
+            for k,v in self.data.items():
+                if v['normalize']!="0" and v['colType']!='string' and v['colType']!='path':
+                    module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalize.{v['normalize']}")
+                    algo=getattr(module,v['normalize'])
+                    v['data']=algo(v['data'],v['normalize']).do()
             
-            for c in self.data:
-                pass # clean string
+            for k,v in self.data.items():
+                if v['stringCleaning']!='0' and v['colType']=='string':
+                    act=json.loads(v['stringCleaning'])
+                    for a in act:
+                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaning.{v['stringCleaning']}")
+                        algo=getattr(module,v['stringCleaning'])
+                        v['data']=algo(v['data'],v['stringCleaning']).do()
+            uid=fileUidGenerator().uid
+            newdata={k:v['data'] for k,v in self.data.items()}
+            colNames=data.columns.tolist()
+            newDf=pd.DataFrame(newdata,columns=colNames)
+            db=sql()
+            #TODO insert to db
+            if self.dataType!='cv':
+                fileType=self.numFile[self.numFile.find("."):]
+                if fileType=='tsv':
+                    newDf.to_csv(os.path.join(self.params.filepath,uid+fileType),sep='\t')
+                if fileType=='csv':
+                    newDf.to_csv(os.path.join(self.params.filepath,uid+fileType))
+            else:
+                pass
+                #TODO handle cv folder copying
             
-            # generate uid
-            
-            # generate new df
-            
-            # write new df to uid file
-            
-            # return uid
+            #TODO return uid
         except Exception as e:
             raise Exception(f"[Preprocess Do]{e}")
