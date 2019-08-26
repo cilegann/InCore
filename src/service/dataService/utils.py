@@ -56,7 +56,8 @@ class fileChecker():
             cols=data.columns.tolist()
             for c in cols:
                 if data[c].dtype!=np.float64 and data[c].dtype!=np.int64:
-                    os.remove(self.filepath)
+                    #os.remove(self.filepath)
+                    #break
                     raise Exception("[fileChecker] csv should only contain numerical value: (Col "+c+")")
         except Exception as e:
             os.remove(self.filepath)

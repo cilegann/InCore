@@ -36,7 +36,7 @@ class Download(Resource):
             except Exception as e:
                 logging.error(f'[API_Download]{e}')
                 return {'status':'error','msg':str(e),'data':{}},400
-            fileInfo=fileInfo[0]
+            #fileInfo=fileInfo[0]
             logging.info(f'[API_Download] {fileInfo}')
             if len(fileInfo)==0:
                 logging.debug("[API_Download] file not found")
