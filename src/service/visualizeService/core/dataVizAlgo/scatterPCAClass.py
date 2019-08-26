@@ -6,7 +6,7 @@ import pandas as pd
 import logging
 import numpy as np
 from sklearn.decomposition import PCA
-from service.analyticService.core.preprocess.missingFiltering import missingFiltering
+from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
 
 class scatterPCAClass(dataViz):
     def __init__(self,algoInfo,dataCol,fid):

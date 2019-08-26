@@ -4,7 +4,7 @@ from bokeh.palettes import Category20,Category10
 from random import shuffle
 import pandas as pd
 import logging
-from service.analyticService.core.preprocess.missingFiltering import missingFiltering
+from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
 
 class circleXYClass(dataViz):
     def __init__(self,algoInfo,dataCol,fid):

@@ -61,7 +61,8 @@ class Download(Resource):
             if fileName==None:
                 fileName=fileUid
             headers['Content-Type']='application/octet-stream; charset=utf-8'
-            headers['Content-Disposition'] = 'attachment; filename='+fileName+filetype
+            # headers['Content-Disposition'] = 'attachment; filename='+fileName+filetype
+            #return {"status":"success","msg":"","data":data},200
             return make_response(data,200,headers)
         except Exception as e:
             logging.error(f'[API_Download]{e}')
