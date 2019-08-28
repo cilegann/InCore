@@ -4,5 +4,5 @@ from service.analyticService.core.preprocessAlgo.outlierFiltering import outlier
 class std2(outlierFiltering):
     def __init__(self,data):
         super().__init__(data,"std2")
-    def getIndex(self):
+    def getRetainIndex(self):
         return abs(self.data - np.mean(self.data)) < 2 * np.std(self.data)
