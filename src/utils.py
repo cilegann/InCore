@@ -3,8 +3,8 @@ from params import params
 import pymysql
 import jwt
 
-def tokenValidator(string,token):
-    return jwt.decode(tokenstr, "iloveraid1", audience='www.inanalysis.com', algorithms=['HS256'])
+def tokenValidator(token):
+    return jwt.decode(token, params().secretkey, audience='www.inanalysis.com', algorithms=['HS256'])
 
 class sql():
     def __init__(self):

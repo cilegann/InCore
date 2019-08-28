@@ -2,7 +2,7 @@ class params():
     def __init__(self):
         self.host='140.112.26.135'
         self.port=8787
-        
+        self.secretkey='iloveraid1'
         self.filepath='./db'
         self.modelpath='./models'
         self.imgpath='./images'
