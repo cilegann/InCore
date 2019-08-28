@@ -22,18 +22,16 @@ class getFileStatus(Resource):
         fName='getFileStatus'
         parser = reqparse.RequestParser()
         parser.add_argument('fileUids', type=str,required=True)
-        parser.add_argument('tokenstr',type=str,required=True)
-        parser.add_argument('tokenint',type=int,required=True)
+        parser.add_argument('token',type=str,required=True)
         args = parser.parse_args()
         logging.debug(f"[API_getFileStatus] args: {args}")
         fids=args['fileUids']
-        tokenstr=args['tokenstr']
-        tokenint=args['tokenint']
+        token=args['token']
 
         fids=json.loads(fids)
         logging.info(f'[API_getFileStatus]{fids}')
         #check token
-        if not tokenValidator(tokenstr,tokenint):
+        if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
         try:
             fileInfo=[getFileInfo(fid)[0] for fid in fids]

@@ -25,17 +25,15 @@ class DeleteFile(Resource):
         '''
         parser = reqparse.RequestParser()
         parser.add_argument('fileUid', type=str,required=True)
-        parser.add_argument('tokenstr',type=str,required=True)
-        parser.add_argument('tokenint',type=int,required=True)
+        parser.add_argument('token',type=str,required=True)
         args = parser.parse_args()
         logging.info(f"[API_DelFile] args: {args}")
         fid = args['fileUid']
-        tokenstr=args['tokenstr']
-        tokenint=args['tokenint']
+        token=args['token']
 
         
         #check token
-        if not tokenValidator(tokenstr,tokenint):
+        if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
         try:
             fileInfo=getFileInfo(fid)

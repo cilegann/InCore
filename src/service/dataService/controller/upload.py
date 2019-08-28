@@ -7,6 +7,7 @@ import glob
 import uuid
 from service.dataService.utils import fileChecker,fileUidGenerator
 import logging
+import jwt
 
 # app = Flask(__name__)
 # api = Api(app)
@@ -25,22 +26,17 @@ class Upload(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('file', type=FileStorage, location='files',required=True)
         parser.add_argument('type',type=str,required=True)
-        # parser.add_argument('user',type=str,required=True)
-        parser.add_argument('tokenstr',type=str,required=True)
-        parser.add_argument('tokenint',type=int,required=True)
+        parser.add_argument('token',type=str,required=True)
         args = parser.parse_args()
         logging.info(f"[API_Upload] args: {args}")
         file = args['file']
         dataType=args['type']
-        # user=args['user']
-        tokenstr=args['tokenstr']
-        tokenint=args['tokenint']
-
+        token=args['token']
         
         #check token
-        if not tokenValidator(tokenstr,tokenint):
+        if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
-        
+
         pft=param.dataFileType
         #check project type
         if dataType not in pft:

@@ -23,8 +23,7 @@ class doDataViz(Resource):
         fName='doDataViz'
         try:
             parser=reqparse.RequestParser()
-            parser.add_argument('tokenstr',type=str,required=True)
-            parser.add_argument('tokenint',type=int,required=True)
+            parser.add_argument('token',type=str,required=True)
             parser.add_argument('fileUid',type=str,required=True)
             parser.add_argument('algoname',type=str,required=True)
             parser.add_argument('datacol',type=str,required=True)
@@ -32,6 +31,10 @@ class doDataViz(Resource):
             logging.info(f"[API_{fName}] args: {args}")
             fid=args['fileUid']
             algoName=args['algoname']
+            token=args['token']
+            if not tokenValidator(token):
+                return {"status":"error","msg":"token error","data":{}},401
+
             try:
                 datacol=json.loads(args['datacol'])
             except Exception as e:

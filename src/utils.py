@@ -1,12 +1,10 @@
 import logging
 from params import params
 import pymysql
+import jwt
 
 def tokenValidator(string,token):
-    # logging.debug(f'[util token] Token str:{string} Token int:{token}')
-    for i,s in enumerate(string):
-        token-=(i+1)*ord(s)
-    return (token==0)
+    return jwt.decode(tokenstr, "iloveraid1", audience='www.inanalysis.com', algorithms=['HS256'])
 
 class sql():
     def __init__(self):
