@@ -39,7 +39,7 @@ class getColumn(Resource):
             return {'status':'error','msg':str(e),'data':{}},400
         fileInfo=fileInfo[0]
 
-        filePath=fileInfo[2]
+        filePath=fileInfo[3]
         dataType=fileInfo[1]
         try:
             gct=getColType(filePath,dataType).get()

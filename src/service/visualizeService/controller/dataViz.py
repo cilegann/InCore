@@ -39,8 +39,6 @@ class doDataViz(Resource):
                 datacol=json.loads(args['datacol'])
             except Exception as e:
                 return {"status":"error","msg":"can't parse datacol json","data":{}},400
-            if not tokenValidator(args['tokenstr'],args['tokenint']):
-                return {"status":"error","msg":"token error","data":{}},401
 
             algoInfo=None
             reg=json.load(open(param.dataVizAlgoReg))
@@ -68,7 +66,8 @@ class doDataViz(Resource):
             response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
             response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
         except Exception as e:
-            logging.error(f'[API_doDataViz]{e}')
+            import traceback
+            logging.error(f'[API_doDataViz]{traceback.format_exc()}')
             return {'status':'error','msg':f'[doDataViz][{algoName}]{e}','data':{}},400
         
         return response

@@ -37,13 +37,10 @@ class dataViz():
             if len(fileInfo)==0:
                 raise Exception(f'fileUid not found')
             fileInfo=fileInfo[0]
-            filepath=fileInfo[2]
-            if fileInfo[3]!=None:
-                filepath=fileInfo[3]
             data={}
-            colTypes=getColType(fileInfo[2],fileInfo[1]).get()
+            colTypes=getColType(fileInfo[3],fileInfo[1]).get()
             colTypes={c["name"]:c['type'] for c in colTypes}
-            rawdata=getDf(filepath,fileInfo[1]).get()
+            rawdata=getDf(fileInfo[3],fileInfo[1]).get()
 
             data['all']=rawdata
             if 'x' in self.dataCol:

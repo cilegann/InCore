@@ -9,6 +9,7 @@ import shutil
 import logging
 import numpy as np
 from utils import sql
+import traceback
 
 def getFileInfo(fid):
     try:
@@ -120,40 +121,17 @@ class getColType():
     def __init__(self,filepath,dataType):
         self.filepath=filepath
         self.dataType=dataType
+        logging.debug(f'[getColType] filepath:{self.filepath}')
     def get(self):
-        if self.dataType=='num':
-            try:
-                data=getDf(self.filepath,'num').get()
-                logging.debug(f'[getColType] filepath:{self.filepath}')
-                colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c],self.dataType) } for c in colNames]
-                logging.debug(f'[getColType]{j}')
-            except Exception as e:
-                raise Exception(f'[getColType]{e}')
+        try:
+            data=getDf(self.filepath,self.dataType).get()
+            colNames=data.columns.tolist()
+            j=[{"name":c,"type":dTypeConverter(data[c],self.dataType) } for c in colNames]
+            logging.debug(f'[getColType]{j}')
             return j
-
-        if self.dataType=='cv':
-            try:
-                csvFile=glob.glob(self.filepath+"/*.csv")[0]
-                logging.debug(f'[getColType] filepath:{csvFile}')
-                data=getDf(csvFile,'cv').get()
-                colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c],self.dataType)} for c in colNames]
-                logging.debug(f'[getColType]{j}')
-            except Exception as e:
-                raise Exception(f'[getColType]{e}')
-            return j
-
-        if self.dataType=='nlp':
-            try:
-                data=getDf(self.filepath,'nlp').get()
-                logging.debug(f'[getColType] filepath:{self.filepath}')
-                colNames=data.columns.tolist()
-                j=[{"name":c,"type":dTypeConverter(data[c],self.dataType)} for c in colNames]
-                logging.debug(f'[getColType]{j}')
-            except Exception as e:
-                raise Exception(f'[getColType]{e}')
-            return j
+        except Exception as e:
+            raise Exception(f'[getColType]{traceback.format_exc()}')
+        
 
 
 class getDf():
