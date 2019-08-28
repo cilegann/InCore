@@ -58,6 +58,10 @@ if __name__ == "__main__":
     scheduler = BackgroundScheduler()
     scheduler.add_job(purge, 'cron',day_of_week='0-6', hour=1, minute=27)
     scheduler.start()
+    if '--port' not in sys.argv:
+        port=par.port
+    else:
+        port=int(sys.argv[sys.argv.index('--port')+1])
     app.run(debug='--debug' in sys.argv,port=par.port,host='0.0.0.0')
     
 
