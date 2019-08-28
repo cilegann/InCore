@@ -14,7 +14,7 @@ class params():
 
         self.dataVizAlgoReg=self.visualizeServiceRoot+'core/dataViz.json'
 
-        self.dataPreprocessAlgoReg=self.analyticServiceRoot+'core/preprocess/preprocess.json'
+        self.dataPreprocessAlgoReg=self.analyticServiceRoot+'core/preprocessAlgo/preprocess.json'
 
         self.dataFileType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
         self.dbhost='140.112.26.132'

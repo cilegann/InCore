@@ -1,5 +1,5 @@
 import numpy as np
-from service.analyticService.core.preprocess.normalize import normalize
+from service.analyticService.core.preprocessAlgo.normalize import normalize
 
 class minmax01(normalize):
     def __init__(self,data):

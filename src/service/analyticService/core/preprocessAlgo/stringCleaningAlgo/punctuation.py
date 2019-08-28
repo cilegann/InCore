@@ -1,4 +1,4 @@
-from service.analyticService.core.preprocess.stringCleaning import stringCleaning
+from service.analyticService.core.preprocessAlgo.stringCleaning import stringCleaning
 import string
 
 class punctuation(stringCleaning):
