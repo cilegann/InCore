@@ -13,4 +13,4 @@ class outlierFiltering():
         For Example:
         a array [1,1,1,1,1,2,50,1] filted by 1st std will return [True,True,True,True,True,True,False,True]
         '''
-        raise NotImplementedError(f'[outlierFiltering][{algoName}] Not implement error')
+        raise NotImplementedError(f'[outlierFiltering][{self.algoName}] Not implement error')
