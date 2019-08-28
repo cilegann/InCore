@@ -8,6 +8,7 @@ import logging
 import json
 import importlib
 from service.analyticService.core.preprocess import preprocess as core
+import traceback
 params=params()
 
 class getPreprocessAlgoList(Resource):
@@ -25,13 +26,15 @@ class doPreprocess(Resource):
         fName='API_doPreprocess'
         try:
             parser=reqparse.RequestParser()
-            parser.add_argument('tokenstr',type=str,required=True)
-            parser.add_argument('tokenint',type=int,required=True)
+            parser.add_argument('token',type=str,required=True)
             parser.add_argument('fileUid',type=str,required=True)
             parser.add_argument('action',type=str,required=True)
             args = parser.parse_args()
             logging.info(f"[{fName}] args: {args}")
             fid=args['fileUid']
+            token=args['token']
+            if not tokenValidator(token):
+                return {"status":"error","msg":"token error","data":{}},401
             try:
                 action=json.loads(args['action'])
             except Exception as e:
@@ -39,8 +42,8 @@ class doPreprocess(Resource):
             uid=core(fid,action).do()
             return {"status":"success","msg":"","data":{"fileUid":uid}}
         except Exception as e:
-            logging.error(f"[{fName}] {e}")
-            return {"status":"error","msg":str(e),"data":{}}
+            logging.error(f"[{fName}] {traceback.format_exc()}")
+            return {"status":"error","msg":str(e),"data":{}},400
 
 class previewPreprocess(Resource):
     pass
