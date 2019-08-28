@@ -85,7 +85,6 @@ class preprocess():
             if self.dataType!='cv':
                 fileType=self.numFile[self.numFile.rfind("."):]
                 newNumFile=os.path.join(self.params.filepath,uid+fileType)
-                logging.debug(newNumFile)
                 newPath=newNumFile
                 if fileType=='.tsv':
                     newDf.to_csv(newNumFile,sep='\t',index=False)
