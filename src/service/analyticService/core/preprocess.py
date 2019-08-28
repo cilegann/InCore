@@ -98,7 +98,8 @@ class preprocess():
                 newPath=os.path.join(self.params.filepath,uid)
                 shutil.copytree(self.path,newPath)
                 newDf.to_csv(newNumFile,index=False)
-            
+            newNumFile=newNumFile.replace("\\","/")
+            newPath=newPath.replace("\\","/")
             db=sql()
             db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`) values ('{uid}','{self.dataType}','{newNumFile}','{newPath}',False);")
             db.conn.commit()

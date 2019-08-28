@@ -62,7 +62,7 @@ if __name__ == "__main__":
         port=par.port
     else:
         port=int(sys.argv[sys.argv.index('--port')+1])
-    app.run(debug='--debug' in sys.argv,port=par.port,host='0.0.0.0')
+    app.run(debug='--debug' in sys.argv,port=port,host='0.0.0.0')
     
 
 #   █████▒█    ██  ▄████▄   ██ ▄█▀       ██████╗ ██╗   ██╗ ██████╗
