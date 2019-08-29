@@ -94,12 +94,12 @@ class dataViz():
         return data
         
 
-    def init_figure(self):
+    def init_figure(self,w=625,h=400):
         try:
             if self.algoInfo['lib']=='bokeh':
-                p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset,save')
+                p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=w, plot_height=h,tools='pan,wheel_zoom,box_zoom,reset,save')
             else:
-                p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=625, plot_height=400,tools='pan,wheel_zoom,box_zoom,reset')
+                p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=w, plot_height=h,tools='pan,wheel_zoom,box_zoom,reset')
                 saveCallback=CustomJS(code=f"""window.open('http://{self.params.host}:{self.params.port}/viz/getimg/?uid={self.imgId}&action=download');""")
                 p.add_tools(CustomAction(icon="./icons/save_icon.png",callback=saveCallback))
                 p.xaxis.major_tick_line_color = None  # turn off x-axis major ticks
