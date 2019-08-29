@@ -21,7 +21,7 @@ class preprocess():
             self.df=getDf(self.numFile,self.dataType).get()
             self.data={}
             for c in self.colType:
-                self.data[c['name']]={'colType':c['type']}
+                self.data[c['name']]={'colType':c['type'],'do':False}
                 # self.data={"col1":{"type":"int","action":action,"data":data}}
             for c in self.action:
                 self.data[c['col']]['missingFiltering']=c['missingFiltering']
@@ -29,8 +29,68 @@ class preprocess():
                 self.data[c['col']]['normalize']=c['normalize']
                 self.data[c['col']]['stringCleaning']=c['stringCleaning']
                 self.data[c['col']]['data']=np.asarray(self.df[c['col']])
+                self.data[c['col']]['do']=True
         except Exception as e:
             raise Exception(f"[Preprocess Init]{traceback.format_exc()}")
+
+    def preview(self):
+        try:
+            for k,v in self.data.items():
+                if v['do']:
+                    previewData=v
+            originDataLen=len(previewData['data'])
+            originData=previewData['data']
+
+            if previewData['missingFiltering']=='1':
+                from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
+                previewData['data']=previewData['data'][ missingFiltering().getRetainIndex([previewData['data']],[v['colType']]) ]
+                if previewData['colType']=='int':
+                    previewData['data']=previewData['data'].astype(np.int64)
+
+            if len(previewData['data'])!=0 and previewData['outlierFiltering']!='0' and previewData['colType']!='string' and previewData['colType']!='path':
+                module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{v['outlierFiltering']}")
+                algo=getattr(module,previewData['outlierFiltering'])
+                previewData['data']=previewData['data'][algo(previewData['data']).getRetainIndex()]
+            
+            if len(previewData['data'])!=0 and previewData['normalize']!='0' and previewData['colType']!='string' and previewData['colType']!='path':
+                module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalizeAlgo.{previewData['normalize']}")
+                algo=getattr(module,previewData['normalize'])
+                previewData['data']=algo(previewData['data']).do()
+            
+            if len(previewData['data'])!=0 and previewData['stringCleaning']!='0' and previewData['colType']=='string':
+                act=json.loads(previewData['stringCleaning'])
+                for a in act:
+                    module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
+                    algo=getattr(module,a)
+                    previewData['data']=algo(previewData['data']).do()
+            
+            processedDataLen=len(previewData['data'])
+            processedData=previewData['data']
+            
+            msg=f'Num of rows reduced {originDataLen-processedDataLen} from {originDataLen} to {processedDataLen}'
+            beforeComp="None"
+            afterComp="None"
+            if previewData['colType']=='float' or previewData['colType']=='int':
+                if previewData['colType']=='float':
+                    from service.visualizeService.core.dataVizAlgo.histogramXCol import histogramXCol as algo
+                if previewData['colType']=='int':
+                    from service.visualizeService.core.dataVizAlgo.barCntCol import barCntCol as algo
+
+                before=algo(originData,"Before")
+                before.doBokehViz()
+                before.getComp()
+                after=algo(processedData,"After")
+                after.doBokehViz()
+                after.getComp()
+                beforeComp=before.component
+                afterComp=after.component
+            
+            return msg,beforeComp,afterComp
+        except Exception as e:
+            import traceback
+            raise Exception(f"[Preprocess Preview]{traceback.format_exc()}")
+
+        
 
     def do(self):
         try:
@@ -75,7 +135,7 @@ class preprocess():
                         self.data[k]['data']=algo(v['data']).do()
             if dataLen!=0:
                 for k,v in self.data.items():
-                    if v['stringCleaning']!='0' and v['colType']=='string':
+                    if v['stringCleaning']!='["0"]' and v['colType']=='string':
                         act=json.loads(v['stringCleaning'])
                         for a in act:
                             module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")

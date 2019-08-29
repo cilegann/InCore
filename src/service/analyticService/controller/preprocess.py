@@ -44,7 +44,33 @@ class doPreprocess(Resource):
             return {"status":"success","msg":"","data":{"fileUid":uid}}
         except Exception as e:
             logging.error(f"[{fName}] {traceback.format_exc()}")
-            return {"status":"error","msg":str(e),"data":{}},400
+            return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400
 
 class previewPreprocess(Resource):
-    pass
+    def post(self):
+        fName='API_preprocessPreview'
+        try:
+            parser=reqparse.RequestParser()
+            parser.add_argument('token',type=str,required=True)
+            parser.add_argument('fileUid',type=str,required=True)
+            parser.add_argument('action',type=str,required=True)
+            args = parser.parse_args()
+            logging.info(f"[{fName}] args: {args}")
+            fid=args['fileUid']
+            token=args['token']
+            if not tokenValidator(token):
+                return {"status":"error","msg":"token error","data":{}},401
+            try:
+                action=json.loads(args['action'])
+            except Exception as e:
+                return {"status":"error","msg":"can't parse action json","data":{}},400
+            msg,beforeComp,afterComp=core(fid,action).preview()
+            logging.debug(json.dumps({'status':'success','msg':'','data':{"msg":msg,"beforeComp":beforeComp,"afterComp":afterComp}}))
+            response=make_response(json.dumps({'status':'success','msg':'','data':{"msg":msg,"beforeComp":beforeComp,"afterComp":afterComp}}))
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
+            response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
+
+        except Exception as e:
+            logging.error(f"[{fName}] {traceback.format_exc()}")
+            return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400
