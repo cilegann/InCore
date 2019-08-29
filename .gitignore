@@ -9,6 +9,4 @@ src/service/visualizeService/1.jpg
 src/service/visualizeService/save_icon.png
 *-checkpoint.ipynb
 .VSCodeCounter
-db/cv/a.jpg
-db/cv/b.jpg
-db/cv/g.png
+db/*
