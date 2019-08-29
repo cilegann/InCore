@@ -60,7 +60,7 @@ class Download(Resource):
             headers={}
             # if fileName==None:
             #     fileName=fileUid
-            headers['Content-Type']='application/octet-stream; charset=utf-8'
+            headers['Content-Type']='application/octet-stream'
             # headers['Content-Disposition'] = 'attachment; filename='+fileName+filetype
             # return {"status":"success","msg":"","data":data},200
             return make_response(data,200,headers)
