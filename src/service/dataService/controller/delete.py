@@ -44,7 +44,7 @@ class DeleteFile(Resource):
         fileInfo=fileInfo[0]
 
         if fileInfo[3]==1:
-            logging.debug(f'[API_DelFile] file {fid} in use')
+            logging.warning(f'[API_DelFile] file {fid} in use')
             return {"status":"error","msg":"The file is in-used","data":{}},400
         
         filePath=fileInfo[2]

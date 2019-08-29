@@ -21,7 +21,7 @@ class Download(Resource):
             # parser.add_argument('tokenstr',type=str,required=True)
             # parser.add_argument('tokenint',type=int,required=True)
             args = parser.parse_args()
-            logging.debug(f"[Download] args: {args}")
+            logging.info(f"[API_Download] args: {args}")
             fileUid = args['fileUid']
             # fileName=args['fileName']
             # tokenstr=args['tokenstr']
@@ -37,7 +37,7 @@ class Download(Resource):
                 logging.error(f'[API_Download]{e}')
                 return {'status':'error','msg':str(e),'data':{}},400
             #fileInfo=fileInfo[0]
-            logging.info(f'[API_Download] {fileInfo}')
+            logging.debug(f'[API_Download] FileInfo: {fileInfo}')
             if len(fileInfo)==0:
                 logging.debug("[API_Download] file not found")
                 abort(404)

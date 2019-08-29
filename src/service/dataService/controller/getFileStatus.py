@@ -24,12 +24,12 @@ class getFileStatus(Resource):
         parser.add_argument('fileUids', type=str,required=True)
         parser.add_argument('token',type=str,required=True)
         args = parser.parse_args()
-        logging.debug(f"[API_getFileStatus] args: {args}")
+        logging.info(f"[API_getFileStatus] args: {args}")
         fids=args['fileUids']
         token=args['token']
 
         fids=json.loads(fids)
-        logging.info(f'[API_getFileStatus]{fids}')
+        logging.debug(f'[API_getFileStatus]{fids}')
         #check token
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401

@@ -12,7 +12,7 @@ class getDataVizAlgoList(Resource):
     def get(self):
         try:
             reg=json.load(open(param.dataVizAlgoReg))
-            logging.debug(f'[API_getDataVizAlgo] reg list: {reg}')
+            logging.info(f'[API_getDataVizAlgo]')
         except Exception as e:
             logging.error(f'[API_getDataVizAlgo] {e}')
             return  {'status':'error','msg':f'[getDataVizAlgo] {e}','data':{}},500
@@ -47,7 +47,7 @@ class doDataViz(Resource):
                     algoInfo=a
                     break
             if algoInfo==None:
-                logging.info(f"[API_doDataViz] {algoName} not found")
+                logging.warning(f"[API_doDataViz] {algoName} not found")
                 return {"status":"error","msg":f"[doDataViz] algo {algoName} not found","data":{}},400
             #TODO: check datacol and definition matching
             module=importlib.import_module(f"service.visualizeService.core.dataVizAlgo.{algoName}")
