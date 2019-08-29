@@ -16,9 +16,11 @@ class params():
 
         self.dataPreprocessAlgoReg=self.analyticServiceRoot+'core/preprocessAlgo/preprocess.json'
 
-        self.dataFileType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
+        self.dataExtensionType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
         self.dataProjectType={'num':['Regression','Classification','Abnormal','Clustering'],'cv':['Regression','Classification'],'nlp':['Regression','Classification']}
         self.dbhost='140.112.26.132'
         self.dbuser='ican'
         self.dbpwd='lab125a'
         self.dbschema='incore'
+
+        self.classifiableThreshold=3

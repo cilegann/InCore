@@ -15,7 +15,7 @@ from params import params
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from purge import purger 
-from controller.getConfig import getDataProjectType,getDataFileType
+from controller.getConfig import getDataProjectType,getDataExtensionType
 from service.dataService.controller.upload import Upload
 from service.dataService.controller.download import Download
 from service.dataService.controller.getColumn import getColumn
@@ -34,7 +34,7 @@ cors = CORS(app, resources=r"/*")
 
 # bind api
 api.add_resource(getDataProjectType,"/sys/dataproject")
-api.add_resource(getDataFileType,"/sys/datafile")
+api.add_resource(getDataExtensionType,"/sys/dataextension")
 
 api.add_resource(Upload, "/data/upload")
 api.add_resource(Download,'/data/download')

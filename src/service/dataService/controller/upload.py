@@ -37,7 +37,7 @@ class Upload(Resource):
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
 
-        pft=param.dataFileType
+        pft=param.dataExtensionType
         #check project type
         if dataType not in pft:
             return {"status":"error","msg":"project type not supported","data":{}},400
@@ -69,7 +69,7 @@ class Upload(Resource):
             return {"status":"error","msg":str(e),"data":{}},400
         if filetype=='.zip':
             savedPath=savedPath[:savedPath.rfind(".")]
-            numFilePath=glob.glob((savedPath+"/*.csv"))[0]
+            numFilePath=glob.glob((savedPath+"/*.csv"))[0].replace("\\","/")
         try:
             db=sql()
             if filetype=='.zip':
