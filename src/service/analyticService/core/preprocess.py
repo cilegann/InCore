@@ -72,8 +72,8 @@ class preprocess():
                 if v['stringCleaning']!='0' and v['colType']=='string':
                     act=json.loads(v['stringCleaning'])
                     for a in act:
-                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{v['stringCleaning']}")
-                        algo=getattr(module,v['stringCleaning'])
+                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
+                        algo=getattr(module,a)
                         v['data']=algo(v['data']).do()
 
             uid=fileUidGenerator().uid
