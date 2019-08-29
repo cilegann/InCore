@@ -117,6 +117,30 @@ def dTypeConverter(data,dataType):
         if dataType=='nlp':
             return "string"
 
+def classifiableChecker(data,colType):
+    try:
+        if colType=='float' or colType=='path':
+            return "0"
+        else:
+            if len(set(data))<params().classifiableThreshold:
+                return "1"
+            else:
+                return "0"
+    except Exception as e:
+        raise Exception(f"[classifiableChecker] {traceback.format_exc()}")
+
+
+def categoricalConverter(data,colType):
+    if not classifiableChecker(data,colType):
+        raise Exception("[categoricalConverter] This column is not classifiable")
+    if colType=='int':
+        if min(data)==0 and max(data)==len(set(data))-1:
+            return [{"original":v,"converted":v} for v in range(len(set(data)))]
+        else:
+            return [{"original":o,"converted":c} for c,o in enumerate(set(data))]
+    
+    
+
 class getColType():
     def __init__(self,filepath,dataType):
         self.filepath=filepath
@@ -126,7 +150,7 @@ class getColType():
         try:
             data=getDf(self.filepath,self.dataType).get()
             colNames=data.columns.tolist()
-            j=[{"name":c,"type":dTypeConverter(data[c],self.dataType) } for c in colNames]
+            j=[{"name":c,"type":dTypeConverter(data[c],self.dataType),"classifiable":classifiableChecker(data[c],dTypeConverter(data[c],self.dataType)) } for c in colNames]
             logging.debug(f'[getColType]{j}')
             return j
         except Exception as e:
