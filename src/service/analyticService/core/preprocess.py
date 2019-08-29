@@ -16,7 +16,7 @@ class preprocess():
             self.params=params()
             self.fid=fid
             self.action=action
-            fid,self.dataType,self.path,self.numFile,status=getFileInfo(self.fid)[0]
+            fid,self.dataType,self.path,self.numFile,status,actionFile=getFileInfo(self.fid)[0]
             self.colType=getColType(self.numFile,self.dataType).get()
             self.df=getDf(self.numFile,self.dataType).get()
             self.data={}
@@ -34,47 +34,53 @@ class preprocess():
 
     def do(self):
         try:
+            dataLen=0
             #missing value filtering
             from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
-            data=[]
-            colType=[]
             for k,v in self.data.items():
-                if v['missingFiltering']=='1':
-                    data.append(v['data'])
-                    colType.append(v['colType'])
-            retainIndex=missingFiltering().getRetainIndex(data,colType,self.path)
-            dataLen=0
-            for k,v in self.data.items():
-                v['data']=v['data'][retainIndex]
-                if v['colType']=='int':
-                    v['data']=v['data'].astype(np.int64)
                 dataLen=len(v['data'])
+            if dataLen!=0:
+                data=[]
+                colType=[]
+                for k,v in self.data.items():
+                    if v['missingFiltering']=='1':
+                        data.append(v['data'])
+                        colType.append(v['colType'])
+                retainIndex=missingFiltering().getRetainIndex(data,colType,self.path)
+                for k,v in self.data.items():
+                    self.data[k]['data']=v['data'][retainIndex]
+                    if v['colType']=='int':
+                        self.data[k]['data']=v['data'].astype(np.int64)
+                    dataLen=len(self.data[k]['data'])
 
             # outlier filtering
-            retainIndex=np.asarray([True for i in range(dataLen)])
-            for k,v in self.data.items():
-                if v['outlierFiltering']!="0" and v['colType']!='string' and v['colType']!='path':
-                    module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{v['outlierFiltering']}")
-                    algo=getattr(module,v['outlierFiltering'])
-                    ri=algo(v['data']).getRetainIndex()
-                    retainIndex=np.logical_and(retainIndex,ri)
-            for k,v in self.data.items():
-                v['data']=v['data'][retainIndex]
-                dataLen=len(v['data'])
+            if dataLen!=0:
+                retainIndex=np.asarray([True for i in range(dataLen)])
+                for k,v in self.data.items():
+                    if v['outlierFiltering']!="0" and v['colType']!='string' and v['colType']!='path':
+                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{v['outlierFiltering']}")
+                        algo=getattr(module,v['outlierFiltering'])
+                        ri=algo(v['data']).getRetainIndex()
+                        retainIndex=np.logical_and(retainIndex,ri)
+                for k,v in self.data.items():
+                    self.data[k]['data']=v['data'][retainIndex]
+                    dataLen=len(self.data[k]['data'])
 
-            for k,v in self.data.items():
-                if v['normalize']!="0" and v['colType']!='string' and v['colType']!='path':
-                    module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalizeAlgo.{v['normalize']}")
-                    algo=getattr(module,v['normalize'])
-                    v['data']=algo(v['data']).do()
-            
-            for k,v in self.data.items():
-                if v['stringCleaning']!='0' and v['colType']=='string':
-                    act=json.loads(v['stringCleaning'])
-                    for a in act:
-                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
-                        algo=getattr(module,a)
-                        v['data']=algo(v['data']).do()
+            # normalize
+            if dataLen!=0:
+                for k,v in self.data.items():
+                    if v['normalize']!="0" and v['colType']!='string' and v['colType']!='path':
+                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalizeAlgo.{v['normalize']}")
+                        algo=getattr(module,v['normalize'])
+                        self.data[k]['data']=algo(v['data']).do()
+            if dataLen!=0:
+                for k,v in self.data.items():
+                    if v['stringCleaning']!='0' and v['colType']=='string':
+                        act=json.loads(v['stringCleaning'])
+                        for a in act:
+                            module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
+                            algo=getattr(module,a)
+                            self.data[k]['data']=algo(v['data']).do()
 
             uid=fileUidGenerator().uid
             logging.info(f"[Preprocess Do] New UID: {uid}")
@@ -86,6 +92,7 @@ class preprocess():
                 fileType=self.numFile[self.numFile.rfind("."):]
                 newNumFile=os.path.join(self.params.filepath,uid+fileType)
                 newPath=newNumFile
+                actionFile=os.path.join(self.params.filepath,uid+'.json')
                 if fileType=='.tsv':
                     newDf.to_csv(newNumFile,sep='\t',index=False)
                 if fileType=='.csv':
@@ -95,12 +102,16 @@ class preprocess():
                 numFileType=self.numFile[self.numFile.find("."):]
                 newNumFile=os.path.join(self.params.filepath,uid,oldNumFileName)
                 newPath=os.path.join(self.params.filepath,uid)
+                actionFile=os.path.join(self.params.filepath,uid+'.json')
                 shutil.copytree(self.path,newPath)
                 newDf.to_csv(newNumFile,index=False)
+            with open(actionFile,'w') as file:
+                json.dump(self.action,file)
             newNumFile=newNumFile.replace("\\","/")
             newPath=newPath.replace("\\","/")
+            actionFile=actionFile.replace("\\","/")
             db=sql()
-            db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`) values ('{uid}','{self.dataType}','{newNumFile}','{newPath}',False);")
+            db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`,`preprocessAction`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}');")
             db.conn.commit()
             return uid
 
