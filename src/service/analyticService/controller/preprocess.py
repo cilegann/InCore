@@ -65,12 +65,11 @@ class previewPreprocess(Resource):
             except Exception as e:
                 return {"status":"error","msg":"can't parse action json","data":{}},400
             msg,beforeComp,afterComp=core(fid,action).preview()
-            logging.debug(json.dumps({'status':'success','msg':'','data':{"msg":msg,"beforeComp":beforeComp,"afterComp":afterComp}}))
             response=make_response(json.dumps({'status':'success','msg':'','data':{"msg":msg,"beforeComp":beforeComp,"afterComp":afterComp}}))
             response.headers['Access-Control-Allow-Origin'] = '*'
             response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
             response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
-
+            return response
         except Exception as e:
             logging.error(f"[{fName}] {traceback.format_exc()}")
             return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400

@@ -43,12 +43,12 @@ class preprocess():
 
             if previewData['missingFiltering']=='1':
                 from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
-                previewData['data']=previewData['data'][ missingFiltering().getRetainIndex([previewData['data']],[v['colType']]) ]
+                previewData['data']=previewData['data'][ missingFiltering().getRetainIndex([previewData['data']],[previewData['colType']]) ]
                 if previewData['colType']=='int':
                     previewData['data']=previewData['data'].astype(np.int64)
 
             if len(previewData['data'])!=0 and previewData['outlierFiltering']!='0' and previewData['colType']!='string' and previewData['colType']!='path':
-                module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{v['outlierFiltering']}")
+                module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{previewData['outlierFiltering']}")
                 algo=getattr(module,previewData['outlierFiltering'])
                 previewData['data']=previewData['data'][algo(previewData['data']).getRetainIndex()]
             
@@ -57,7 +57,7 @@ class preprocess():
                 algo=getattr(module,previewData['normalize'])
                 previewData['data']=algo(previewData['data']).do()
             
-            if len(previewData['data'])!=0 and previewData['stringCleaning']!='0' and previewData['colType']=='string':
+            if len(previewData['data'])!=0 and previewData['stringCleaning']!='["0"]' and previewData['colType']=='string':
                 act=json.loads(previewData['stringCleaning'])
                 for a in act:
                     module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
