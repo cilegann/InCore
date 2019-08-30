@@ -7,69 +7,50 @@ from utils import tokenValidator,sql
 import logging
 import json
 import importlib
-from service.analyticService.core.preprocess import preprocess as core
 import traceback
+from service.analyticService.core.correlation import correlation as core
+from service.analyticService.core.correlation import NoDataException
 params=params()
 
-class getPreprocessAlgoList(Resource):
+
+class getCorrelationAlgoList(Resource):
     def get(self):
         try:
-            logging.info('[API_getPreprocessAlgoList]')
-            with open(params.dataPreprocessAlgoReg) as file:
+            logging.info('[API_getCorrelationAlgoList]')
+            with open(params.correlationAlgoReg) as file:
                 j=file.read()
             return {'status':'success','msg':'','data':json.loads(j)},200
         except Exception as e:
-            logging.error(f'[API_getPreprocessAlgoList]{e}')
+            logging.error(f'[API_getCorrelationAlgoList]{e}')
             return {'status':'error','msg':str(e),'data':{}},400
 
-class doPreprocess(Resource):
-    def post(self):
-        fName='API_doPreprocess'
-        try:
-            parser=reqparse.RequestParser()
-            parser.add_argument('token',type=str,required=True)
-            parser.add_argument('fileUid',type=str,required=True)
-            parser.add_argument('action',type=str,required=True)
-            args = parser.parse_args()
-            logging.info(f"[{fName}] args: {args}")
-            fid=args['fileUid']
-            token=args['token']
-            if not tokenValidator(token):
-                return {"status":"error","msg":"token error","data":{}},401
-            try:
-                action=json.loads(args['action'])
-            except Exception as e:
-                return {"status":"error","msg":"can't parse action json","data":{}},400
-            uid=core(fid,action).do()
-            return {"status":"success","msg":"","data":{"fileUid":uid}}
-        except Exception as e:
-            logging.error(f"[{fName}] {traceback.format_exc()}")
-            return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400
 
-class previewPreprocess(Resource):
+class doCorrelation(Resource):
     def post(self):
-        fName='API_preprocessPreview'
+        fName='API_correlation'
         try:
             parser=reqparse.RequestParser()
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('fileUid',type=str,required=True)
-            parser.add_argument('action',type=str,required=True)
+            parser.add_argument('algoname',type=str,required=True)
             args = parser.parse_args()
             logging.info(f"[{fName}] args: {args}")
             fid=args['fileUid']
+            algoName=args['algoname']
             token=args['token']
             if not tokenValidator(token):
                 return {"status":"error","msg":"token error","data":{}},401
-            try:
-                action=json.loads(args['action'])
-            except Exception as e:
-                return {"status":"error","msg":"can't parse action json","data":{}},400
-            msg,beforeComp,afterComp=core(fid,action).preview()
-            response=make_response(json.dumps({'status':'success','msg':'','data':{"msg":msg,"beforeComp":beforeComp,"afterComp":afterComp}}))
+            module=importlib.import_module(f"service.analyticService.core.correlationAlgo.{algoName}")
+            algo=getattr(module,algoName)
+            fig=algo(fid).do()
+            response=make_response(json.dumps({'status':'success','msg':'','data':fig}))
             response.headers['Access-Control-Allow-Origin'] = '*'
             response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'
             response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
             return response
+        except NoDataException as e:
+            logging.info(f"[{fName}]{e}")
+            return {"status":"success","msg":"","data":"None"},200
         except Exception as e:
-            logging.error(f"[{fName}] {traceback.format_exc()}")
+            logging.error(f"[{fName}]{traceback.format_exc()}")
             return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400
