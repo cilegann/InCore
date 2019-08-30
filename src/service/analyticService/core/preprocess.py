@@ -73,18 +73,18 @@ class preprocess():
             afterComp="None"
 
             if previewData['colType']=='float':
-                from service.visualizeService.core.dataVizAlgo.histogramXCol import histogramXCol as algo
+                from service.visualizeService.core.analyticVizAlgo.histogramXCol import histogramXCol as algo
             if previewData['colType']=='int':
-                from service.visualizeService.core.dataVizAlgo.barCntCol import barCntCol as algo
+                from service.visualizeService.core.analyticVizAlgo.barCntCol import barCntCol as algo
             before=algo(originData,"Before")
             before.doBokehViz()
             before.getComp()
             beforeComp=before.component
 
             if processedColType=='float':
-                from service.visualizeService.core.dataVizAlgo.histogramXCol import histogramXCol as algo
+                from service.visualizeService.core.analyticVizAlgo.histogramXCol import histogramXCol as algo
             if processedColType=='int':
-                from service.visualizeService.core.dataVizAlgo.barCntCol import barCntCol as algo
+                from service.visualizeService.core.analyticVizAlgo.barCntCol import barCntCol as algo
             after=algo(processedData,"After")
             after.doBokehViz()
             after.getComp()
