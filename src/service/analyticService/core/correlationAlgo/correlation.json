@@ -1,0 +1,14 @@
+[
+    {
+        "friendlyname":"Pearson Correlation coefficient",
+        "algoname":"pearson"
+    },
+    {
+        "friendlyname":"Kendall Tau correlation coefficient",
+        "algoname":"kendall"
+    },
+    {
+        "friendlyname":"Spearman rank correlation",
+        "algoname":"spearman"
+    }
+]
