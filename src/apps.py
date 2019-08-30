@@ -55,6 +55,7 @@ api.add_resource(getCorrelationAlgoList,'/correlation/getalgo')
 api.add_resource(doCorrelation,'/correlation/do')
 api.add_resource(gitPull,'/autodeploy/git')
 
+
 def purge():
     purger().purgeImg()
 
