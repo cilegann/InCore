@@ -16,6 +16,7 @@ from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from purge import purger 
 from controller.getConfig import getDataProjectType,getDataExtensionType
+from controller.gitPull import gitPull
 from service.dataService.controller.upload import Upload
 from service.dataService.controller.download import Download
 from service.dataService.controller.getColumn import getColumn
@@ -27,6 +28,7 @@ from service.visualizeService.controller.dataViz import getDataVizAlgoList,doDat
 
 from service.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess
 from service.analyticService.controller.correlation import doCorrelation,getCorrelationAlgoList
+
 par=params()
 app = Flask(__name__)
 api = Api(app)
@@ -51,6 +53,7 @@ api.add_resource(doPreprocess,'/preprocess/do')
 api.add_resource(previewPreprocess,'/preprocess/preview')
 api.add_resource(getCorrelationAlgoList,'/correlation/getalgo')
 api.add_resource(doCorrelation,'/correlation/do')
+api.add_resource(gitPull,'/autodeploy/git')
 
 def purge():
     purger().purgeImg()
