@@ -1,5 +1,5 @@
 from params import params
-from service.dataService.utils import getFileInfo,getDf,getColType,fileUidGenerator
+from service.dataService.utils import getFileInfo,getDf,getColType,fileUidGenerator,dTypeConverter
 from utils import sql
 import logging
 import json
@@ -67,25 +67,29 @@ class preprocess():
             
             processedDataLen=len(previewData['data'])
             processedData=previewData['data']
-            
+            processedColType=dTypeConverter(processedData,self.dataType)
             msg=f'Num of rows reduced {originDataLen-processedDataLen} from {originDataLen} to {processedDataLen}'
             beforeComp="None"
             afterComp="None"
-            if previewData['colType']=='float' or previewData['colType']=='int':
-                if previewData['colType']=='float':
-                    from service.visualizeService.core.dataVizAlgo.histogramXCol import histogramXCol as algo
-                if previewData['colType']=='int':
-                    from service.visualizeService.core.dataVizAlgo.barCntCol import barCntCol as algo
 
-                before=algo(originData,"Before")
-                before.doBokehViz()
-                before.getComp()
-                after=algo(processedData,"After")
-                after.doBokehViz()
-                after.getComp()
-                beforeComp=before.component
-                afterComp=after.component
-            
+            if previewData['colType']=='float':
+                from service.visualizeService.core.dataVizAlgo.histogramXCol import histogramXCol as algo
+            if previewData['colType']=='int':
+                from service.visualizeService.core.dataVizAlgo.barCntCol import barCntCol as algo
+            before=algo(originData,"Before")
+            before.doBokehViz()
+            before.getComp()
+            beforeComp=before.component
+
+            if processedColType=='float':
+                from service.visualizeService.core.dataVizAlgo.histogramXCol import histogramXCol as algo
+            if processedColType=='int':
+                from service.visualizeService.core.dataVizAlgo.barCntCol import barCntCol as algo
+            after=algo(processedData,"After")
+            after.doBokehViz()
+            after.getComp()
+            afterComp=after.component
+        
             return msg,beforeComp,afterComp
         except Exception as e:
             import traceback

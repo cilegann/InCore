@@ -124,7 +124,7 @@ def classifiableChecker(data,colType):
         if colType=='float' or colType=='path':
             return "0"
         else:
-            if len(set(data))<params().classifiableThreshold:
+            if len(set(data))<=params().classifiableThreshold:
                 return "1"
             else:
                 return "0"

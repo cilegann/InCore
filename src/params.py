@@ -23,4 +23,4 @@ class params():
         self.dbpwd='lab125a'
         self.dbschema='incore'
 
-        self.classifiableThreshold=3
+        self.classifiableThreshold=5
