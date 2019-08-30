@@ -16,7 +16,7 @@ from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from purge import purger 
 from controller.getConfig import getDataProjectType,getDataExtensionType
-from controller.gitPull import gitPull
+from controller.autoDeploy import gitPull
 from service.dataService.controller.upload import Upload
 from service.dataService.controller.download import Download
 from service.dataService.controller.getColumn import getColumn
@@ -53,14 +53,16 @@ api.add_resource(doPreprocess,'/preprocess/do')
 api.add_resource(previewPreprocess,'/preprocess/preview')
 api.add_resource(getCorrelationAlgoList,'/correlation/getalgo')
 api.add_resource(doCorrelation,'/correlation/do')
-api.add_resource(gitPull,'/autodeploy/git')
 
 
 def purge():
     purger().purgeImg()
 
 if __name__ == "__main__":
+    if '--deploy' in sys.argv:
+        api.add_resource(gitPull,'/autodeploy/git')
     if '--debug' in sys.argv:
+        api.add_resource(gitPull,'/autodeploy/git')
         logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] %(message)s')
     else:
         logging.basicConfig(level=logging.INFO , format='[%(levelname)s] %(message)s')
