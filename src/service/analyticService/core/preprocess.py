@@ -170,9 +170,14 @@ class preprocess():
             newNumFile=newNumFile.replace("\\","/")
             newPath=newPath.replace("\\","/")
             actionFile=actionFile.replace("\\","/")
-            db=sql()
-            db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`,`preprocessAction`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}');")
-            db.conn.commit()
+            try:
+                db=sql()
+                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`,`preprocessAction`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}');")
+                db.conn.commit()
+            except Exception as e:
+                raise Exception(e)
+            finally:
+                db.conn.close()
             return uid
 
         except Exception as e:
