@@ -17,6 +17,8 @@ def getFileInfo(fid):
         db.cursor.execute(f"select * from files where `fid`='{fid}'")
         data=db.cursor.fetchall()
         data=[[tt for tt in t] for t in data]
+        if len(data)==0:
+            raise Exception(f'[getFileInfo] file {fid} not found')
         return data
     except Exception as e:
         raise Exception(f'[getFileInfo]{e}')
