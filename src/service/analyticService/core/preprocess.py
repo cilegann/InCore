@@ -57,8 +57,9 @@ class preprocess():
                 algo=getattr(module,previewData['normalize'])
                 previewData['data']=algo(previewData['data']).do()
             
-            if len(previewData['data'])!=0 and previewData['stringCleaning']!='["0"]' and previewData['colType']=='string':
-                act=json.loads(previewData['stringCleaning'])
+            if len(previewData['data'])!=0 and "0" not in previewData['stringCleaning'] and previewData['colType']=='string':
+                # act=json.loads(previewData['stringCleaning'])
+                act=previewData['stringCleaning']
                 for a in act:
                     module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
                     algo=getattr(module,a)
@@ -135,8 +136,9 @@ class preprocess():
                         self.data[k]['data']=algo(v['data']).do()
             if dataLen!=0:
                 for k,v in self.data.items():
-                    if v['stringCleaning']!='["0"]' and v['colType']=='string':
-                        act=json.loads(v['stringCleaning'])
+                    if "0" not in v['stringCleaning'] and v['colType']=='string':
+                        # act=json.loads(v['stringCleaning'])
+                        act=v['stringCleaning']
                         for a in act:
                             module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
                             algo=getattr(module,a)
