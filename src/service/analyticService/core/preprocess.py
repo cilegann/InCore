@@ -43,7 +43,7 @@ class preprocess():
 
             if previewData['missingFiltering']=='1':
                 from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
-                previewData['data']=previewData['data'][ missingFiltering().getRetainIndex([previewData['data']],[previewData['colType']]) ]
+                previewData['data']=previewData['data'][ missingFiltering().getRetainIndex([previewData['data']],[previewData['colType']],self.path) ]
                 if previewData['colType']=='int':
                     previewData['data']=previewData['data'].astype(np.int64)
 
