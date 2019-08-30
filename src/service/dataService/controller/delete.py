@@ -49,12 +49,13 @@ class DeleteFile(Resource):
         
         filePath=fileInfo[2]
         dataType=fileInfo[1]
-
+        actionFile=fileInfo[5]
         if dataType=='cv':
             shutil.rmtree(filePath)
         else:
             os.remove(filePath)
-            
+        if actionFile:
+            os.remove(actionFile)
         
         try:
             db=sql()
