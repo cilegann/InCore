@@ -5,7 +5,7 @@ class histogramXCol(histogramX):
         self.algoInfo={}
         self.algoInfo['lib']='bokeh'
         self.algoInfo['friendlyname']=figName
-        self.algoInfo['algoName']='histogramXCol'
+        self.algoInfo['algoname']='histogramXCol'
         self.data={}
         self.data['x']=data
         self.bokeh_fig=self.init_figure(w=300,h=200)
