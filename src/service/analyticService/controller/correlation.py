@@ -42,7 +42,8 @@ class doCorrelation(Resource):
                 return {"status":"error","msg":"token error","data":{}},401
             module=importlib.import_module(f"service.analyticService.core.correlationAlgo.{algoName}")
             algo=getattr(module,algoName)
-            fig=algo(fid).do()
+            result=algo(fid).do()
+            fig={"div":result['div'],"script":result['script']}
             response=make_response(json.dumps({'status':'success','msg':'','data':fig}))
             response.headers['Access-Control-Allow-Origin'] = '*'
             response.headers['Access-Control-Allow-Methods'] = 'OPTIONS,HEAD,GET,POST'

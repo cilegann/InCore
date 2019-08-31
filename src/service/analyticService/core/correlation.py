@@ -32,6 +32,7 @@ class correlation():
     def do(self):
         self.calculate()
         self.plot()
+        self.component['dataframe']=self.corr
         return self.component
 
     def calculate(self):
