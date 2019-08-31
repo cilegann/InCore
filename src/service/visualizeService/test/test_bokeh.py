@@ -70,11 +70,11 @@ page2=Template("""
   {{ resources }}
 </head>
 <body>
-  <div id="scatter1"></div>
+  <div id="page2"></div>
   <script>
-  fetch('/scatter1')
+  fetch('/heatmap')
     .then(function(response) { return response.json(); })
-    .then(function(item) { Bokeh.embed.embed_item(item,"scatter1"); })
+    .then(function(item) { Bokeh.embed.embed_item(item,"page2"); })
   </script>
 </body>
 """)
@@ -282,6 +282,41 @@ def his1():
   p.quad(source = src, bottom=0, top='arr_hist',
        left='left', right='right', 
        line_color='black')
+  return json.dumps(json_item(p))
+
+@app.route('/heatmap')
+def heatmap():
+  data=pd.DataFrame(
+    [ [1,0.2,0.3],
+      [0.3,1,0.5],
+      [-0.5,0.8,1]],
+    columns=['a','b','c'])
+  value=[]
+  for x in data.apply(tuple):
+    value.extend(x)
+  absValue=[abs(number) for number in value]
+  print(data)
+  source={
+    'x': [i for i in list(data.columns) for j in list(data.columns)],
+    'y': list(data.columns)*len(data.columns),
+    'value':value,
+    'abs':absValue
+  }
+  p=figure(title = "heatmap", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset',x_range=list(data.columns),y_range=list(reversed(data.columns)))
+  p.toolbar.logo=None
+  from bokeh.models import LinearColorMapper
+  from bokeh.palettes import inferno,YlOrRd,Magma,PuBu,Greys
+  from bokeh.transform import transform
+  crs=PuBu[9]
+  crs.reverse()
+  mapper = LinearColorMapper(palette=crs, low=min(absValue), high=max(absValue))
+  fontMapper=LinearColorMapper(palette=[Greys[5][0],Greys[5][4]], low=min(absValue), high=max(absValue))
+  p.rect(x="x", y="y", width=1, height=1, source=source,
+       line_color=None, fill_color=transform('abs', mapper))
+  p.text(x="x", y="y",text='value', source=source,text_font_size='2em',text_font_style='bold',text_align='center',text_baseline='middle',text_color=transform('abs',fontMapper))
+  p.add_tools(
+    HoverTool(tooltips = [('Value', '@value')])
+  )
   return json.dumps(json_item(p))
 
 if __name__ == '__main__':
