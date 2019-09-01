@@ -23,9 +23,9 @@ class stop(Resource):
         parser.add_argument('tid', type=int,required=True)
         args = parser.parse_args()
         tid=args['tid']
-        for t in threading.enumerate():
-            if t.ident==tid:
-                ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit)) 
-        time.sleep(5)
-        print(threading.enumerate())
+        res=ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit)) 
+        if res==0:
+            return make_response("TID not found")
+        elif res!=1:
+            return make_response("sth went wrong")
         return make_response("OK")
