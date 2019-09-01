@@ -8,7 +8,6 @@ class algo():
         self.trd=threading.Thread(target=self.train_algo)
         self.trd.start()
         self.trd.name=str(self.uid)
-        print(threading.enumerate())
         return self.trd.ident
     def train_algo(self):
         for i in range(self.n):

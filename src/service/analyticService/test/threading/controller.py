@@ -23,11 +23,14 @@ class stop(Resource):
         parser.add_argument('uid', type=str,required=True)
         args = parser.parse_args()
         uid=args['uid']
+        res=0
         for t in threading.enumerate():
             if t.name==uid:
-                res=ctypes.pythonapi.PyThreadState_SetAsyncExc(t.ident, ctypes.py_object(SystemExit)) 
+                tid=t.ident   
+                res=ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit)) 
         if res==0:
-            return make_response("TID not found")
+            return make_response("UID not found")
         elif res!=1:
             return make_response("sth went wrong")
+            ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, 0)
         return make_response("OK")
