@@ -20,10 +20,12 @@ class controller(Resource):
 class stop(Resource):
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('tid', type=int,required=True)
+        parser.add_argument('uid', type=str,required=True)
         args = parser.parse_args()
-        tid=args['tid']
-        res=ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit)) 
+        uid=args['uid']
+        for t in threading.enumerate():
+            if t.name==uid:
+                res=ctypes.pythonapi.PyThreadState_SetAsyncExc(t.ident, ctypes.py_object(SystemExit)) 
         if res==0:
             return make_response("TID not found")
         elif res!=1:
