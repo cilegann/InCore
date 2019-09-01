@@ -1,0 +1,9 @@
+import time
+class algo():
+    def __init__(self,uid,n):
+        self.uid=uid
+        self.n=n
+    def train(self):
+        for i in range(self.n):
+            print(f"[{self.uid}] {i}")
+            time.sleep(1)
