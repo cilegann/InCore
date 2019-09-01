@@ -4,6 +4,8 @@ import glob
 import logging
 from core import core
 import threading
+import ctypes
+import time
 
 class controller(Resource):
     def post(self):
@@ -23,5 +25,7 @@ class stop(Resource):
         tid=args['tid']
         for t in threading.enumerate():
             if t.ident==tid:
-                t.stopped=True
+                ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit)) 
+        time.sleep(5)
+        print(threading.enumerate())
         return make_response("OK")
