@@ -35,7 +35,7 @@ class core():
         uid=(random.randint(0,100))
         print(f"CORE start job {uid}")
         a=algo(uid,self.n)
-        tid=a.train()
-        print(f"UID: {uid} | IDENTY: {tid}")
-        print(threading.enumerate())
-        return uid,tid
+        if(a.train()):
+            print(f"UID: {uid}")
+            print(threading.enumerate())
+        return uid

@@ -14,8 +14,8 @@ class controller(Resource):
         args = parser.parse_args()
         n=args['n']
         c=core(n)
-        uid,tid=c.do()
-        return make_response(str(uid)+" | "+str(tid))
+        uid=c.do()
+        return make_response(str(uid))
 
 class stop(Resource):
     def post(self):
