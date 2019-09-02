@@ -1,4 +1,4 @@
-from service.visualizeService.core.dataViz import dataViz
+from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.plotting import figure
 from bokeh.models import LinearColorMapper, HoverTool
 from bokeh.palettes import inferno,YlOrRd,Magma,PuBu,Greys

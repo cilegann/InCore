@@ -1,4 +1,4 @@
-from service.visualizeService.core.dataViz import dataViz
+from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool,ColumnDataSource
 from bokeh.palettes import Category20,Category10
 from random import shuffle

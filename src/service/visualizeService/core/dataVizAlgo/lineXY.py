@@ -1,4 +1,4 @@
-from service.visualizeService.core.dataViz import dataViz
+from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool
 from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
 

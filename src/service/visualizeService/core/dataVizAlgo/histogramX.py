@@ -1,4 +1,4 @@
-from service.visualizeService.core.dataViz import dataViz
+from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool,Range1d,ColumnDataSource
 import pandas as pd
 import numpy as np
