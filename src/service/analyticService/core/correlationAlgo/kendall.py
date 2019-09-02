@@ -1,4 +1,4 @@
-from service.analyticService.core.correlation.correlationBase import correlation
+from service.analyticService.core.correlationAlgo.correlationBase import correlation
 
 class pearson(correlation):
     def __init__(self,fid):

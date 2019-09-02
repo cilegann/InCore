@@ -8,7 +8,7 @@ import logging
 import json
 import importlib
 import traceback
-from service.analyticService.core.correlation.correlationBase import NoDataException
+from service.analyticService.core.correlationAlgo.correlationBase import NoDataException
 params=params()
 
 
