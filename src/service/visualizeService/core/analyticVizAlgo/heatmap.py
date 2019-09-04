@@ -65,7 +65,7 @@ class heatmap(dataViz):
             self.bokeh_fig.rect(x="x", y="y", width=1, height=1, source=source,line_color=None, fill_color=transform('abs', blockMapper))
             self.bokeh_fig.text(x="x", y="y",text='text', source=source,text_font_size=f'{self.fontSize}pt',text_font_style='bold',text_align='center',text_baseline='middle',text_color=transform('abs',textMapper))
             self.bokeh_fig.add_tools(
-                HoverTool(tooltips = [('Value', '@value'),("(x,y)", "($x, $y)")])
+                HoverTool(tooltips = [("Column", "@x , @y"),('Value', '@value'),])
             )
         except Exception as e:
             raise Exception(f'[{self.algoInfo["algoname"]}][doBokehViz]{e}')
