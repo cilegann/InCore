@@ -12,3 +12,9 @@ def changeModelStatus(mid,status):
     try:
         db=sql()
         db.cursor.execute(f"update models set `status` = '{status}' where `mid`='{mid}'")
+        db.conn.commit()
+    except Exception as e:
+        db.conn.rollback()
+        raise Exception(f"[changeModelStatus] {e}")
+    finally:
+        db.conn.close()
