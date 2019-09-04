@@ -48,6 +48,7 @@ class heatmap(dataViz):
                 'abs':absValue,
                 'text':text
             }
+            print(source)
             if self.color=='red':
                 blockColor=YlOrRd[9]
                 blockColor.reverse()
