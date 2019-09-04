@@ -36,6 +36,7 @@ class heatmap(dataViz):
         try:
             from itertools import chain
             value=list(chain.from_iterable([x for x in list(self.data.apply(tuple))]))
+            text=[round(x,3) for x in value]
             if self.absColor:
                 absValue=[abs(number) for number in value]
             else:
@@ -45,6 +46,7 @@ class heatmap(dataViz):
                 'y': list(self.data.columns)*len(self.data.columns),
                 'value':value,
                 'abs':absValue,
+                'text':text
             }
             if self.color=='red':
                 blockColor=YlOrRd[9]
@@ -61,7 +63,7 @@ class heatmap(dataViz):
             blockMapper=LinearColorMapper(palette=blockColor, low=self.minValue, high=self.maxValue)
             textMapper=LinearColorMapper(palette=textColor, low=self.minValue, high=self.maxValue)
             self.bokeh_fig.rect(x="x", y="y", width=1, height=1, source=source,line_color=None, fill_color=transform('abs', blockMapper))
-            self.bokeh_fig.text(x="x", y="y",text='value', source=source,text_font_size=f'{self.fontSize}pt',text_font_style='bold',text_align='center',text_baseline='middle',text_color=transform('abs',textMapper))
+            self.bokeh_fig.text(x="x", y="y",text='text', source=source,text_font_size=f'{self.fontSize}pt',text_font_style='bold',text_align='center',text_baseline='middle',text_color=transform('abs',textMapper))
             self.bokeh_fig.add_tools(
                 HoverTool(tooltips = [('Value', '@value')])
             )
