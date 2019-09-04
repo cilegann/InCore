@@ -49,7 +49,6 @@ class doDataViz(Resource):
             if algoInfo==None:
                 logging.warning(f"[API_doDataViz] {algoName} not found")
                 return {"status":"error","msg":f"[doDataViz] algo {algoName} not found","data":{}},400
-            #TODO: check datacol and definition matching
             module=importlib.import_module(f"service.visualizeService.core.dataVizAlgo.{algoName}")
             algo=getattr(module,algoName)
             v=algo(algoInfo,datacol,fid)
