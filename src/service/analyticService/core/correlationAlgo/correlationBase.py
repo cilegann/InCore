@@ -45,7 +45,7 @@ class correlation():
         raise NotImplementedError(f"[Correlation][{self.algoName}] Not implemented.")
 
     def plot(self):
-        vizAlgo=heatmap(self.corr,self.friendlyName,minValue=0,maxValue=1)
+        vizAlgo=heatmap(self.corr,self.friendlyName,minValue=0,maxValue=1,w=500,h=320)
         vizAlgo.doBokehViz()
         vizAlgo.getComp()
         self.component=vizAlgo.component
