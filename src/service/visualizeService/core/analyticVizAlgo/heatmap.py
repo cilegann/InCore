@@ -1,7 +1,6 @@
 from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.plotting import figure
 from bokeh.models import LinearColorMapper, HoverTool
-from bokeh.palettes import inferno,YlOrRd,Magma,PuBu,Greys
 from bokeh.transform import transform
 
 class heatmap(dataViz):
@@ -48,7 +47,7 @@ class heatmap(dataViz):
                 'abs':absValue,
                 'text':text
             }
-            print(source)
+            from bokeh.palettes import inferno,YlOrRd,Magma,PuBu,Greys
             if self.color=='red':
                 blockColor=YlOrRd[9]
                 blockColor.reverse()
