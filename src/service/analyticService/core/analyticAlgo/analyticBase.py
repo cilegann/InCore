@@ -7,6 +7,7 @@ from params import params
 import threading
 import traceback
 import json
+from datetime import datetime
 
 class analytic():
     def __init__(self,algoInfo,fid,action='train'):
@@ -65,19 +66,24 @@ class analytic():
             self.result=None
             self.vizRes=None
             self.txtRes=None
-            self._getParams()
+            self.getParams()
             if action=='test' or action=='train':
-                self._loadModel()
-            self._getData()
+                self.loadModel()
+            self.getData()
         except Exception as e:
             raise Exception(f'[{self.algoName}][init]{traceback.format_exc()}')
     
     def train(self):
         try:
-            # write to model DB
-            db=sql()
-            from datetime import datetime
-            db.cursor.execute(f"INSERT INTO `models` (`mid`, `fid`, `dataType`, `projectType`,`algoName`,`status`,`startTime`) VALUES ('{self.mid}', '{self.fid}', '{self.dataType}', '{self.projectType}','train','{datetime.now()}');")
+            try:
+                db=sql()
+                db.cursor.execute(f"INSERT INTO `models` (`mid`, `fid`, `dataType`, `projectType`,`algoName`,`status`,`startTime`) VALUES ('{self.mid}', '{self.fid}', '{self.dataType}', '{self.projectType}','train','{datetime.now()}');")
+                db.conn.commit()
+            except Exception as e:
+                db.conn.rollback()
+                raise Exception(e)
+            finally:
+                db.conn.close()
             lockFile(self.fid)
             self.thread=threading.Thread(targert=self._trainWrapper)
             self.thread.start()
@@ -85,16 +91,16 @@ class analytic():
         except Exception as e:
             raise Exception(f"[{self.algoName}] {traceback.format_exc()}")
 
-    def _trainWrapper(self):
+    def trainWrapper(self):
         try:
             self.trainAlgo()
-            self._saveModel()
-            #TODO visualize
+            self.visualize()
+            self.saveModel()
         except Exception as e:
             raise Exception(f"{traceback.format_exc()}")
     
     def visualize(self):
-        self.vizRes=self._buildinVisualize()
+        self.vizRes=self.buildinVisualize()
         self.vizRes.extend(self.customVisualize())
 
     # implement in PROJECT
@@ -114,11 +120,11 @@ class analytic():
         implement in PROJECT
         call predictAlgo
         call visualize
-        gengerate text to self.txtRes
+        generate text to self.txtRes
         '''
         pass
 
-    def _getParams(self):
+    def getParams(self):
         rawParam=json.loads(self.algoInfo['param'])
         #check parameter definition matching
         for param in self.paramDef["param"]:
@@ -144,7 +150,7 @@ class analytic():
         self.param=rawParam
             pass
 
-    def _getData(self):
+    def getData(self):
         rawDf=getDf(self.numFile,self.dataType)
         colType={c["name"]:{"type":c["type"],"classifiable":c["classifiable"]} for c in getColType(self.numFile,self.dataType)}
 
@@ -172,8 +178,8 @@ class analytic():
                 if param["type"]=='path':
                     if colType[col]['type']!='path':
                         raise Exception(f'[getData] input {param["name"]} column {col} should be path')
-                self.inputData[param["name"]]=rawDf[col]
-        #TODO: transpose input
+                self.inputData[param["name"]].append(rawDf[col])
+            self.inputData[param["name"]]=np.transpose(self.inputData[param["name"]])
     
         # check output columns if action is training or testing
         if self.action=='train' or self.action=='test':
@@ -198,7 +204,8 @@ class analytic():
                 self.outputData[col]=rawDf[col]
         self.dataDf=rawDf
     
-    def _saveModel(self):
+    #TODO: save model,algoInfo to ./model/mid/
+    def saveModel(self):
         #TODO: save model,algoInfo to ./model/mid/
         if self.lib=='keras':
             pass
@@ -208,18 +215,21 @@ class analytic():
         # save resultTxt, result Fig
         self.customSaveModel()
 
-    def _loadModel(self):
+    #TODO: load model,algoInfo
+    def loadModel(self):
         #TODO: load model,algoInfo
         pass
     
-    def _buildinVisualize(self):
+    # implement in PROJECT
+    def buildinVisualize(self):
         '''
         implement in PROJECT
         return [{div,script},{div,script},{div,script}]
         '''
-        raise NotImplementedError("_buildinVisulize not implemented")
+        raise NotImplementedError("buildinVisulize not implemented")
         pass
 
+    # implement in PROJECT if needed
     def customSaveModel(self):
         '''
         implement in PROJECT if needed
@@ -227,6 +237,7 @@ class analytic():
         '''
         pass
 
+    #implement in PROJECT if needed
     def customLoadModel(self):
         '''
         implement in PROJECT if needed
@@ -234,6 +245,7 @@ class analytic():
         '''
         pass
 
+    #implement in ALGO
     def trainAlgo(self):
         '''
         implement in ALGO
@@ -243,6 +255,7 @@ class analytic():
         '''
         raise NotImplementedError(f"{self.algoName} Train algo Not implemented")
     
+    #implement in ALGO
     def predictAlgo(self):
         '''
         implement in ALGO
@@ -252,6 +265,7 @@ class analytic():
         raise NotImplementedError(f"{self.algoName} Predict algo Not implemented")
         pass
 
+    # implement in ALGO if needed
     def customVisualize(self):
         '''
         implement in ALGO if needed
