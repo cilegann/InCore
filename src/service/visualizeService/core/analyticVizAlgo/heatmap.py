@@ -34,7 +34,7 @@ class heatmap(dataViz):
 
     def doBokehViz(self):
         try:
-            value=[x for x in self.data.apply(tuple)]
+            value=[y for y in x for x in self.data.apply(tuple)]
             print(value)
             if self.absColor:
                 absValue=[abs(number) for number in value]
