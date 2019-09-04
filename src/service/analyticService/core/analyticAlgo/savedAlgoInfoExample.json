@@ -1,0 +1,22 @@
+{    
+    "dataType": "num",
+    "projectType": "classification",
+    "algoname": "the algoname from getAlgoList",
+    "param": "{
+        "paramName1" : 0.87,     
+        "paramName2" : 30,
+        "paramName3" : 1,
+        "paramName4" : "option1",
+        "paramName5" : "string"
+    }",
+    
+    "input":"{
+        "input1" : ["col1","col2"], # multiple input example
+        "input2" : ["col3"],         # single input example
+    }",
+    
+    "output":"{
+        "output1" : "col4",
+        "output2" :  "col5"
+    }"
+}

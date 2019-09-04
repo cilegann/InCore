@@ -1,0 +1,93 @@
+{
+    "dataType": "num",
+    "projectType":"regression",
+    "algoname": "yourAlgoName",
+    "lib" : "sklearn" / "keras",
+    "param":[
+        {
+            "name": "param1Name",
+            "description": "param1 Description",
+            "type": "int",
+            "upperBound": upperBound,
+            "lowerBound": lowerBound,
+            "default":20
+        },
+        {
+            "name": "param2 Name",
+            "description": "param2 Description",
+            "type": "float",
+            "upperBound": upperBound,
+            "lowerBound": lowerBound,
+            "default":23.2
+        },
+        {
+            "name": "param3Name",
+            "description": "param3 Description",
+            "type": "bool",
+            "default":1
+        },
+        {
+            "name": "param4Name",
+            "description": "param4 Description",
+            "type": "enum",
+            "list": ["option1","option2","option3"],
+            "default":"option2"
+        },
+        {
+            "name": "param5Name",
+            "description": "param5 Description",
+            "type": "string",
+            "default":"default string"
+        }
+    ],
+    
+    "input":[
+        {
+            "name": "input1Name",
+            "description": "input1 description",
+            "type": "float",
+            "amount": "multiple"
+        },
+        {
+            "name": "input2Name",
+            "description": "input2 description",
+            "type": "classifiable",
+            "amount": "single"
+        },
+        {
+            "name": "input3Name",
+            "description": "input3 description",
+            "type": "string",
+            "amount": "single"
+        },
+        {
+            "name": "input4Name",
+            "description": "input4 description",
+            "type": "path",
+            "amount": "single"
+        }
+    ],
+    
+    "output":[
+        {
+            "name": "output1Name",
+            "description": "output1 description",
+            "type": "float"
+        },
+        {
+            "name": "output2Name",
+            "description": "output2 description",
+            "type": "classifiable"
+        },
+        {
+            "name": "output3Name",
+            "description": "output3 description",
+            "type": "string"
+        },
+        {
+            "name": "output4Name",
+            "description": "output4 description",
+            "type": "path"
+        }
+    ] # For unsupervised project, it is a empty list
+}
