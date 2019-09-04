@@ -35,7 +35,7 @@ class heatmap(dataViz):
         try:
             from itertools import chain
             value=list(chain.from_iterable([x for x in list(self.data.apply(tuple))]))
-            text=[round(x,3) for x in value]
+            text=[round(x,2) for x in value]
             if self.absColor:
                 absValue=[abs(number) for number in value]
             else:
