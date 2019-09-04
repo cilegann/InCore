@@ -12,11 +12,11 @@ class heatmap(dataViz):
             self.algoInfo['friendlyname']=figName
             self.algoInfo['algoname']='heatmap'
             self.data=dataFrame
+            self.w=w
+            self.h=h
             self.bokeh_fig=self.init_figure()
             self.absColor=absColor
             self.color=color
-            self.w=w
-            self.h=h
             self.fontSize=fontSize
             self.minValue=minValue
             self.maxValue=maxValue
