@@ -4,7 +4,7 @@ from bokeh.models import LinearColorMapper, HoverTool
 from bokeh.transform import transform
 
 class heatmap(dataViz):
-    def __init__(self,dataFrame,figName,absColor=True,color='red',w=625,h=400,fontSize=20,minValue=None,maxValue=None):
+    def __init__(self,dataFrame,figName,absColor=True,color='red',w=625,h=400,fontSize=18,minValue=None,maxValue=None):
         try:
             self.algoInfo={}
             self.algoInfo['lib']='bokeh'
