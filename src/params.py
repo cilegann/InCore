@@ -16,6 +16,7 @@ class params():
 
         self.dataPreprocessAlgoReg=self.analyticServiceRoot+'core/preprocessAlgo/preprocess.json'
         self.correlationAlgoReg=self.analyticServiceRoot+'core/correlationAlgo/correlation.json'
+        self.analyticAlgoReg=self.analyticServiceRoot+'core/analyticAlgo/analytic.json'
 
         self.dataExtensionType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
         self.dataProjectType={'num':['Regression','Classification','Abnormal','Clustering'],'cv':['Regression','Classification'],'nlp':['Regression','Classification']}
