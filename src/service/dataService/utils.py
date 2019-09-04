@@ -11,6 +11,29 @@ import numpy as np
 from utils import sql
 import traceback
 
+def lockFile(fid):
+    try:
+        db=sql()
+        db.cursor.execute(f"UPDATE files SET `inuse` = '1' WHERE (`fid` = '{fid}');")
+        db.conn.commit()
+    except Exception as e:
+        raise Exception(f'[lockFile]{e}')
+        db.rollback()
+    finally:
+        db.conn.close()
+
+def unlockFile(fid):
+    try:
+        db=sql()
+        db.cursor.execute(f"UPDATE files SET `inuse` = '0' WHERE (`fid` = '{fid}');")
+        db.conn.commit()
+    except Exception as e:
+        raise Exception(f'[unlockFile]{e}')
+        db.rollback()
+    finally:
+        db.conn.close()
+
+
 def getFileInfo(fid):
     try:
         db=sql()
