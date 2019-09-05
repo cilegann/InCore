@@ -11,6 +11,9 @@ class lineXY(dataViz):
             self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
             self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
             [x,y]=missingFiltering().filtCols([self.data['x'],self.data['y']],['float','float'],[True,True])
+            x,y=zip(*sorted(zip(x,y)))
+            x=list(x)
+            y=list(y)
             self.bokeh_fig.add_tools(
                 HoverTool(
                     show_arrow=True, 
