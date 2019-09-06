@@ -19,7 +19,7 @@ class params():
         self.analyticAlgoReg=self.analyticServiceRoot+'core/analyticAlgo/analytic.json'
 
         self.dataExtensionType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
-        self.dataProjectType={'num':['Regression','Classification','Abnormal','Clustering'],'cv':['Regression','Classification'],'nlp':['Regression','Classification']}
+        self.dataProjectType={'num':['regression','classification','abnormal','clustering'],'cv':['regression','classification'],'nlp':['regression','classification']}
         self.dbhost='140.112.26.132'
         self.dbuser='ican'
         self.dbpwd='lab125a'
