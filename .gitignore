@@ -10,3 +10,4 @@ src/service/visualizeService/save_icon.png
 *-checkpoint.ipynb
 .VSCodeCounter
 db/*
+.mypy_cache
