@@ -72,7 +72,7 @@ page2=Template("""
 <body>
   <div id="page2"></div>
   <script>
-  fetch('/heatmap')
+  fetch('/multiline2')
     .then(function(response) { return response.json(); })
     .then(function(item) { Bokeh.embed.embed_item(item,"page2"); })
   </script>
@@ -316,6 +316,50 @@ def heatmap():
   p.text(x="x", y="y",text='value', source=source,text_font_size='2em',text_font_style='bold',text_align='center',text_baseline='middle',text_color=transform('abs',fontMapper))
   p.add_tools(
     HoverTool(tooltips = [('Value', '@value')])
+  )
+  return json.dumps(json_item(p))
+
+@app.route('/multiline')
+def multiline():
+  x=[1,2,3,4,5,6,7,8,9,10]
+  y1=[5,2,4,8,3,4,8,3,4,6]
+  y2=[8,3,7,2,7,5,0,5,0,5]
+  data={'x':x,'y1':y1,'y2':y2}
+  p=figure(title = "multiline", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+  p.toolbar.logo=None
+  from bokeh.models import LinearColorMapper
+  from bokeh.palettes import inferno,YlOrRd,Magma,PuBu,Greys
+  from bokeh.transform import transform
+  #p.vline_stack(['y1','y2'],x='x',source=data)
+  p.multi_line([x,x],[y1,y2],color=['blue','red'])
+  p.add_tools(
+    HoverTool(tooltips = [('X,Y1,Y2', '@value')])
+  )
+  return json.dumps(json_item(p))
+
+@app.route('/multiline2')
+def multiline2():
+  x=[1,2,3,4,5,6,7,8,9,10]
+  ya=[5,2,4,8,3,4,8,3,4,6]
+  yb=[8,3,7,2,7,5,0,5,0,5]
+  data=ColumnDataSource(data={'x':x,'ya':ya,'yb':yb})
+  p=figure(title = "multiline", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+  p.toolbar.logo=None
+  from bokeh.models import LinearColorMapper
+  from bokeh.models.glyphs import Line,Circle
+  from bokeh.palettes import inferno,YlOrRd,Magma,PuBu,Greys
+  from bokeh.transform import transform
+  #p.vline_stack(['y1','y2'],x='x',source=data)
+  l1=Line(x='x',y='yb',line_color='red',line_width=2)
+  l2=Circle(x='x',y='ya',fill_color='blue',fill_alpha=0.4,size=7)
+  r1=p.add_glyph(data,l1,name='predict')
+  r2=p.add_glyph(data,l2,name='real')
+
+  p.add_tools(
+    HoverTool(tooltips = [('X,Y_real', '@x,@ya')],names=['real'])
+  )
+  p.add_tools(
+    HoverTool(tooltips = [('X,Y_predict', '@x,@yb')],names=['predict'])
   )
   return json.dumps(json_item(p))
 
