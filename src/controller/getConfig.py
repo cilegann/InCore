@@ -4,6 +4,7 @@ from params import params
 import logging
 import json
 import importlib
+import traceback
 
 param=params()
 
@@ -13,8 +14,8 @@ class getDataProjectType(Resource):
             logging.INFO("[API_getDataProjectType]")
             return {'status':'success','msg':'','data':param.dataProjectType},200
         except Exception as e:
-            logging.error(f'[API_getDataProjectType] {e}')
-            return  {'status':'error','msg':f'[getDataProjectType] {e}','data':{}},400
+            logging.error(f'[API_getDataProjectType] {traceback.format_exc()}')
+            return  {'status':'error','msg':f'[getDataProjectType] {traceback.format_exc()}','data':{}},400
         
 
 class getDataExtensionType(Resource):
