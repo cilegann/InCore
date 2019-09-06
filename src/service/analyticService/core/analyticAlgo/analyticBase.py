@@ -198,7 +198,6 @@ class analytic():
             if param["type"]=='string':
                 pass
         self.param=rawParam
-            pass
 
     def getData(self):
         rawDf=getDf(self.numFile,self.dataType)
