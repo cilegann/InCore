@@ -25,7 +25,7 @@ class getAnalyticAlgoList(Resource):
                 return {"status":"error","msg":f"{args['dataType']} is not a valid dataType","data":{}},400
             if args['projectType'] not in reg[args['dataType']]:
                 return {"status":"error","msg":f"{args['projectType']} is not a valid projectType","data":{}},400
-            return {"status":"error","msg":"","data":reg[args['dataType']][args['projectType']]}
+            return {"status":"success","msg":"","data":reg[args['dataType']][args['projectType']]}
         except Exception as e:
             logging.error(f"[API_getAnalyticAlgoList] {traceback.format_exc()}")
             return {"status":"error","msg":f"[API_getAnalyticAlgoList] {traceback.format_exc()}","data":{}},400
@@ -43,7 +43,7 @@ class getAnalyticAlgoParam(Resource):
                 return {"status":"error","msg":f"[API_getAnalyticAlgoParam] {args['dataType']}.{args['projectType']}.{args['algoName']} not exists","data":{}},400
             with open(param.analyticServiceRoot+f"core/analyticAlgo/{args['dataType']}/{args['projectType']}/{args['algoName']}.json") as file:
                 reg=json.load(file)
-            return {"status":"error","msg":"","data":reg}
+            return {"status":"success","msg":"","data":reg}
         except Exception as e:
             logging.error(f"[API_getAnalyticAlgoList] {traceback.format_exc()}")
             return {"status":"error","msg":f"[API_getAnalyticAlgoParam] {traceback.format_exc()}","data":{}},400
