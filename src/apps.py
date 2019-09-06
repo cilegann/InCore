@@ -28,6 +28,7 @@ from service.visualizeService.controller.dataViz import getDataVizAlgoList,doDat
 
 from service.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess
 from service.analyticService.controller.correlation import doCorrelation,getCorrelationAlgoList
+from service.analyticService.controller.analytic import getAnalyticAlgoList,getAnalyticAlgoParam
 
 par=params()
 app = Flask(__name__)
@@ -54,6 +55,8 @@ api.add_resource(previewPreprocess,'/preprocess/preview')
 api.add_resource(getCorrelationAlgoList,'/correlation/getalgo')
 api.add_resource(doCorrelation,'/correlation/do')
 
+api.add_resource(getAnalyticAlgoList,'/analytic/getalgo')
+api.add_resource(getAnalyticAlgoParam,'/analytic/getparam')
 
 def purge():
     purger().purgeImg()
