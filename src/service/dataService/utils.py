@@ -160,10 +160,14 @@ def categoricalConverter(data,colType):
         raise Exception("[categoricalConverter] This column is not classifiable")
     if colType=='int':
         if min(data)==0 and max(data)==len(set(data))-1:
-            return [{"original":v,"converted":v} for v in range(len(set(data)))]
+            d2c= {str(v):v for v in range(len(set(data)))}
         else:
-            return [{"original":o,"converted":c} for c,o in enumerate(set(data))]
-    
+            d2c={str(o):c for c,o in enumerate(set(data))}
+        c2d={str(v):int(k) for k,v in d2c.items()}
+    else:
+        d2c={str(o):c for c,o in enumerate(set(data))}
+        c2d={str(v):k for k,v in d2c.items()}
+    return d2c,c2d
     
 
 class getColType():
