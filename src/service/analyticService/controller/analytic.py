@@ -37,7 +37,7 @@ class getAnalyticAlgoParam(Resource):
             parser=reqparse.RequestParser()
             parser.add_argument('dataType',type=str,required=True)
             parser.add_argument('projectType',type=str,required=True)
-            parser.add_argument('algoname',type=str,required=True)
+            parser.add_argument('algoName',type=str,required=True)
             args = parser.parse_args()
             if not os.path.exists(param.analyticServiceRoot+f"core/analyticAlgo/{args['dataType']}/{args['projectType']}/{args['algoname']}.json"):
                 return {"status":"error","msg":f"[API_getAnalyticAlgoParam] {args['dataType']}.{args['projectType']}.{args['algoname']} not exists","data":{}},400
