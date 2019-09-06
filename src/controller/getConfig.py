@@ -10,11 +10,12 @@ param=params()
 class getDataProjectType(Resource):
     def get(self):
         try:
-            logging.debug("[API_getDataProjectType]")
+            logging.INFO("[API_getDataProjectType]")
+            return {'status':'success','msg':'','data':param.dataProjectType},200
         except Exception as e:
             logging.error(f'[API_getDataProjectType] {e}')
             return  {'status':'error','msg':f'[getDataProjectType] {e}','data':{}},400
-        return {'status':'success','msg':'','data':param.dataProjectType},200
+        
 
 class getDataExtensionType(Resource):
     def get(self):
@@ -23,7 +24,7 @@ class getDataExtensionType(Resource):
             parser.add_argument('datatype',type=str,required=True)
             args = parser.parse_args()
             datatype=args['datatype']
-            logging.debug(f"[API_getDataExtensionType] args:{args}")
+            logging.INFO(f"[API_getDataExtensionType] args:{args}")
         except Exception as e:
             logging.error(f'[API_getDataExtensionType] {e}')
             return  {'status':'error','msg':f'[getDataExtensionType] {e}','data':{}},400
