@@ -108,7 +108,7 @@ class preprocess():
                 data=[]
                 colType=[]
                 for k,v in self.data.items():
-                    if v['missingFiltering']=='1':
+                    if 'missingFiltering' in v and v['missingFiltering']=='1':
                         data.append(v['data'])
                         colType.append(v['colType'])
                 retainIndex=missingFiltering().getRetainIndex(data,colType,self.path)
@@ -122,7 +122,7 @@ class preprocess():
             if dataLen!=0:
                 retainIndex=np.asarray([True for i in range(dataLen)])
                 for k,v in self.data.items():
-                    if v['outlierFiltering']!="0" and v['colType']!='string' and v['colType']!='path':
+                    if 'outlierFiltering' in v and v['outlierFiltering']!="0" and v['colType']!='string' and v['colType']!='path':
                         module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{v['outlierFiltering']}")
                         algo=getattr(module,v['outlierFiltering'])
                         ri=algo(v['data']).getRetainIndex()
@@ -134,13 +134,13 @@ class preprocess():
             # normalize
             if dataLen!=0:
                 for k,v in self.data.items():
-                    if v['normalize']!="0" and v['colType']!='string' and v['colType']!='path':
+                    if 'normalize' in v and v['normalize']!="0" and v['colType']!='string' and v['colType']!='path':
                         module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalizeAlgo.{v['normalize']}")
                         algo=getattr(module,v['normalize'])
                         self.data[k]['data']=algo(v['data']).do()
             if dataLen!=0:
                 for k,v in self.data.items():
-                    if "0" not in v['stringCleaning'] and v['colType']=='string':
+                    if 'stringCleaning' in v and "0" not in v['stringCleaning'] and v['colType']=='string':
                         # act=json.loads(v['stringCleaning'])
                         act=v['stringCleaning']
                         for a in act:
