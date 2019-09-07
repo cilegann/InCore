@@ -4,7 +4,7 @@ from bokeh.models import LinearColorMapper, HoverTool
 from bokeh.transform import transform
 
 class heatmap(dataViz):
-    def __init__(self,dataFrame,figName,absColor=True,color='red',w=625,h=400,fontSize=18,minValue=None,maxValue=None):
+    def __init__(self,dataFrame,figName,absColor=True,color='red',w=625,h=400,fontSize=18,minValue=None,maxValue=None,xName="",yName=""):
         try:
             self.algoInfo={}
             self.algoInfo['lib']='bokeh'
@@ -13,12 +13,15 @@ class heatmap(dataViz):
             self.data=dataFrame
             self.w=w
             self.h=h
+            self.xName=xName
+            self.yName=yName
             self.bokeh_fig=self.init_figure()
             self.absColor=absColor
             self.color=color
             self.fontSize=fontSize
             self.minValue=minValue
             self.maxValue=maxValue
+            
             self.component=None
         except Exception as e:
             raise Exception(f'[analyticViz][{self.algoInfo["algoname"]}]{e}')
@@ -27,6 +30,8 @@ class heatmap(dataViz):
         try:
             p=figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=self.w, plot_height=self.h,tools='pan,wheel_zoom,box_zoom,save,reset',x_range=list(self.data.columns),y_range=list(reversed(self.data.columns)))
             p.toolbar.logo=None
+            p.xaxis.axis_label=self.xName
+            p.yaxis.axis_label=self.yName
             return p
         except Exception as e:
             raise Exception(f'[init_figure]{e}')
