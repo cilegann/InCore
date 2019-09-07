@@ -163,7 +163,6 @@ class analytic():
         finally:
             db.conn.close()
         return uid
-        raise NotImplementedError("predict not implemented")
     
     # implement in PROJECT
     def test(self):
