@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from service.dataService.utils import getFileInfo,getColType,categoricalConverter,getDf,lockFile
+from service.dataService.utils import getFileInfo,getColType,categoricalConverter,getDf,lockFile,fileUidGenerator
 from service.analyticService.utils import modelUidGenerator
 from utils import sql
 from params import params
@@ -12,6 +12,7 @@ import os
 import pickle
 from keras.models import load_model
 from keras.utils import to_categorical
+import shutil
 
 class analytic():
     def __init__(self,algoInfo,fid,action='train',mid=None):
@@ -124,7 +125,7 @@ class analytic():
             if param['type']=='classifiable':
                 v=self.result[param['name']]
                 v=np.argmax(v,axis=1)
-                v=[self.c2d[str(i)] for i in v]
+                v=[self.c2d[self.outputDict[param['name']]][str(i)] for i in v]
                 self.dataDf[self.outputDict[param['name']]]=np.asarray(v)
             else:
                 self.dataDf[self.outputDict[param['name']]]=self.result[param['name']]
@@ -149,7 +150,7 @@ class analytic():
                 self.dataDf.to_csv(newNumFile,index=False)
         if self.preprocessActionFile:
             actionFile=os.path.join(self.sysparam.filepath,uid+'.json')
-            copyfile(self.preprocessActionFile,actionFile)
+            shutil.copyfile(self.preprocessActionFile,actionFile)
         try:
             db=sql()
             if self.preprocessActionFile:
