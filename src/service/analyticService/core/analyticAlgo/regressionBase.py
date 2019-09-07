@@ -9,7 +9,7 @@ class regression(analytic):
     def test(self):
         self.txtRes = ""
         for k, v in self.outputData.items():
-            self.txtRes += f"{k}:\n"
+            self.txtRes += f"{self.outputDict[k]}:\n"
             self.txtRes += f"  MAE: {(np.abs(v-self.result[k])).mean()}\n"
             self.txtRes += f"  MSE: {((v-self.result[k])**2).mean()}\n"
             self.txtRes += f"  RMSE: {np.sqrt(((v-self.result[k])**2).mean())}\n"
