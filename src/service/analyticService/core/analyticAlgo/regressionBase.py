@@ -1,6 +1,6 @@
 from service.analyticService.core.analyticAlgo.analyticBase import analytic
 import numpy as np
-from service.visualizeService.core.analyticVizAlgo.dotLine import dotLine
+from service.visualizeService.core.analyticVizAlgo.dotLineSelect import dotLineSelect
 
 class regression(analytic):
     def __init__(self, algoInfo, fid, action='train', mid=None):
@@ -29,17 +29,23 @@ class regression(analytic):
             if self.colType[v] == 'float' or self.colType[v] == 'int':
                 allRealCols[v] = self.dataDf[v]
                 allPredictCols[v] = self.result[k]
-        for ink, inv in allInputCols.items():
-            for outk, outv in allRealCols.items():
-                tmpData = {"x": inv, "y_dot": outv, "y_line": allPredictCols[outk]}
-                tmpColName={"x":ink,"y":outk}
-                figName=f"{ink}-{outk}"
-                algo=dotLine(tmpData,tmpColName,figName)
-                algo.doBokehViz()
-                algo.getComp()
-                figs[figName]=algo.component
-        #TODO: use dotLineSelect
-        return figs
+        if len(allInputCols)==0:
+            return {}
+        else:
+            algo=dotLineSelect(allInputCols,allRealCols,allPredictCols)
+            algo.doBokehViz()
+            algo.getComp()
+            return {"regression result":algo.component}
+        # for ink, inv in allInputCols.items():
+        #     for outk, outv in allRealCols.items():
+        #         tmpData = {"x": inv, "y_dot": outv, "y_line": allPredictCols[outk]}
+        #         tmpColName={"x":ink,"y":outk}
+        #         figName=f"{ink}-{outk}"
+        #         algo=dotLine(tmpData,tmpColName,figName)
+        #         algo.doBokehViz()
+        #         algo.getComp()
+        #         figs[figName]=algo.component
+        # return figs
              
         
 
