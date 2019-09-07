@@ -1,4 +1,4 @@
-from service.visualizeService.core.dataVizAlgo.lineXY import lineXY
+from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool,ColumnDataSource
 from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
 from bokeh.models.glyphs import Line,Circle
@@ -22,8 +22,8 @@ class dotLine(lineXY):
             raise Exception(f'[analyticViz][{self.algoInfo["algoname"]}]{e}')
     def doBokehViz(self):
         try:
-            self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
-            self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
+            # self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
+            # self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
             [x,y_dot,y_line]=missingFiltering().filtCols([self.data['x'],self.data['y_dot'],self.data['y_line']],['float','float','float'],[True,True,True])
             x,y_dot,y_line=zip(*sorted(zip(x,y_dot,y_line)))
             x=list(x)
