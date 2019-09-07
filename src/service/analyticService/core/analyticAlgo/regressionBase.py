@@ -38,6 +38,7 @@ class regression(analytic):
                 algo.doBokehViz()
                 algo.getComp()
                 figs[figName]=algo.component
+        #TODO: use dotLineSelect
         return figs
              
         
