@@ -72,7 +72,7 @@ page2=Template("""
 <body>
   <div id="page2"></div>
   <script>
-  fetch('/multiline2')
+  fetch('/scatterSelect')
     .then(function(response) { return response.json(); })
     .then(function(item) { Bokeh.embed.embed_item(item,"page2"); })
   </script>
@@ -339,6 +339,9 @@ def multiline():
 
 @app.route('/multiline2')
 def multiline2():
+  xData={
+    "a":[2,5,6,8,9,4,1,10,7,3]
+  }
   x=[2,5,6,8,9,4,1,10,7,3]
   ya=[5,2,4,8,3,4,8,3,4,6]
   yb=[4,1,3,7,2,3,7,2,3,5]
@@ -398,7 +401,7 @@ def scatterSelect():
   a=[1,2,3,4,5,6,7,8,9]
   b=[2,3,4,5,6,7,8,9,10]
   c=[2,5,6,8,9,7,2,2,4]
-  d=['red','green','green','blue','red','green','green','blue','green','blue']
+  d=['red','green','green','blue','red','green','green','blue','green']
   source=ColumnDataSource(data={'a':a,'b':b,'c':c,'d':d,'x':a,'y':b,'color':d})
   p=figure(title = "x-y", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
   p.toolbar.logo=None
@@ -430,9 +433,9 @@ def scatterSelect():
           source.change.emit();
       """)
 
-  dp1 = Dropdown(label="X value",menu=[('a','a'),('b','b'),('c','c')])
+  dp1 = Dropdown(label="X value",menu=[('aa','a'),('bb','b'),('cc','c')],default_value='b')
   dp1.js_on_change('value', callback1)
-  dp2 = Dropdown(label="Y value",menu=['a','b','c'])
+  dp2 = Dropdown(label="Y value",menu=['a','b','c'],default_value='b')
   dp2.js_on_change('value', callback2)
   layout = column(row(dp1,dp2), p)
 
