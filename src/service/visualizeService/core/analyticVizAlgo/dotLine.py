@@ -5,8 +5,17 @@ from bokeh.models.glyphs import Line,Circle
 
 class dotLine(lineXY):
     '''
-    data={ "x":np.array, "y_dot":np.array, "y_line":np.array }
-    colName={"x":"x axis name", "y":"y axis name"}
+    @data = 
+        { 
+            "x":np.array,
+            "y_dot":np.array,
+            "y_line":np.array
+        }
+    @colName = 
+        {
+            "x":"x axis name",
+            "y":"y axis name"
+        }
     '''
     def __init__(self,data,colName,figName,w=625,h=400):
         try:
