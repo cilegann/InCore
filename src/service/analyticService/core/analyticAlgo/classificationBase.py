@@ -1,7 +1,9 @@
 from service.analyticService.core.analyticAlgo.analyticBase import analytic
 import numpy as np
-from service.visualizeService.core.analyticVizAlgo.dotLine import dotLine
+import pandas as pd
+from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
 from service.analyticService.core.analyticAlgo.evaluationTools import crossEntropy,classificationReport,confusionMatrix
+from sklearn.metrics import confusion_matrix
 
 class regression(analytic):
     def __init__(self, algoInfo, fid, action='train', mid=None):
@@ -9,39 +11,29 @@ class regression(analytic):
     
     def test(self):
         self.txtRes = ""
-        for k, v in self.outputData.items():
-            self.txtRes += f"{k}:\n"
-            self.txtRes += f"  Cross Entropy: {crossEntropy(self.result[k],v)}\n"
-            self.txtRes += f"  Report:\n{classificationReport(np.argmax(self.result[k],axis=1),np.argmax(v,axis=1))}"
+        for k, v in self.outputDict.items():
+            self.txtRes += f"{v}:\n"
+            self.txtRes += f"  Cross Entropy: {crossEntropy(self.outputData[k],self.result[k])}\n"
+            real=[self.c2d[v][str(i)] for i in  np.argmax(self.outputData[k],axis=1)]
+            predicted=[self.c2d[v][str(i)] for i in  np.argmax(self.result[k],axis=1)]
+            label=[k for k in self.d2c]
+            self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
         self.visualize()
         return {"text": self.txtRes, "fig": self.vizRes}
 
     def projectVisualize(self):
-        for k,v in self.outputData.items():
-            
-
-            
-        allInputCols = {}
-        allRealCols = {}
-        allPredictCols = {}
-        figs = {}
-        for k, v in self.inputDict.items():
-            for col in v:
-                if self.colType[col] == 'float' or self.colType[col] == 'int':
-                    allInputCols[col] = self.dataDf[col]
-        for k, v in self.outputDict.items():
-            if self.colType[v] == 'float' or self.colType[v] == 'int':
-                allRealCols[v] = self.dataDf[v]
-                allPredictCols[v] = self.result[k]
-        for ink, inv in allInputCols.items():
-            for outk, outv in allRealCols.items():
-                tmpData = {"x": inv, "y_dot": outv, "y_line": allPredictCols[outk]}
-                tmpColName={"x":ink,"y":outk}
-                figName=f"{ink}-{outk}"
-                algo=dotLine(tmpData,tmpColName,figName)
-                algo.doBokehViz()
-                algo.getComp()
-                figs[figName]=algo.component
+        figs={}
+        for k,v in self.outputDict.items():
+            real=[self.c2d[v][str(i)] for i in  np.argmax(self.outputData[k],axis=1)]
+            predicted=[self.c2d[v][str(i)] for i in  np.argmax(self.result[k],axis=1)]
+            label=[k for k in self.d2c]
+            cmx=confusion_matrix(real,predicted,labels=label)
+            cmx=cmx.astype('float')/cmx.sum(axis=1)[:,np.newaxis]
+            df=pd.DataFrame(cmx,columns=label)
+            algo=heatmap(df,f"confusion matrix of {v}",color='blue',xName='predict',yName='real')
+            algo.doBokehViz()
+            algo.getComp()
+            figs[f"confusion matrix of {v}"]=algo.component
         return figs
              
         
