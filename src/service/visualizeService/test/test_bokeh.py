@@ -339,9 +339,9 @@ def multiline():
 
 @app.route('/multiline2')
 def multiline2():
-  x=[1,2,3,4,5,6,7,8,9,10]
+  x=[2,5,6,8,9,4,1,10,7,3]
   ya=[5,2,4,8,3,4,8,3,4,6]
-  yb=[8,3,7,2,7,5,0,5,0,5]
+  yb=[4,1,3,7,2,3,7,2,3,5]
   data=ColumnDataSource(data={'x':x,'ya':ya,'yb':yb})
   p=figure(title = "multiline", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
   p.toolbar.logo=None
@@ -361,7 +361,82 @@ def multiline2():
   p.add_tools(
     HoverTool(tooltips = [('X,Y_predict', '@x,@yb')],names=['predict'])
   )
-  return json.dumps(json_item(p))
+  from bokeh.models import Button
+  from bokeh import events
+  callback = CustomJS(args=dict(source=data), code="""
+          var data = source.data;
+          let newList = [];
+          for(var i=0;i<data['x'].length;i++){
+            newList.push({
+              value1: data['x'][i],
+              value2: data['ya'][i],
+              value3: data['yb'][i]
+            })
+          }
+          console.log(newList)
+          newList.sort(function(a,b) {
+            return ((a.value1 - b.value1))
+          })
+          console.log(newList)
+          for(var i=0;i<newList.length;i++){
+            data['x'][i]=newList[i].value1
+            data['ya'][i]=newList[i].value2
+            data['yb'][i]=newList[i].value3
+          }
+          console.log(data)
+          source.change.emit();
+      """)
+
+  dp = Button(label="sort")
+  dp.js_on_event(events.ButtonClick, callback)
+  layout = column(dp, p)
+  return json.dumps(json_item(layout))
+
+@app.route('/scatterSelect')
+def scatterSelect():
+  colormap = {'0': 'red', '1': 'green', 'virginica': 'blue'}
+  a=[1,2,3,4,5,6,7,8,9]
+  b=[2,3,4,5,6,7,8,9,10]
+  c=[2,5,6,8,9,7,2,2,4]
+  d=['red','green','green','blue','red','green','green','blue','green','blue']
+  source=ColumnDataSource(data={'a':a,'b':b,'c':c,'d':d,'x':a,'y':b,'color':d})
+  p=figure(title = "x-y", sizing_mode="fixed", plot_width=600, plot_height=400,tools='pan,wheel_zoom,box_zoom,save,reset')
+  p.toolbar.logo=None
+  p.add_tools(
+    HoverTool(
+      show_arrow=True, 
+      line_policy='next',
+      tooltips=[
+          ('X_value', '$data_x'),
+          ('Y_value', '$data_y')
+      ]
+    )
+  )
+  p.scatter(x='x',y='y', color='color',source=source)
+  from bokeh.layouts import column,row
+  from bokeh.models import Dropdown
+  callback1 = CustomJS(args=dict(source=source,axis=p.xaxis[0]), code="""
+          var data = source.data;
+          var f = cb_obj.value
+          data['x']=data[f]
+          axis.axis_label=f
+          source.change.emit();
+      """)
+  callback2 = CustomJS(args=dict(source=source,axis=p.yaxis[0]), code="""
+          var data = source.data;
+          var f = cb_obj.value
+          data['y']=data[f]
+          axis.axis_label=f
+          source.change.emit();
+      """)
+
+  dp1 = Dropdown(label="X value",menu=[('a','a'),('b','b'),('c','c')])
+  dp1.js_on_change('value', callback1)
+  dp2 = Dropdown(label="Y value",menu=['a','b','c'])
+  dp2.js_on_change('value', callback2)
+  layout = column(row(dp1,dp2), p)
+
+  return json.dumps(json_item(layout))
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=8787)
