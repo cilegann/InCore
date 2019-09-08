@@ -1,8 +1,8 @@
-from service.analyticService.core.analyticAlgo.analyticBase import analytic
+from service.analyticService.core.analyticCore.analyticBase import analytic
 import numpy as np
 import pandas as pd
 from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
-from service.analyticService.core.analyticAlgo.evaluationTools import crossEntropy,classificationReport,confusionMatrix
+from service.analyticService.core.analyticCore.evaluationTools import crossEntropy,classificationReport,confusionMatrix
 from sklearn.metrics import confusion_matrix
 
 class regression(analytic):

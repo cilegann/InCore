@@ -1,7 +1,7 @@
 from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool,Range1d,ColumnDataSource
 import pandas as pd
-from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
+from service.analyticService.core.preprocessCore.missingFiltering import missingFiltering
 
 class barCnt(dataViz):
     def __init__(self,algoInfo,dataCol,fid):

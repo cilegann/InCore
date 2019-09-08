@@ -30,7 +30,7 @@ class analytic():
             self.thread=None
             if not mid:
                 self.mid=modelUidGenerator().uid
-            self.paramDef=json.load(open(self.sysparam.analyticServiceRoot+f'core/analyticAlgo/{self.dataType}/{self.projectType}/{self.algoName}.json'))
+            self.paramDef=json.load(open(self.sysparam.analyticServiceRoot+f'core/analyticCore/{self.dataType}/{self.projectType}/{self.algoName}.json'))
             self.lib=self.paramDef["lib"]
             self.param=None # the input parameter
             self.inputDict=json.loads(algoInfo['input']) # input columns mapping

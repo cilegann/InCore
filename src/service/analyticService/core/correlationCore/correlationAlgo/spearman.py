@@ -1,4 +1,4 @@
-from service.analyticService.core.correlationAlgo.correlationBase import correlation
+from service.analyticService.core.correlationCore.correlationBase import correlation
 
 class spearman(correlation):
     def __init__(self,fid):

@@ -1,4 +1,4 @@
-from service.analyticService.core.analyticAlgo.analyticBase import analytic
+from service.analyticService.core.analyticCore.analyticBase import analytic
 import numpy as np
 from service.visualizeService.core.analyticVizAlgo.dotLineSelect import dotLineSelect
 

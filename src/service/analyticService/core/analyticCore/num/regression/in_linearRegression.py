@@ -1,4 +1,4 @@
-from service.analyticService.core.analyticAlgo.regressionBase import regression
+from service.analyticService.core.analyticCore.regressionBase import regression
 from sklearn.linear_model import LinearRegression
 
 class in_linearRegression(regression):

@@ -46,7 +46,7 @@ class getAnalyticAlgoParam(Resource):
             parser.add_argument('projectType',type=str,required=True)
             parser.add_argument('algoName',type=str,required=True)
             args = parser.parse_args()
-            if not os.path.exists(param.analyticServiceRoot+f"core/analyticAlgo/{args['dataType']}/{args['projectType']}/{args['algoName']}.json"):
+            if not os.path.exists(param.analyticServiceRoot+f"core/analyticCore/{args['dataType']}/{args['projectType']}/{args['algoName']}.json"):
                 return {"status":"error","msg":f"[API_getAnalyticAlgoParam] {args['dataType']}.{args['projectType']}.{args['algoName']} not exists","data":{}},400
             with open(param.analyticServiceRoot+f"core/analyticAlgo/{args['dataType']}/{args['projectType']}/{args['algoName']}.json") as file:
                 reg=json.load(file)
@@ -88,7 +88,7 @@ class doModelTrain(Resource):
             if algoName not in reg[dataType][projectType]:
                 return {"status":"error","msg":f"Algo {algoName} not found in {dataType}.{projectType}","data":{}},400
             algoInfo={'dataType':dataType,'projectType':projectType,'algoName':algoName,'param':algoParam,'input':algoInput,'output':algoOutput}
-            module=importlib.import_module(f"service.analyticService.core.analyticAlgo.{dataType}.{projectType}.{algoName}")
+            module=importlib.import_module(f"service.analyticService.core.analyticCore.{dataType}.{projectType}.{algoName}")
             attr=getattr(module,algoName)
             algo=attr(algoInfo,fid,'train')
             mid=algo.train()
@@ -176,7 +176,7 @@ class doModelTest(Resource):
                 return {"status":"error","msg":f"model {mid} is still training or failed. Can't test","data":{}},400
             with open(os.path.join(param.modelpath,mid,'algoInfo.pkl'),'rb') as file:
                 algoInfo=pickle.load(file)
-            module=importlib.import_module(f"service.analyticService.core.analyticAlgo.{algoInfo['dataType']}.{algoInfo['projectType']}.{algoInfo['algoName']}")
+            module=importlib.import_module(f"service.analyticService.core.analyticCore.{algoInfo['dataType']}.{algoInfo['projectType']}.{algoInfo['algoName']}")
             attr=getattr(module,algoInfo['algoName'])
             if algoInfo['projectType']=='abnormal':
                 algo=attr(algoInfo,fid,'test',mid=mid,testLabel=args['label'])
@@ -216,7 +216,7 @@ class doModelPredict(Resource):
                     fid=preprocessedFid
             with open(os.path.join(param.modelpath,mid,'algoInfo.pkl'),'rb') as file:
                 algoInfo=pickle.load(file)
-            module=importlib.import_module(f"service.analyticService.core.analyticAlgo.{algoInfo['dataType']}.{algoInfo['projectType']}.{algoInfo['algoName']}")
+            module=importlib.import_module(f"service.analyticService.core.analyticCore.{algoInfo['dataType']}.{algoInfo['projectType']}.{algoInfo['algoName']}")
             attr=getattr(module,algoInfo['algoName'])
             algo=attr(algoInfo,fid,'predict',mid=mid)
             algo.predictAlgo()

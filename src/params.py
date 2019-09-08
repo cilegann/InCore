@@ -12,11 +12,10 @@ class params():
         self.visualizeServiceRoot=self.servicepath+'visualizeService/'
         self.analyticServiceRoot=self.servicepath+'analyticService/'
 
-        self.dataVizAlgoReg=self.visualizeServiceRoot+'core/dataViz.json'
-
-        self.dataPreprocessAlgoReg=self.analyticServiceRoot+'core/preprocessAlgo/preprocess.json'
-        self.correlationAlgoReg=self.analyticServiceRoot+'core/correlationAlgo/correlation.json'
-        self.analyticAlgoReg=self.analyticServiceRoot+'core/analyticAlgo/analytic.json'
+        self.dataVizAlgoReg=self.visualizeServiceRoot+'core/dataVizReg.json'
+        self.dataPreprocessAlgoReg=self.analyticServiceRoot+'core/preprocessCore/preprocessReg.json'
+        self.correlationAlgoReg=self.analyticServiceRoot+'core/correlationCore/correlationReg.json'
+        self.analyticAlgoReg=self.analyticServiceRoot+'core/analyticCore/analyticReg.json'
 
         self.dataExtensionType={'num':['.csv'],'cv':['.zip'],'nlp':['.tsv']}
         self.dataProjectType={'num':['regression','classification','abnormal','clustering'],'cv':['regression','classification'],'nlp':['regression','classification']}

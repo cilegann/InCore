@@ -1,5 +1,5 @@
 import numpy as np
-from service.analyticService.core.preprocessAlgo.outlierFilteringBase import outlierFiltering
+from service.analyticService.core.preprocessCore.outlierFilteringBase import outlierFiltering
 
 class std2(outlierFiltering):
     def __init__(self,data):

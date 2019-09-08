@@ -43,18 +43,18 @@ class preprocess():
             originData=previewData['data']
 
             if previewData['missingFiltering']=='1':
-                from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
+                from service.analyticService.core.preprocessCore.missingFiltering import missingFiltering
                 previewData['data']=previewData['data'][ missingFiltering().getRetainIndex([previewData['data']],[previewData['colType']],self.path) ]
                 if previewData['colType']=='int':
                     previewData['data']=previewData['data'].astype(np.int64)
 
             if len(previewData['data'])!=0 and previewData['outlierFiltering']!='0' and previewData['colType']!='string' and previewData['colType']!='path':
-                module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{previewData['outlierFiltering']}")
+                module=importlib.import_module(f"service.analyticService.core.preprocessCore.outlierFilteringAlgo.{previewData['outlierFiltering']}")
                 algo=getattr(module,previewData['outlierFiltering'])
                 previewData['data']=previewData['data'][algo(previewData['data']).getRetainIndex()]
             
             if len(previewData['data'])!=0 and previewData['normalize']!='0' and previewData['colType']!='string' and previewData['colType']!='path':
-                module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalizeAlgo.{previewData['normalize']}")
+                module=importlib.import_module(f"service.analyticService.core.preprocessCore.normalizeAlgo.{previewData['normalize']}")
                 algo=getattr(module,previewData['normalize'])
                 previewData['data']=algo(previewData['data']).do()
             
@@ -62,7 +62,7 @@ class preprocess():
                 # act=json.loads(previewData['stringCleaning'])
                 act=previewData['stringCleaning']
                 for a in act:
-                    module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
+                    module=importlib.import_module(f"service.analyticService.core.preprocessCore.stringCleaningAlgo.{a}")
                     algo=getattr(module,a)
                     previewData['data']=algo(previewData['data']).do()
             
@@ -102,7 +102,7 @@ class preprocess():
         try:
             dataLen=0
             #missing value filtering
-            from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
+            from service.analyticService.core.preprocessCore.missingFiltering import missingFiltering
             for k,v in self.data.items():
                 dataLen=len(v['data'])
             if dataLen!=0:
@@ -124,7 +124,7 @@ class preprocess():
                 retainIndex=np.asarray([True for i in range(dataLen)])
                 for k,v in self.data.items():
                     if 'outlierFiltering' in v and v['outlierFiltering']!="0" and v['colType']!='string' and v['colType']!='path':
-                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.outlierFilteringAlgo.{v['outlierFiltering']}")
+                        module=importlib.import_module(f"service.analyticService.core.preprocessCore.outlierFilteringAlgo.{v['outlierFiltering']}")
                         algo=getattr(module,v['outlierFiltering'])
                         ri=algo(v['data']).getRetainIndex()
                         retainIndex=np.logical_and(retainIndex,ri)
@@ -136,7 +136,7 @@ class preprocess():
             if dataLen!=0:
                 for k,v in self.data.items():
                     if 'normalize' in v and v['normalize']!="0" and v['colType']!='string' and v['colType']!='path':
-                        module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.normalizeAlgo.{v['normalize']}")
+                        module=importlib.import_module(f"service.analyticService.core.preprocessCore.normalizeAlgo.{v['normalize']}")
                         algo=getattr(module,v['normalize'])
                         self.data[k]['data']=algo(v['data']).do()
             if dataLen!=0:
@@ -145,7 +145,7 @@ class preprocess():
                         # act=json.loads(v['stringCleaning'])
                         act=v['stringCleaning']
                         for a in act:
-                            module=importlib.import_module(f"service.analyticService.core.preprocessAlgo.stringCleaningAlgo.{a}")
+                            module=importlib.import_module(f"service.analyticService.core.preprocessCore.stringCleaningAlgo.{a}")
                             algo=getattr(module,a)
                             self.data[k]['data']=algo(v['data']).do()
 

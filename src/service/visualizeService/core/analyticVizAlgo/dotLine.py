@@ -1,6 +1,6 @@
 from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool,ColumnDataSource
-from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
+from service.analyticService.core.preprocessCore.missingFiltering import missingFiltering
 from bokeh.models.glyphs import Line,Circle
 
 class dotLine(lineXY):

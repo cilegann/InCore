@@ -8,7 +8,7 @@ import logging
 import json
 import importlib
 import traceback
-from service.analyticService.core.correlationAlgo.correlationBase import NoDataException
+from service.analyticService.core.correlationCore.correlationBase import NoDataException
 params=params()
 
 
@@ -39,7 +39,7 @@ class doCorrelation(Resource):
             token=args['token']
             if not tokenValidator(token):
                 return {"status":"error","msg":"token error","data":{}},401
-            module=importlib.import_module(f"service.analyticService.core.correlationAlgo.{algoName}")
+            module=importlib.import_module(f"service.analyticService.core.correlationCore.correlationAlgo.{algoName}")
             algo=getattr(module,algoName)
             result=algo(fid).do()
             fig={"div":result['div'],"script":result['script']}

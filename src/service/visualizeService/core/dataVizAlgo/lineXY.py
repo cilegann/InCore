@@ -1,6 +1,6 @@
 from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool
-from service.analyticService.core.preprocessAlgo.missingFiltering import missingFiltering
+from service.analyticService.core.preprocessCore.missingFiltering import missingFiltering
 
 class lineXY(dataViz):
     def __init__(self,algoInfo,dataCol,fid):
