@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from service.dataService.utils import getFileInfo,getColType,categoricalConverter,getDf,lockFile,fileUidGenerator
-from service.analyticService.utils import modelUidGenerator
+from service.analyticService.utils import modelUidGenerator,changeModelStatus
 from utils import sql
 from params import params
 import threading
@@ -15,7 +15,7 @@ from keras.utils import to_categorical
 import shutil
 
 class analytic():
-    def __init__(self,algoInfo,fid,action='train',mid=None):
+    def __init__(self,algoInfo,fid,action='train',mid=None,testLabel=None):
         try:
             self.action=action # 'train' / 'preview' / 'test' / 'predict'
             self.algoInfo=algoInfo
@@ -26,7 +26,7 @@ class analytic():
             self.fid=fid
             _,dataType,self.path,self.numFile,_,self.preprocessActionFile=getFileInfo(self.fid)[0]
             if dataType!=self.dataType:
-                raise Exception(f'[]')
+                raise Exception(f'{self.fid} has dataType {dataType} but a {self.dataType} file is required')
             self.thread=None
             if not mid:
                 self.mid=modelUidGenerator().uid
@@ -73,10 +73,16 @@ class analytic():
             self.d2c={} # data to category mapping
             self.c2d={} # category to data mapping
             self.model=None #model
-            self.result=None 
-            self.vizRes=None
-            self.txtRes=None
-            self.customObj={} #other to-saved variable should place here e.g. text tokenization
+            self.result=None # A outputData liked structure
+            self.vizRes=None # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
+            self.txtRes=None # "string"
+            self.customObj={} #other to-saved variable should place here e.g. text tokenization {"objName":obj}
+            if action=='test' and self.projectType=='abnormal':
+                self.outputDict={"label":testLabel}
+                self.paramDef["output"]=[{"name":"label","type":"classifiable"}]
+            if action=='predict' and (self.projectType=='abnormal' or self.projectType=='clustering'):
+                self.outputDict={"label":"label"}
+                self.paramDef["output"]=[{"name":"label","type":"classifiable"}]
             self.getParams()
             if action=='test' or action=='predict':
                 self.loadModel()
@@ -84,115 +90,7 @@ class analytic():
             self.getData()
         except Exception as e:
             raise Exception(f'[{self.algoName}][init]{traceback.format_exc()}')
-    
-    def train(self):
-        try:
-            try:
-                db=sql()
-                db.cursor.execute(f"INSERT INTO `models` (`mid`, `fid`, `dataType`, `projectType`,`algoName`,`status`,`startTime`) VALUES ('{self.mid}', '{self.fid}', '{self.dataType}', '{self.projectType}','train','{datetime.now()}');")
-                db.conn.commit()
-            except Exception as e:
-                db.conn.rollback()
-                raise Exception(e)
-            finally:
-                db.conn.close()
-            lockFile(self.fid)
-            self.thread=threading.Thread(targert=self._trainWrapper)
-            self.thread.start()
-            self.thread.name=str(self.mid)
-            return self.mid
-        except Exception as e:
-            raise Exception(f"[{self.algoName}][train] {traceback.format_exc()}")
-
-    def trainWrapper(self):
-        try:
-            self.trainAlgo()
-            self.predictAlgo()
-            self.test()
-            self.saveModel()
-            try:
-                db=sql()
-                db.cursor.execute(f"UPDATE `models` SET `status`='done' WHERE `mid`='{self.mid}';")
-                db.conn.commit()
-            except Exception as e:
-                db.conn.rollback()
-                raise Exception(e)
-            finally:
-                db.conn.close()
-        except Exception as e:
-            try:
-                db=sql()
-                db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{traceback.fotmat_exc()}' WHERE `mid`='{self.mid}';")
-                db.conn.commit()
-            except Exception as e:
-                db.conn.rollback()
-                raise Exception(e)
-            finally:
-                db.conn.close()
-            raise Exception(f"{traceback.format_exc()}")
-    
-    def visualize(self):
-        self.vizRes=self.projectVisualize()
-        algoGraphs=self.algoVisualize()
-        if len(algoGraphs)!=0:
-            #TODO: save np.array to image, generate imgBokeh, add to self.vizRes
-            pass
-
-    # inherit in PROJECT to add feature
-    def predict(self):
-        for param in self.paramDef['output']:
-            if param['type']=='classifiable':
-                v=self.result[param['name']]
-                v=np.argmax(v,axis=1)
-                v=[self.c2d[self.outputDict[param['name']]][str(i)] for i in v]
-                self.dataDf[self.outputDict[param['name']]]=np.asarray(v)
-            else:
-                self.dataDf[self.outputDict[param['name']]]=self.result[param['name']]
-        for k,v in self.result.items():
-            self.dataDf[k]=v
-        uid=fileUidGenerator().uid
-        if self.dataType=='cv':
-            oldNumFileName=self.numFile[self.numFile.rfind("/")+1:]
-            numFileType=self.numFile[self.numFile.find("."):]
-            newNumFile=os.path.join(self.sysparam.filepath,uid,oldNumFileName)
-            newPath=os.path.join(self.sysparam.filepath,uid)
-            actionFile=os.path.join(self.sysparam.filepath,uid+'.json')
-            shutil.copytree(self.path,newPath)
-            self.dataDf.to_csv(newNumFile,index=False)
-        else:
-            fileType=self.numFile[self.numFile.rfind("."):]
-            newNumFile=os.path.join(self.sysparam.filepath,uid+fileType)
-            newPath=newNumFile
-            if fileType=='.tsv':
-                self.dataDf.to_csv(newNumFile,sep='\t',index=False)
-            if fileType=='.csv':
-                self.dataDf.to_csv(newNumFile,index=False)
-        if self.preprocessActionFile:
-            actionFile=os.path.join(self.sysparam.filepath,uid+'.json')
-            shutil.copyfile(self.preprocessActionFile,actionFile)
-        try:
-            db=sql()
-            if self.preprocessActionFile:
-                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`,`preprocessAction`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}','{actionFile}');")
-            else:
-                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}');")
-            db.conn.commit()
-        except Exception as e:
-            raise Exception(e)
-        finally:
-            db.conn.close()
-        return uid
-    
-    # implement in PROJECT
-    def test(self):
-        '''
-        implement in PROJECT
-        call predictAlgo
-        call visualize
-        generate text to self.txtRes
-        '''
-        raise NotImplementedError("test not implemented")
-
+ 
     def getParams(self):
         rawParam=json.loads(self.algoInfo['param'])
         #check parameter definition matching
@@ -290,6 +188,107 @@ class analytic():
                     d=rawDf[col]
                 self.outputData[col]=d
         self.dataDf=rawDf
+
+    def train(self):
+        try:
+            try:
+                db=sql()
+                db.cursor.execute(f"INSERT INTO `models` (`mid`, `fid`, `dataType`, `projectType`,`algoName`,`status`,`startTime`) VALUES ('{self.mid}', '{self.fid}', '{self.dataType}', '{self.projectType}','train','{datetime.now()}');")
+                db.conn.commit()
+            except Exception as e:
+                db.conn.rollback()
+                raise Exception(e)
+            finally:
+                db.conn.close()
+            lockFile(self.fid)
+            self.thread=threading.Thread(target=self.trainWrapper)
+            self.thread.start()
+            self.thread.name=str(self.mid)
+            return self.mid
+        except Exception as e:
+            raise Exception(f"[{self.algoName}][train] {traceback.format_exc()}")
+
+    def trainWrapper(self):
+        try:
+            self.trainAlgo()
+            if not self.txtRes:
+                self.predictAlgo()
+                self.test()
+            self.saveModel()
+            changeModelStatus(self.mid,"success")
+        except Exception as e:
+            try:
+                db=sql()
+                db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{traceback.format_exc()}' WHERE `mid`='{self.mid}';")
+                db.conn.commit()
+            except Exception as e:
+                db.conn.rollback()
+                raise Exception(e)
+            finally:
+                db.conn.close()
+            raise Exception(f"{traceback.format_exc()}")
+    
+    def visualize(self):
+        self.vizRes=self.projectVisualize()
+        algoGraphs=self.algoVisualize()
+        if len(algoGraphs)!=0:
+            #TODO: save np.array to image, generate imgBokeh, add to self.vizRes
+            pass
+
+    # inherit in PROJECT to add feature
+    def predict(self):
+        for param in self.paramDef['output']:
+            if param['type']=='classifiable':
+                v=self.result[param['name']]
+                v=np.argmax(v,axis=1)
+                v=[self.c2d[self.outputDict[param['name']]][str(i)] for i in v]
+                self.dataDf[self.outputDict[param['name']]]=np.asarray(v)
+            else:
+                self.dataDf[self.outputDict[param['name']]]=self.result[param['name']]
+        for k,v in self.result.items():
+            self.dataDf[k]=v
+        uid=fileUidGenerator().uid
+        if self.dataType=='cv':
+            oldNumFileName=self.numFile[self.numFile.rfind("/")+1:]
+            numFileType=self.numFile[self.numFile.find("."):]
+            newNumFile=os.path.join(self.sysparam.filepath,uid,oldNumFileName)
+            newPath=os.path.join(self.sysparam.filepath,uid)
+            actionFile=os.path.join(self.sysparam.filepath,uid+'.json')
+            shutil.copytree(self.path,newPath)
+            self.dataDf.to_csv(newNumFile,index=False)
+        else:
+            fileType=self.numFile[self.numFile.rfind("."):]
+            newNumFile=os.path.join(self.sysparam.filepath,uid+fileType)
+            newPath=newNumFile
+            if fileType=='.tsv':
+                self.dataDf.to_csv(newNumFile,sep='\t',index=False)
+            if fileType=='.csv':
+                self.dataDf.to_csv(newNumFile,index=False)
+        if self.preprocessActionFile:
+            actionFile=os.path.join(self.sysparam.filepath,uid+'.json')
+            shutil.copyfile(self.preprocessActionFile,actionFile)
+        try:
+            db=sql()
+            if self.preprocessActionFile:
+                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`,`preprocessAction`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}','{actionFile}');")
+            else:
+                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}');")
+            db.conn.commit()
+        except Exception as e:
+            raise Exception(e)
+        finally:
+            db.conn.close()
+        return uid
+    
+    # implement in PROJECT
+    def test(self):
+        '''
+        implement in PROJECT
+        call predictAlgo
+        call visualize
+        generate text to self.txtRes
+        '''
+        raise NotImplementedError("test not implemented")
     
     # inherit in PROJECT or ALGO to add feature
     def saveModel(self):
@@ -329,7 +328,7 @@ class analytic():
             self.d2c=json.load(file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"c2d.json")) as file:
             self.c2d=json.load(file)
-        with open(os.path.joinself.sysparam.modelpath,self.mid,"customObj.pkl"),'rb') as file:
+        with open(os.path.join(self.sysparam.modelpath,self.mid,"customObj.pkl"),'rb') as file:
             self.customObj=pickle.load(file)
     
     # implement in PROJECT
