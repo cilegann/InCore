@@ -5,9 +5,9 @@ src/test
 *.zip
 *.h5
 *.pkl
-src/service/visualizeService/1.jpg
-src/service/visualizeService/save_icon.png
-*-checkpoint.ipynb
+models/*
+images/*
 .VSCodeCounter
 db/*
 .mypy_cache
+*.ipynb
