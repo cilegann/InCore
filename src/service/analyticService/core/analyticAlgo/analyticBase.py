@@ -72,16 +72,16 @@ class analytic():
             '''
             self.d2c={} # data to category mapping
             self.c2d={} # category to data mapping
-            self.model=None
-            self.result=None
+            self.model=None #model
+            self.result=None 
             self.vizRes=None
             self.txtRes=None
+            self.customObj={} #other to-saved variable should place here e.g. text tokenization
             self.getParams()
-            if action=='test' or action=='train':
+            if action=='test' or action=='predict':
                 self.loadModel()
             self.colType={c["name"]:{"type":c["type"],"classifiable":c["classifiable"]} for c in getColType(self.numFile,self.dataType)}
             self.getData()
-            # the convertion of classifiable data should be implemented in each PROJECT D-class __init__
         except Exception as e:
             raise Exception(f'[{self.algoName}][init]{traceback.format_exc()}')
     
@@ -102,14 +102,33 @@ class analytic():
             self.thread.name=str(self.mid)
             return self.mid
         except Exception as e:
-            raise Exception(f"[{self.algoName}] {traceback.format_exc()}")
+            raise Exception(f"[{self.algoName}][train] {traceback.format_exc()}")
 
     def trainWrapper(self):
         try:
             self.trainAlgo()
-            self.visualize()
+            self.predictAlgo()
+            self.test()
             self.saveModel()
+            try:
+                db=sql()
+                db.cursor.execute(f"UPDATE `models` SET `status`='done' WHERE `mid`='{self.mid}';")
+                db.conn.commit()
+            except Exception as e:
+                db.conn.rollback()
+                raise Exception(e)
+            finally:
+                db.conn.close()
         except Exception as e:
+            try:
+                db=sql()
+                db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{traceback.fotmat_exc()}' WHERE `mid`='{self.mid}';")
+                db.conn.commit()
+            except Exception as e:
+                db.conn.rollback()
+                raise Exception(e)
+            finally:
+                db.conn.close()
             raise Exception(f"{traceback.format_exc()}")
     
     def visualize(self):
@@ -184,11 +203,11 @@ class analytic():
             if param["type"]=='int':
                 if int(value)!=value:
                     raise Exception(f'[getParam] Param {param["name"]} should be int')
-                if param['lowerbound']<=value<=param['upperbound']:
-                    raise Exception(f'[getParam] Param {param["name"]} not in range {param["lowerbound"]}~{param["upperbound"]}')
+                if param['lowerBound']<=value<=param['upperBound']:
+                    raise Exception(f'[getParam] Param {param["name"]} not in range {param["lowerBound"]}~{param["upperBound"]}')
             if param["type"]=='float':
-                if param['lowerbound']<=value<=param['upperbound']:
-                    raise Exception(f'[getParam] Param {param["name"]} not in range {param["lowerbound"]}~{param["upperbound"]}')
+                if param['lowerBound']<=value<=param['upperBound']:
+                    raise Exception(f'[getParam] Param {param["name"]} not in range {param["lowerBound"]}~{param["upperBound"]}')
             if param["type"]=='bool':
                 if value!=1 and value!=0:
                     raise Exception(f'[getParam] Param {param["name"]} sould be 0 or 1')
@@ -296,6 +315,8 @@ class analytic():
             json.dump(self.d2c,file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"c2d.json"),'w') as file:
             json.dump(self.c2d,file)
+        with open(os.path.join(self.sysparam.modelpath,self.mid,"customObj.pkl"),'wb') as file:
+            pickle.dump(self.customObj,file)
 
     # inherit in PROJECT or ALGO to add feature
     def loadModel(self):
@@ -308,6 +329,8 @@ class analytic():
             self.d2c=json.load(file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"c2d.json")) as file:
             self.c2d=json.load(file)
+        with open(os.path.joinself.sysparam.modelpath,self.mid,"customObj.pkl"),'rb') as file:
+            self.customObj=pickle.load(file)
     
     # implement in PROJECT
     def projectVisualize(self):
@@ -331,6 +354,7 @@ class analytic():
     def predictAlgo(self):
         '''
         implement in ALGO
+        the model is loaded as self.model
         use self.dataDf and self.dataDict to predict
         save result to self.result like OUTPUT DATA
         if the output is classifiable, you should save the "probabily" instead of label i.e [[0.3,0.6,0.1],[0.8,0.05,0.15]] instead of [1,0]
