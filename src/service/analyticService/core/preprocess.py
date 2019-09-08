@@ -24,12 +24,13 @@ class preprocess():
                 self.data[c['name']]={'colType':c['type'],'do':False}
                 # self.data={"col1":{"type":"int","action":action,"data":data}}
             for c in self.action:
-                self.data[c['col']]['missingFiltering']=c['missingFiltering']
-                self.data[c['col']]['outlierFiltering']=c['outlierFiltering']
-                self.data[c['col']]['normalize']=c['normalize']
-                self.data[c['col']]['stringCleaning']=c['stringCleaning']
-                self.data[c['col']]['data']=np.asarray(self.df[c['col']])
-                self.data[c['col']]['do']=True
+                if c['col'] in self.data:
+                    self.data[c['col']]['missingFiltering']=c['missingFiltering']
+                    self.data[c['col']]['outlierFiltering']=c['outlierFiltering']
+                    self.data[c['col']]['normalize']=c['normalize']
+                    self.data[c['col']]['stringCleaning']=c['stringCleaning']
+                    self.data[c['col']]['data']=np.asarray(self.df[c['col']])
+                    self.data[c['col']]['do']=True
         except Exception as e:
             raise Exception(f"[Preprocess Init]{traceback.format_exc()}")
 
