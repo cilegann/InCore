@@ -28,7 +28,7 @@ from service.visualizeService.controller.dataViz import getDataVizAlgoList,doDat
 
 from service.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess
 from service.analyticService.controller.correlation import doCorrelation,getCorrelationAlgoList
-from service.analyticService.controller.analytic import getAnalyticAlgoList,getAnalyticAlgoParam
+from service.analyticService.controller.analytic import getAnalyticAlgoList,getAnalyticAlgoParam,doModelTrain,stopTraining,getModelPreview,doModelTest,doModelPredict,deleteModel,getModelStatus,getModelParameter,getModelFailReason
 
 par=params()
 app = Flask(__name__)
@@ -57,6 +57,15 @@ api.add_resource(doCorrelation,'/correlation/do')
 
 api.add_resource(getAnalyticAlgoList,'/analytic/getalgo')
 api.add_resource(getAnalyticAlgoParam,'/analytic/getparam')
+api.add_resource(doModelTrain,'/analytic/train')
+api.add_resource(stopTraining,'/analytic/stop')
+api.add_resource(getModelPreview,'/analytic/preview')
+api.add_resource(doModelPredict,'/analytic/predict')
+api.add_resource(doModelTest,'/analytic/test')
+api.add_resource(deleteModel,'/analytic/delete')
+api.add_resource(getModelStatus,'/analytic/get/status')
+api.add_resource(getModelParameter,'/analytic/get/param')
+api.add_resource(getModelFailReason,'/analytic/get/fail')
 
 def purge():
     purger().purgeImg()
