@@ -2,6 +2,7 @@
     "dataType": "num",
     "projectType":"regression",
     "algoname": "yourAlgoName",
+    "description": "the description"
     "lib" : "sklearn" / "keras",
     "param":[
         {
