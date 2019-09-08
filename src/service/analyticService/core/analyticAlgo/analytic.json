@@ -1,6 +1,6 @@
 {
     "num":{
-        "regression":[],
+        "regression":["in_linearRegression"],
         "classification":[],
         "abnormal":[],
         "clustering":[]

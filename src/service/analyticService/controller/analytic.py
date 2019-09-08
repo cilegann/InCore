@@ -87,7 +87,7 @@ class doModelTrain(Resource):
                 return {"status":"error","msg":f"Analytic service currently not support projectType {projectType} with dataType {dataType}","data":{}},400
             if algoName not in reg[dataType][projectType]:
                 return {"status":"error","msg":f"Algo {algoName} not found in {dataType}.{projectType}","data":{}},400
-            algoInfo={'dataType':dataType,'projectType':projectType,'param':algoParam,'input':algoInput,'output':algoOutput}
+            algoInfo={'dataType':dataType,'projectType':projectType,'algoName':algoName,'param':algoParam,'input':algoInput,'output':algoOutput}
             module=importlib.import_module(f"service.analyticService.core.analyticAlgo.{dataType}.{projectType}.{algoName}")
             attr=getattr(module,algoName)
             algo=attr(algoInfo,fid,'train')

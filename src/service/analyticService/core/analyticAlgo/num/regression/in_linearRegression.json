@@ -1,0 +1,23 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"in_linearRegression",
+    "description": "Perform linear regression",
+    "lib":"sklearn",
+    "param":[],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}

@@ -22,7 +22,7 @@ class analytic():
             self.sysparam=params()
             self.dataType=self.algoInfo['dataType'] # 'num' / 'cv' / 'nlp'
             self.projectType=self.algoInfo['projectType'] # 'regression' / 'classification' .....
-            self.algoName=self.algoInfo['algoname']
+            self.algoName=self.algoInfo['algoName']
             self.fid=fid
             _,dataType,self.path,self.numFile,_,self.preprocessActionFile=getFileInfo(self.fid)[0]
             if dataType!=self.dataType:
@@ -30,7 +30,7 @@ class analytic():
             self.thread=None
             if not mid:
                 self.mid=modelUidGenerator().uid
-            self.paramDef=json.load(open(self.sysparam.analyticServiceRoot+f'analyticAlgo/{self.dataType}/{self.projectType}/{self.algoName}.json'))
+            self.paramDef=json.load(open(self.sysparam.analyticServiceRoot+f'core/analyticAlgo/{self.dataType}/{self.projectType}/{self.algoName}.json'))
             self.lib=self.paramDef["lib"]
             self.param=None # the input parameter
             self.inputDict=json.loads(algoInfo['input']) # input columns mapping
@@ -73,7 +73,7 @@ class analytic():
             self.d2c={} # data to category mapping
             self.c2d={} # category to data mapping
             self.model=None #model
-            self.result=None # A outputData liked structure
+            self.result={} # A outputData liked structure
             self.vizRes=None # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
             self.txtRes=None # "string"
             self.customObj={} #other to-saved variable should place here e.g. text tokenization {"objName":obj}
@@ -86,7 +86,7 @@ class analytic():
             self.getParams()
             if action=='test' or action=='predict':
                 self.loadModel()
-            self.colType={c["name"]:{"type":c["type"],"classifiable":c["classifiable"]} for c in getColType(self.numFile,self.dataType)}
+            self.colType={c["name"]:{"type":c["type"],"classifiable":c["classifiable"]} for c in getColType(self.numFile,self.dataType).get()}
             self.getData()
         except Exception as e:
             raise Exception(f'[{self.algoName}][init]{traceback.format_exc()}')
@@ -117,7 +117,7 @@ class analytic():
         self.param=rawParam
 
     def getData(self):
-        rawDf=getDf(self.numFile,self.dataType)
+        rawDf=getDf(self.numFile,self.dataType).get()
         colType=self.colType
 
         #check input columns
@@ -186,14 +186,14 @@ class analytic():
                     if colType[col]['type']!='path':
                         raise Exception(f'[getData] output {param["name"]} column {col} should be path')
                     d=rawDf[col]
-                self.outputData[col]=d
+                self.outputData[param["name"]]=d
         self.dataDf=rawDf
 
     def train(self):
         try:
             try:
                 db=sql()
-                db.cursor.execute(f"INSERT INTO `models` (`mid`, `fid`, `dataType`, `projectType`,`algoName`,`status`,`startTime`) VALUES ('{self.mid}', '{self.fid}', '{self.dataType}', '{self.projectType}','train','{datetime.now()}');")
+                db.cursor.execute(f"INSERT INTO `models` (`mid`, `fid`, `dataType`, `projectType`,`algoName`,`status`,`startTime`) VALUES ('{self.mid}', '{self.fid}', '{self.dataType}', '{self.projectType}','{self.algoName}','train','{datetime.now()}');")
                 db.conn.commit()
             except Exception as e:
                 db.conn.rollback()
@@ -217,9 +217,10 @@ class analytic():
             self.saveModel()
             changeModelStatus(self.mid,"success")
         except Exception as e:
+            errormsg=str(e).replace("'","\\'")
             try:
                 db=sql()
-                db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{traceback.format_exc()}' WHERE `mid`='{self.mid}';")
+                db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{errormsg}' WHERE `mid`='{self.mid}';")
                 db.conn.commit()
             except Exception as e:
                 db.conn.rollback()
@@ -309,7 +310,7 @@ class analytic():
         with open(os.path.join(self.sysparam.modelpath,self.mid,"algoInfo.pkl"),'wb') as file:
             pickle.dump(self.algoInfo,file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"preview.pkl"),'wb') as file:
-            pickle.dump({"text":self.txtRes,"fig":self.vizRes})
+            pickle.dump({"text":self.txtRes,"fig":self.vizRes},file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"d2c.json"),'w') as file:
             json.dump(self.d2c,file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"c2d.json"),'w') as file:
