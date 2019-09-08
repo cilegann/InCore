@@ -343,6 +343,7 @@ class analytic():
     def trainAlgo(self):
         '''
         implement in ALGO
+        data: self.inputData, self.outputData
         save model to self.model
         save report string to self.txtRes
         save result to self.result like OUTPUT DATA
@@ -354,7 +355,7 @@ class analytic():
         '''
         implement in ALGO
         the model is loaded as self.model
-        use self.dataDf and self.dataDict to predict
+        use self.inputData to predict
         save result to self.result like OUTPUT DATA
         if the output is classifiable, you should save the "probabily" instead of label i.e [[0.3,0.6,0.1],[0.8,0.05,0.15]] instead of [1,0]
         '''
