@@ -8,7 +8,7 @@ import json
 import importlib
 import traceback
 import os
-from service.analyticService.core.analyticAlgo.utils import getModelInfo,changeModelStatus
+from service.analyticService.core.utils import getModelInfo,changeModelStatus
 from service.analyticService.core.preprocess import preprocess as preprocessCore
 from service.dataService.utils import getFileInfo
 import threading
