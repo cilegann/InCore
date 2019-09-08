@@ -180,7 +180,7 @@ class getColType():
             data=getDf(self.filepath,self.dataType).get()
             colNames=data.columns.tolist()
             j=[{"name":c,"type":dTypeConverter(data[c],self.dataType),"classifiable":classifiableChecker(data[c],dTypeConverter(data[c],self.dataType)) } for c in colNames]
-            logging.debug(f'[getColType]{j}')
+            #logging.debug(f'[getColType]{j}')
             return j
         except Exception as e:
             raise Exception(f'[getColType]{traceback.format_exc()}')
