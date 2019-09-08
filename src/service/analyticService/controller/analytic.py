@@ -48,7 +48,7 @@ class getAnalyticAlgoParam(Resource):
             args = parser.parse_args()
             if not os.path.exists(param.analyticServiceRoot+f"core/analyticCore/{args['dataType']}/{args['projectType']}/{args['algoName']}.json"):
                 return {"status":"error","msg":f"[API_getAnalyticAlgoParam] {args['dataType']}.{args['projectType']}.{args['algoName']} not exists","data":{}},400
-            with open(param.analyticServiceRoot+f"core/analyticAlgo/{args['dataType']}/{args['projectType']}/{args['algoName']}.json") as file:
+            with open(param.analyticServiceRoot+f"core/analyticCore/{args['dataType']}/{args['projectType']}/{args['algoName']}.json") as file:
                 reg=json.load(file)
             return {"status":"success","msg":"","data":reg}
         except Exception as e:
