@@ -4,7 +4,20 @@
     "algoName":"in_linearRegression",
     "description": "Perform linear regression",
     "lib":"sklearn",
-    "param":[],
+    "param":[
+        {
+            "name":"fit_intercept",
+            "description":"whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (e.g. data is expected to be already centered).",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"normalize",
+            "description":"This parameter is ignored when fit_intercept is set to False. If True, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm.",
+            "type":"bool",
+            "default":0
+        }
+    ],
     "input":[
         {
             "name": "X",
