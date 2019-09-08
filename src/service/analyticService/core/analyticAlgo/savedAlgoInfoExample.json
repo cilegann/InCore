@@ -1,7 +1,7 @@
 {    
     "dataType": "num",
     "projectType": "classification",
-    "algoname": "the algoname from getAlgoList",
+    "algoName": "the algoname from getAlgoList",
     "param": "{
         "paramName1" : 0.87,     
         "paramName2" : 30,
