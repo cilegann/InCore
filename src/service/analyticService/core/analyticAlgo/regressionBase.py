@@ -23,10 +23,10 @@ class regression(analytic):
         figs = {}
         for k, v in self.inputDict.items():
             for col in v:
-                if self.colType[col] == 'float' or self.colType[col] == 'int':
+                if self.colType[col]['type'] == 'float' or self.colType[col]['type'] == 'int':
                     allInputCols[col] = self.dataDf[col]
         for k, v in self.outputDict.items():
-            if self.colType[v] == 'float' or self.colType[v] == 'int':
+            if self.colType[v]['type'] == 'float' or self.colType[v]['type'] == 'int':
                 allRealCols[v] = self.dataDf[v]
                 allPredictCols[v] = self.result[k]
         if len(allInputCols)==0:

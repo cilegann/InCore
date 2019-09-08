@@ -13,7 +13,7 @@ class modelUidGenerator():
 def getModelInfo(mid):
     try:
         db=sql()
-        db.cursor.execute(f"select * from files where `mid`='{mid}'")
+        db.cursor.execute(f"select * from models where `mid`='{mid}'")
         data=db.cursor.fetchall()
         data=[[tt for tt in t] for t in data]
         if len(data)==0:
