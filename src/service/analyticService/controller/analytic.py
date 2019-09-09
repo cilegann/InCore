@@ -240,7 +240,10 @@ class deleteModel(Resource):
             _,modelFid,_,_,_,status,_,_=getModelInfo(mid)[0]
             if status=='train':
                 return {"status":"error","msg":f"model {mid} is still training. Can't delete","data":{}},400
-            shutil.rmtree(os.path.join(param.modelpath,mid))
+            try:
+                shutil.rmtree(os.path.join(param.modelpath,mid))
+            except FileNotFoundError:
+                pass
             try:
                 db=sql()
                 db.cursor.execute(f"delete from `models` where `mid`='{mid}';")
