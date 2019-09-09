@@ -15,7 +15,7 @@ from keras.utils import to_categorical
 import shutil
 
 class analytic():
-    def __init__(self,algoInfo,fid,action='train',mid=None,testLabel=None):
+    def __init__(self,algoInfo,fid,action='train',mid=None):
         try:
             self.action=action # 'train' / 'preview' / 'test' / 'predict'
             self.algoInfo=algoInfo
@@ -79,12 +79,7 @@ class analytic():
             self.vizRes=None # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
             self.txtRes=None # "string"
             self.customObj={} #other to-saved variable should place here e.g. text tokenization {"objName":obj}
-            if action=='test' and self.projectType=='abnormal':
-                self.outputDict={"label":testLabel}
-                self.paramDef["output"]=[{"name":"label","type":"classifiable"}]
-            if action=='predict' and (self.projectType=='abnormal' or self.projectType=='clustering'):
-                self.outputDict={"label":"label"}
-                self.paramDef["output"]=[{"name":"label","type":"classifiable"}]
+            
             self.getParams()
             if action=='test' or action=='predict':
                 self.loadModel()
