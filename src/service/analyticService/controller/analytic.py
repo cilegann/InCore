@@ -10,7 +10,7 @@ import traceback
 import os
 from service.analyticService.utils import getModelInfo,changeModelStatus
 from service.analyticService.core.preprocess import preprocess as preprocessCore
-from service.dataService.utils import getFileInfo
+from service.dataService.utils import getFileInfo,unlockFile
 import threading
 import ctypes
 import pickle
@@ -244,7 +244,9 @@ class deleteModel(Resource):
             try:
                 db=sql()
                 db.cursor.execute(f"delete from `models` where `mid`='{mid}';")
-                db.cursor.execute(f"update `files` set `inuse`='0' where `fid`='{modelFid}';")
+                numOfresult=db.cursor.execute(f"select * from `models` where `fid`='{modelFid}';")
+                if numOfresult==0:
+                    unlockFile(modelFid)
                 db.conn.commit()
             except Exception as e:
                 db.conn.rollback()
