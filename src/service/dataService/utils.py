@@ -77,12 +77,14 @@ class fileChecker():
         # check if parsable, if numerical
         try:
             data=pd.read_csv(self.filepath)
+
             # check numerical value
             cols=data.columns.tolist()
             for c in cols:
                 if data[c].dtype!=np.float64 and data[c].dtype!=np.int64:
-                    if classifiableChecker(data[c],dTypeConverter(data[c],self.projectType))=="0":
-                        raise Exception("[fileChecker] csv should only contain numerical value: (Col "+c+")")
+                    #os.remove(self.filepath)
+                    #break
+                    raise Exception("[fileChecker] csv should only contain numerical value: (Col "+c+")")
         except Exception as e:
             os.remove(self.filepath)
             raise Exception(f'[fileChecker]{e}')
@@ -139,18 +141,16 @@ def dTypeConverter(data,dataType):
             return "path"
         if dataType=='nlp':
             return "string"
-        if dataType=='num':
-            return "category"
 
 def classifiableChecker(data,colType):
     try:
         if colType=='float' or colType=='path':
-            return "0"
+            return 0
         else:
             if len(set(data))<=params().classifiableThreshold:
-                return "1"
+                return 1
             else:
-                return "0"
+                return 0
     except Exception as e:
         raise Exception(f"[classifiableChecker] {traceback.format_exc()}")
 
