@@ -118,6 +118,7 @@ class analytic():
         colType=self.colType
 
         #check input columns
+        #BUG: array shape when single
         for param in self.paramDef["input"]:
             if param["name"] not in self.inputDict:
                 raise Exception(f'[getData] input {param["name"]} not given')
