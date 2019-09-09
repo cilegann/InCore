@@ -30,6 +30,8 @@ class analytic():
             self.thread=None
             if not mid:
                 self.mid=modelUidGenerator().uid
+            else:
+                self.mid=mid
             self.paramDef=json.load(open(self.sysparam.analyticServiceRoot+f'core/analyticCore/{self.dataType}/{self.projectType}/{self.algoName}.json'))
             self.lib=self.paramDef["lib"]
             self.param=None # the input parameter
@@ -217,7 +219,7 @@ class analytic():
             self.saveModel()
             changeModelStatus(self.mid,"success")
         except Exception as e:
-            errormsg=str(e).replace("'","\\'")
+            errormsg=str(e).replace("'","''")
             try:
                 db=sql()
                 db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{errormsg}' WHERE `mid`='{self.mid}';")
@@ -246,8 +248,8 @@ class analytic():
                 self.dataDf[self.outputDict[param['name']]]=np.asarray(v)
             else:
                 self.dataDf[self.outputDict[param['name']]]=self.result[param['name']]
-        for k,v in self.result.items():
-            self.dataDf[k]=v
+        # for k,v in self.result.items():
+        #     self.dataDf[k]=v
         uid=fileUidGenerator().uid
         if self.dataType=='cv':
             oldNumFileName=self.numFile[self.numFile.rfind("/")+1:]
@@ -270,10 +272,13 @@ class analytic():
             shutil.copyfile(self.preprocessActionFile,actionFile)
         try:
             db=sql()
+            newPath=newPath.replace("\\","/")
+            newNumFile=newNumFile.replace("\\","/")
             if self.preprocessActionFile:
-                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`,`preprocessAction`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}','{actionFile}');")
+                actionFile=actionFile.replace("\\","/")
+                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`,`preprocessAction`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}');")
             else:
-                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False,'{actionFile}');")
+                db.cursor.execute(f"insert into files (`fid`,`dataType`,`path`,`numFile`,`inuse`) values ('{uid}','{self.dataType}','{newPath}','{newNumFile}',False);")
             db.conn.commit()
         except Exception as e:
             raise Exception(e)
@@ -344,7 +349,9 @@ class analytic():
     def trainAlgo(self):
         '''
         implement in ALGO
-        data: self.inputData, self.outputData
+        parameter: self.param
+        input data : self.inputData
+        output data: self.outputData
         save model to self.model
         save report string to self.txtRes
         save result to self.result like OUTPUT DATA
