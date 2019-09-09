@@ -5,7 +5,7 @@ from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
 from service.analyticService.core.analyticCore.evaluationTools import crossEntropy,classificationReport,confusionMatrix
 from sklearn.metrics import confusion_matrix
 
-class regression(analytic):
+class classification(analytic):
     def __init__(self, algoInfo, fid, action='train', mid=None):
         super().__init__(algoInfo, fid, action, mid)
     
