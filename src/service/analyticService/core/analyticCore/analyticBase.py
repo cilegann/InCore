@@ -103,10 +103,10 @@ class analytic():
             if param["type"]=='int':
                 if int(value)!=value:
                     raise Exception(f'[getParam] Param {param["name"]} should be int')
-                if param['lowerBound']<=value<=param['upperBound']:
+                if not param['lowerBound']<=value<=param['upperBound']:
                     raise Exception(f'[getParam] Param {param["name"]} not in range {param["lowerBound"]}~{param["upperBound"]}')
             if param["type"]=='float':
-                if param['lowerBound']<=value<=param['upperBound']:
+                if not param['lowerBound']<=value<=param['upperBound']:
                     raise Exception(f'[getParam] Param {param["name"]} not in range {param["lowerBound"]}~{param["upperBound"]}')
             if param["type"]=='bool':
                 if value!=1 and value!=0:
