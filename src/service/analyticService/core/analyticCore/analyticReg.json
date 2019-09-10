@@ -2,7 +2,7 @@
     "num":{
         "regression":["in_linearRegression"],
         "classification":["in_knn"],
-        "abnormal":[],
+        "abnormal":["in_isolationForest"],
         "clustering":[]
     },
     "cv":{

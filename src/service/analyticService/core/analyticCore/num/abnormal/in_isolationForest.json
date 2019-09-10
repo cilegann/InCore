@@ -1,0 +1,38 @@
+{
+    "dataType":"num",
+    "projectType":"abnormal",
+    "algoName":"in_knn",
+    "description": "Return the anomaly score of each sample using the IsolationForest algorithm",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"n_estimators",
+            "description":"The number of base estimators in the ensemble.",
+            "type":"int",
+            "upperBound":1,
+            "lowerBound":200,
+            "default":100
+        },
+        {
+            "name":"bootstrap",
+            "description":"If True, individual trees are fit on random subsets of the training data sampled with replacement. If False, sampling without replacement is performed.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"warm_start",
+            "description":"When set to True, reuse the solution of the previous call to fit and add more estimators to the ensemble, otherwise, just fit a whole new forest.",
+            "type":"bool",
+            "default":0
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[]
+}
