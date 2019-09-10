@@ -76,8 +76,8 @@ class analytic():
             self.c2d={} # category to data mapping
             self.model=None #model
             self.result={} # A outputData liked structure
-            self.vizRes=None # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
-            self.txtRes=None # "string"
+            self.vizRes={} # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
+            self.txtRes="" # "string"
             self.customObj={} #other to-saved variable should place here e.g. text tokenization {"objName":obj}
             
             self.getParams()
@@ -209,9 +209,12 @@ class analytic():
     def trainWrapper(self):
         try:
             self.trainAlgo()
-            if not self.txtRes:
+            if self.txtRes=="":
                 self.predictAlgo()
-                self.test()
+                try:
+                    self.test()
+                except Exception:
+                    continue
             self.saveModel()
             changeModelStatus(self.mid,"success")
         except Exception as e:
@@ -228,11 +231,17 @@ class analytic():
             raise Exception(f"{traceback.format_exc()}")
     
     def visualize(self):
-        self.vizRes=self.projectVisualize()
-        algoGraphs=self.algoVisualize()
-        if len(algoGraphs)!=0:
-            #TODO: save np.array to image, generate imgBokeh, add to self.vizRes
-            pass
+        try:
+            self.vizRes=self.projectVisualize()
+        except Exception as e:
+            raise Exception(f"[{self.algoName}] projectViz error: {traceback.format_exc()}")
+        try:
+            algoGraphs=self.algoVisualize()
+            if len(algoGraphs)!=0:
+                #TODO: save np.array to image, generate imgBokeh, add to self.vizRes
+                pass
+        except Exception as e:
+            logging.error(f"[{self.algoName}] custom Viz error: {traceback.format_exc()}")
 
     # inherit in PROJECT to add feature
     def predict(self):
