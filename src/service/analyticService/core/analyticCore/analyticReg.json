@@ -1,6 +1,6 @@
 {
     "num":{
-        "regression":["in_linearRegression"],
+        "regression":["in_linearRegression","in_stopTest"],
         "classification":["in_knn"],
         "abnormal":["in_isolationForest"],
         "clustering":[]
