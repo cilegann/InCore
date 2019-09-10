@@ -12,6 +12,7 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 import pandas as pd
 from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
+from service.visualizeService.core.analyticVizAlgo.abnormalDot import abnormalDot
 
 class abnormal(analytic):
     def __init__(self,algoInfo,fid,action='train',mid=None,testLabel=None):
@@ -109,15 +110,15 @@ class abnormal(analytic):
             predicted=self.result["label"]
             label=[-1,1]
             self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
-            self.visualize()
-            return {"text": self.txtRes, "fig": self.vizRes}
+        self.visualize()
+        return {"text": self.txtRes, "fig": self.vizRes}
 
     def projectVisualize(self):
         figs={}
         if self.action=='test':
-            real=[str(i) for i in self.outputData["label"]]
-            predicted=[str(i) for i in self.result["label"]]
-            label=["-1","1"]
+            real=[int(i) for i in self.outputData["label"]]
+            predicted=[int(i) for i in self.result["label"]]
+            label=[-1,1]
             cmx=confusion_matrix(real,predicted,labels=label)
             cmx=cmx.astype('float')/cmx.sum(axis=1)[:,np.newaxis]
             df=pd.DataFrame(cmx,columns=label)
@@ -125,5 +126,13 @@ class abnormal(analytic):
             algo.doBokehViz()
             algo.getComp()
             figs[f"confusion matrix of label"]=algo.component
-        # TODO dot class fig
+        allInput={}
+        for k,v in self.inputDict.items():
+            for col in v:
+                if self.colType[col]['type']=='float' or self.colType[col]['type']=='int':
+                    allInput[col]=self.dataDf[col]
+        algo=abnormalDot(allInput,self.result["label"],"preview")
+        algo.doBokehViz()
+        algo.getComp()
+        figs["Preview"]=algo.component
     
