@@ -214,7 +214,7 @@ class analytic():
                 try:
                     self.test()
                 except Exception:
-                    continue
+                    pass
             self.saveModel()
             changeModelStatus(self.mid,"success")
         except Exception as e:
