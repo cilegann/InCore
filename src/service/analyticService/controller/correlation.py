@@ -33,12 +33,13 @@ class doCorrelation(Resource):
             parser.add_argument('fileUid',type=str,required=True)
             parser.add_argument('algoname',type=str,required=True)
             args = parser.parse_args()
-            logging.info(f"[{fName}] args: {args}")
             fid=args['fileUid']
             algoName=args['algoname']
             token=args['token']
             if not tokenValidator(token):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f"[{fName}] args: {args}")
             module=importlib.import_module(f"service.analyticService.core.correlationCore.correlationAlgo.{algoName}")
             algo=getattr(module,algoName)
             result=algo(fid).do()

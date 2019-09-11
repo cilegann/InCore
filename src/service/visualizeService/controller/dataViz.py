@@ -28,13 +28,14 @@ class doDataViz(Resource):
             parser.add_argument('algoname',type=str,required=True)
             parser.add_argument('datacol',type=str,required=True)
             args = parser.parse_args()
-            logging.info(f"[API_{fName}] args: {args}")
+            
             fid=args['fileUid']
             algoName=args['algoname']
             token=args['token']
             if not tokenValidator(token):
                 return {"status":"error","msg":"token error","data":{}},401
-
+            args.pop('token')
+            logging.info(f"[API_{fName}] args: {args}")
             try:
                 datacol=json.loads(args['datacol'])
             except Exception as e:

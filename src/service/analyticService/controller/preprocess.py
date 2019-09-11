@@ -31,11 +31,12 @@ class doPreprocess(Resource):
             parser.add_argument('fileUid',type=str,required=True)
             parser.add_argument('action',type=str,required=True)
             args = parser.parse_args()
-            logging.info(f"[{fName}] args: {args}")
             fid=args['fileUid']
             token=args['token']
             if not tokenValidator(token):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f"[{fName}] args: {args}")
             try:
                 action=json.loads(args['action'])
             except Exception as e:
@@ -55,11 +56,12 @@ class previewPreprocess(Resource):
             parser.add_argument('fileUid',type=str,required=True)
             parser.add_argument('action',type=str,required=True)
             args = parser.parse_args()
-            logging.info(f"[{fName}] args: {args}")
             fid=args['fileUid']
             token=args['token']
             if not tokenValidator(token):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f"[{fName}] args: {args}")
             try:
                 action=json.loads(args['action'])
             except Exception as e:

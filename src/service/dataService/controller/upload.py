@@ -28,7 +28,7 @@ class Upload(Resource):
         parser.add_argument('type',type=str,required=True)
         parser.add_argument('token',type=str,required=True)
         args = parser.parse_args()
-        logging.info(f"[API_Upload] args: {args}")
+        
         file = args['file']
         dataType=args['type']
         token=args['token']
@@ -36,7 +36,8 @@ class Upload(Resource):
         #check token
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
-
+        args.pop('token')
+        logging.info(f"[API_Upload] args: {args}")
         pft=param.dataExtensionType
         #check project type
         if dataType not in pft:

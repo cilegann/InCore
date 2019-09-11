@@ -23,7 +23,7 @@ class getColumn(Resource):
         parser.add_argument('fileUid', type=str,required=True)
         parser.add_argument('token',type=str,required=True)
         args = parser.parse_args()
-        logging.info(f"[API_getCol] args: {args}")
+        
         fid=args['fileUid']
         token=args['token']
 
@@ -31,7 +31,8 @@ class getColumn(Resource):
         #check token
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
-        
+        args.pop('token')
+        logging.info(f"[API_getCol] args: {args}")
         try:
             fileInfo=getFileInfo(fid)
         except Exception as e:
