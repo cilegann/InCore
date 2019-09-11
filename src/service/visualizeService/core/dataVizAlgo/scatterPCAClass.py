@@ -33,7 +33,12 @@ class scatterPCAClass(dataViz):
             filted=missingFiltering().filtCols(data,types,[True for i in range(len(data))])
             data=filted[:-1]
             c=filted[-1]
-            color=[cmap[i] for i in c]
+            if len(set(c))>9:
+                cmap=Category20[20]
+            else:
+                cmap=Category10[10]
+            cateMapping={str(k):i for i,k in enumerate(list(set(c)))}
+            color=[cmap[cateMapping[str(k)]] for k in c]
             data=np.asarray(data)
             if len(data)>2:
                 data=np.transpose(data)

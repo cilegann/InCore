@@ -15,12 +15,13 @@ class scatterXYClass(dataViz):
             self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
             self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
             [x,y,c]=missingFiltering().filtCols([self.data['x'],self.data['y'],self.data['value']],['float','float','int'],[True,True,True])
-            if max(c)>9:
+            if len(set(c))>9:
                 cmap=Category20[20]
             else:
                 cmap=Category10[10]
+            cateMapping={str(k):i for i,k in enumerate(list(set(c)))}
+            color=[cmap[cateMapping[str(k)]] for k in c]
             # shuffle(cmap)
-            color=[cmap[i] for i in c]
             source=ColumnDataSource(pd.DataFrame({'x':x,'y':y,'class':c,'color':color}))
             self.bokeh_fig.add_tools(
                 HoverTool(
