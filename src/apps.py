@@ -13,6 +13,7 @@ import sys
 from utils import dbCleaningOnLaunch,checkFolder
 sys.dont_write_bytecode = True #disable __pycache__
 from params import params
+from internalAnalyticAlgoChecker import algoChecker
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from purge import purger
@@ -82,6 +83,7 @@ if __name__ == "__main__":
     logging.info(f'InCore running at port {par.port}')
     dbCleaningOnLaunch()
     checkFolder()
+    algoChecker()
     scheduler = BackgroundScheduler()
     scheduler.add_job(purge, 'cron',day_of_week='0-6', hour=1, minute=27)
     scheduler.start()
