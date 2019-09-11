@@ -3,7 +3,7 @@
         "regression":["in_linearRegression","in_stopTest"],
         "classification":["in_knn"],
         "abnormal":["in_isolationForest"],
-        "clustering":[]
+        "clustering":["in_kmeans"]
     },
     "cv":{
         "regression":[],
