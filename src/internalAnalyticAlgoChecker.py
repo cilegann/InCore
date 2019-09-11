@@ -1,6 +1,5 @@
 import os
 import json
-from parse import *
 import warnings
 from tokenize import generate_tokens
 from params import params
