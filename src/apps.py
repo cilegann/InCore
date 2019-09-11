@@ -10,11 +10,12 @@ from flask import Flask
 from flask_restful import Api
 import logging
 import sys
+from utils import modelDbCleaningOnLaunch,checkFolder
 sys.dont_write_bytecode = True #disable __pycache__
 from params import params
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
-from purge import purger 
+from purge import purger
 from controller.getConfig import getDataProjectType,getDataExtensionType
 from controller.autoDeploy import gitPull
 from service.dataService.controller.upload import Upload
@@ -79,6 +80,8 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level=logging.INFO , format='[%(levelname)s] %(message)s')
     logging.info(f'InCore running at port {par.port}')
+    modelDbCleaningOnLaunch()
+    checkFolder()
     scheduler = BackgroundScheduler()
     scheduler.add_job(purge, 'cron',day_of_week='0-6', hour=1, minute=27)
     scheduler.start()
