@@ -113,12 +113,10 @@ class stopTraining(Resource):
             if status!='train':
                 return {"status":"error","msg":f"model {mid} is not training","data":{}},400
             res=0
-            logging.debug(threading.enumerate())
             for t in threading.enumerate():
-                print(t.name)
-                print(mid)
-                print(t.name==mid)
                 if t.name==mid:
+                    print(t)
+                    print(t.ident)
                     tid=t.ident
                     res=ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit))
             if res==0:
