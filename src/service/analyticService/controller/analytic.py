@@ -117,7 +117,7 @@ class stopTraining(Resource):
                 if t.name==mid:
                     print(t)
                     print(t.ident)
-                    tid=t.ident
+                    tid=ctypes.c_long(t.ident)
                     res=ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit))
             if res==0:
                 logging.info(f'[API_stopTraining] model {mid} not found in thread')
