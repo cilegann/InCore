@@ -1,0 +1,42 @@
+{
+    "dataType":"num",
+    "projectType":"clustering",
+    "algoName":"in_kmeans",
+    "description": "Perform linear regression",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"n_clusters",
+            "description":"whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (e.g. data is expected to be already centered).",
+            "lowerBound":2,
+            "upperBound":20,
+            "type":"int",
+            "default":8
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations of the k-means algorithm for a single run.",
+            "lowerBound":10,
+            "upperBound":300,
+            "type":"int",
+            "default":300
+        },
+        {
+            "name":"algorithm",
+            "description":"K-means algorithm to use. The classical EM-style algorithm is “full”. The “elkan” variation is more efficient by using the triangle inequality, but currently doesn’t support sparse data. “auto” chooses “elkan” for dense data and “full” for sparse data.",
+            "type":"enum",
+            "list":["auto","full","elkan"],
+            "default":"auto"
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+    ]
+}
