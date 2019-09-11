@@ -6,4 +6,4 @@ class in_isolationForest(abnormal):
         self.model = IsolationForest(n_estimators=self.param['n_estimators'], bootstrap=self.param['bootstrap'],warm_start=self.param['warm_start'])
         self.model.fit(self.inputData["X"])
     def predictAlgo(self):
-        self.result["label"]=self.model.predict(self.inputData["x"])
+        self.result["label"]=self.model.predict(self.inputData["X"])
