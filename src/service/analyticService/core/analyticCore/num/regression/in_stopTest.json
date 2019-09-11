@@ -16,6 +16,14 @@
             "description":"This parameter is ignored when fit_intercept is set to False. If True, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm.",
             "type":"bool",
             "default":0
+        },
+        {
+            "name":"secondToSleep",
+            "description":"time to sleep (sec)",
+            "upperBound":6000,
+            "lowerBound":0,
+            "type":"int",
+            "default":300
         }
     ],
     "input":[
