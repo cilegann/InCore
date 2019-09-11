@@ -29,7 +29,7 @@ class getFileStatus(Resource):
         token=args['token']
 
         fids=json.loads(fids)
-        #logging.debug(f'[API_getFileStatus]{fids}')
+        logging.debug(f'[API_getFileStatus]{fids}')
         #check token
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
