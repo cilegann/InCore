@@ -115,8 +115,6 @@ class stopTraining(Resource):
             res=0
             for t in threading.enumerate():
                 if t.name==mid:
-                    print(t)
-                    print(t.ident)
                     tid=ctypes.c_long(t.ident)
                     res=ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit))
             if res==0:
