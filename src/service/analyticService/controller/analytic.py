@@ -249,7 +249,7 @@ class deleteModel(Resource):
             try:
                 db=sql()
                 db.cursor.execute(f"delete from `models` where `mid`='{mid}';")
-                numOfresult=db.cursor.execute(f"select * from `models` where `fid`='{modelFid}';")
+                numOfresult=db.cursor.execute(f"select * from `models` where (`fid`='{modelFid}' and (`status`='train' or `status`='success'));")
                 if numOfresult==0:
                     unlockFile(modelFid)
                 db.conn.commit()
