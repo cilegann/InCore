@@ -14,6 +14,10 @@ import pandas as pd
 from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
 from service.visualizeService.core.analyticVizAlgo.abnormalDot import abnormalDot
 
+'''
+prediction result should be saved to self.result['label'] as a 1D np array which composed of -1 and 1
+'''
+
 class abnormal(analytic):
     def __init__(self,algoInfo,fid,action='train',mid=None,testLabel=None):
         try:
@@ -64,7 +68,7 @@ class abnormal(analytic):
             raise Exception(f'[{self.algoName}][init]{traceback.format_exc()}')
 
     def predict(self):
-        self.dataDf['label']=self.result['lable']
+        self.dataDf['label']=self.result['label']
         uid=fileUidGenerator().uid
         if self.dataType=='cv':
             oldNumFileName=self.numFile[self.numFile.rfind("/")+1:]
