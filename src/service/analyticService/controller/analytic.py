@@ -69,9 +69,10 @@ class doModelTrain(Resource):
             parser.add_argument('input',type=str,required=True)
             parser.add_argument('output',type=str,required=True)
             args=parser.parse_args()
-            logging.debug(f'[API_doModelTrain]{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_doModelTrain]{args}')
             fid=args['fileUid']
             dataType=args['dataType']
             projectType=args['projectType']
@@ -105,9 +106,10 @@ class stopTraining(Resource):
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('modelUid',type=str,required=True)
             args=parser.parse_args()
-            logging.info(f'[API_stopTraining] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_stopTraining] args:{args}')
             mid=args['modelUid']
             _,_,_,_,_,status,_,_=getModelInfo(mid)[0]
             if status!='train':
@@ -145,9 +147,10 @@ class getModelPreview(Resource):
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('modelUid',type=str,required=True)
             args=parser.parse_args()
-            logging.info(f'[API_getModelPreview] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_getModelPreview] args:{args}')
             mid=args['modelUid']
             _,_,_,_,_,status,_,_=getModelInfo(mid)[0]
             if status!='success':
@@ -168,9 +171,10 @@ class doModelTest(Resource):
             parser.add_argument('fileUid',type=str,required=True)
             parser.add_argument('label',type=str)
             args=parser.parse_args()
-            logging.info(f'[API_doModelTest] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_doModelTest] args:{args}')
             mid=args['modelUid']
             fid=args['fileUid']
             _,_,_,_,_,status,_,_=getModelInfo(mid)[0]
@@ -200,9 +204,10 @@ class doModelPredict(Resource):
             parser.add_argument('fileUid',type=str,required=True)
             parser.add_argument('preprocess',type=bool,required=True)
             args=parser.parse_args()
-            logging.info(f'[API_doModelPredict] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_doModelPredict] args:{args}')
             mid=args['modelUid']
             fid=args['fileUid']
             _,modelFid,_,_,_,status,_,_=getModelInfo(mid)[0]
@@ -235,9 +240,10 @@ class deleteModel(Resource):
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('modelUid',type=str,required=True)
             args=parser.parse_args()
-            logging.info(f'[API_deleteModel] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_deleteModel] args:{args}')
             mid=args['modelUid']
             _,modelFid,_,_,_,status,_,_=getModelInfo(mid)[0]
             if status=='train':
@@ -271,9 +277,10 @@ class getModelStatus(Resource):
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('modelUid',type=str,required=True)
             args=parser.parse_args()
-            logging.info(f'[API_getModelStatus] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_getModelStatus] args:{args}')
             mid=args['modelUid']
             _,_,_,_,_,status,_,_=getModelInfo(mid)[0]
             return {"status":"success","msg":"","data":status},200
@@ -288,9 +295,10 @@ class getModelParameter(Resource):
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('modelUid',type=str,required=True)
             args=parser.parse_args()
-            logging.info(f'[API_getModelParameter] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_getModelParameter] args:{args}')
             mid=args['modelUid']
             _,_,_,_,_,status,_,_=getModelInfo(mid)[0]
             if status!='success':
@@ -309,9 +317,10 @@ class getModelFailReason(Resource):
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('modelUid',type=str,required=True)
             args=parser.parse_args()
-            logging.info(f'[API_getModelFailReason] args:{args}')
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_getModelFailReason] args:{args}')
             mid=args['modelUid']
             _,_,_,_,_,status,_,reason=getModelInfo(mid)[0]
             if status!='fail':
