@@ -115,13 +115,18 @@ class stopTraining(Resource):
             res=0
             logging.debug(threading.enumerate())
             for t in threading.enumerate():
+                print(t.name)
+                print(mid)
+                print(t.name==mid)
                 if t.name==mid:
                     tid=t.ident
                     res=ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(SystemExit))
             if res==0:
-                return {"status":"error","msg":f"model {mid} not found","data":{}},400
+                logging.info(f'[API_stopTraining] model {mid} not found in thread')
+                return {"status":"error","msg":f"model {mid} not found in thread","data":{}},400
             elif res!=1:
                 ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, 0)
+                logging.info(f'[API_stopTraining] something went wrong, can\'t stop training')
                 return {"status":"error","msg":f"something went wrong, can't stop training","data":{}},400
             try:
                 db=sql()
