@@ -1,7 +1,7 @@
 {
     "dataType":"num",
     "projectType":"abnormal",
-    "algoName":"in_knn",
+    "algoName":"in_isolationForest",
     "description": "Return the anomaly score of each sample using the IsolationForest algorithm",
     "lib":"sklearn",
     "param":[

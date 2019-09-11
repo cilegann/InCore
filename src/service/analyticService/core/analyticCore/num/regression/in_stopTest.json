@@ -1,7 +1,7 @@
 {
     "dataType":"num",
     "projectType":"regression",
-    "algoName":"in_linearRegression",
+    "algoName":"in_stopTest",
     "description": "Perform linear regression",
     "lib":"sklearn",
     "param":[
