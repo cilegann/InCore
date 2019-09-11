@@ -113,6 +113,7 @@ class stopTraining(Resource):
             if status!='train':
                 return {"status":"error","msg":f"model {mid} is not training","data":{}},400
             res=0
+            logging.debug(threading.enumerate())
             for t in threading.enumerate():
                 if t.name==mid:
                     tid=t.ident
