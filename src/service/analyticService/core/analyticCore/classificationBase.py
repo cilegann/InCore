@@ -10,7 +10,7 @@ class classification(analytic):
         super().__init__(algoInfo, fid, action, mid)
     
     def test(self):
-        self.txtRes = ""
+        self.txtRes +="\n\n"
         for k, v in self.outputDict.items():
             self.txtRes += f"{v}:\n"
             self.txtRes += f"  Cross Entropy: {crossEntropy(self.outputData[k],self.result[k])}\n"
