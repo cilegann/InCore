@@ -10,7 +10,7 @@ from flask import Flask
 from flask_restful import Api
 import logging
 import sys
-from utils import modelDbCleaningOnLaunch,checkFolder
+from utils import dbCleaningOnLaunch,checkFolder
 sys.dont_write_bytecode = True #disable __pycache__
 from params import params
 from flask_cors import CORS
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level=logging.INFO , format='[%(levelname)s] %(message)s')
     logging.info(f'InCore running at port {par.port}')
-    modelDbCleaningOnLaunch()
+    dbCleaningOnLaunch()
     checkFolder()
     scheduler = BackgroundScheduler()
     scheduler.add_job(purge, 'cron',day_of_week='0-6', hour=1, minute=27)

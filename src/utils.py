@@ -17,7 +17,7 @@ class sql():
         self.conn=pymysql.connect(param.dbhost,param.dbuser,param.dbpwd,param.dbschema)
         self.cursor=self.conn.cursor()
 
-def modelDbCleaningOnLaunch():
+def dbCleaningOnLaunch():
     try:
         db=sql()
         db.cursor.execute("select `mid` from models where `status`='train';")
@@ -27,8 +27,23 @@ def modelDbCleaningOnLaunch():
             db.cursor.execute(f"update `models` set `status`='fail',`failReason`='system restart, training abort.' where `mid`='{mid}';")
         db.conn.commit()
         logging.info("[modelDbCleaningOnLaunch] success")
+        db.cursor.execute(f"select `fid` from models where `status`='train' or `status`='success'")
+        usingFids=db.cursor.fetchall()
+        usingFids=[f[0] for f in usingFids]
+        db.cursor.execute(f"select `fid` from models")
+        allFids=db.cursor.fetchall()
+        allFids=[f[0] for f in allFids]
+        toFreeFilds=list(set(allFids)-set(usingFids))
+        for f in toFreeFilds:
+            db.cursor.execute(f"update `files` set `inuse`='0' where `fid`='{f}';")
+        for f in usingFids:
+            db.cursor.execute(f"update `files` set `inuse`='1' where `fid`='{f}';")
+        db.conn.commit()
     except Exception as e:
+        db.conn.rollback()
         logging.error(f"[modelDbCleaningOnLaunch] {traceback.format_exc()}")
+    finally:
+        db.conn.close()
 
 def checkFolder():
     param=params()

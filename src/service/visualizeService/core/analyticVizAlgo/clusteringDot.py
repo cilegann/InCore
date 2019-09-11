@@ -14,14 +14,14 @@ class clusteringDot(circleXYClass):
         }
     @categ= 1D np.array
     '''
-    def __init__(self,data,clust,figName,w=625,h=400):
+    def __init__(self,data,cluster,figName,w=625,h=400):
         try:
             self.algoInfo={}
             self.algoInfo['lib']='bokeh'
             self.algoInfo['friendlyname']=figName
             self.algoInfo['algoname']='clusteringDot'
             self.data=data
-            self.clust=clust
+            self.cluster=cluster
             self.bokeh_fig=self.init_figure(w=w,h=h)
             self.component=None
         except Exception as e:
@@ -29,15 +29,14 @@ class clusteringDot(circleXYClass):
     def doBokehViz(self):
         try:
             dic=self.data
-            dic['clust']=self.clust
+            dic['cluster']=self.cluster
             menus=[k for k in dic]
             colors=[]
-            if len(set(clust))>9:
+            if len(set(self.cluster))>9:
                 cmap=Category20[20]
             else:
                 cmap=Category10[10]
-            for c in self.clust:
-                colors.append(cmap[c])
+            colors=[cmap[c] for c in self.cluster]
             dic['categ']=colors
             dic['bokeh_plt_x']=dic[menus[0]]
             dic['bokeh_plt_y']=dic[menus[1]]
