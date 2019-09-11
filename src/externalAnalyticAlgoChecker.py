@@ -78,7 +78,7 @@ for root,ds,_ in os.walk("./analyticAlgoWarehouse"):
         inputList=[p["name"] for p in j["input"]]
         outputList=[p["name"] for p in j["output"]]
         
-        g=generate_tokens(open('analyticAlgoWarehouse/in_kmeans/in_kmeans.py').readline)
+        g=generate_tokens(open(pyFile).readline)
         record=[]
         for typ,syn,start,end,line in g:
             if typ==1 or typ==53 or typ==3:
