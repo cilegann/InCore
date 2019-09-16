@@ -6,7 +6,7 @@ class in_lassoRegression(regression):
         self.model=Lasso(
             alpha=self.param['alpha'],
             normalize=self.param['normalize'],
-            fit_intercept=self.param['fit_intercep'],
+            fit_intercept=self.param['fit_intercept'],
             max_iter=self.param['max_iter'],
             positive=self.param['positive']
             )
