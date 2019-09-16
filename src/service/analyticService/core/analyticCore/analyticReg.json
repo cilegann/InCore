@@ -1,6 +1,6 @@
 {
     "num":{
-        "regression":["in_linearRegression","in_ridgeRegression","in_lassoRegression","in_elasticNet","in_lassoLars","in_stopTest"],
+        "regression":["in_linearRegression","in_ridgeRegression","in_lassoRegression","in_elasticNet","in_lassoLars","in_oneLayerNN","in_stopTest"],
         "classification":["in_knn"],
         "abnormal":["in_isolationForest"],
         "clustering":["in_kmeans"]

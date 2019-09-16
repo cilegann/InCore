@@ -1,0 +1,61 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"in_oneLayerNN",
+    "description": "Single layer neural network",
+    "lib":"keras",
+    "param":[
+        {
+            "name":"neuron",
+            "description":"number of neurons",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":512,
+            "default":16
+        },
+        {
+            "name":"activation",
+            "description":"activation function",
+            "type":"enum",
+            "list":["linear","tanh","relu","elu","softmax","selu"],
+            "default":"linear"
+        },
+        {
+            "name":"loss",
+            "description":"loss function",
+            "type":"enum",
+            "list":["mean_squared_error","mean_absolute_error","hinge"],
+            "default":"mean_squared_error"
+        },
+        {
+            "name":"optimizer",
+            "description":"optimizer",
+            "type":"enum",
+            "list":["sgd","rmsprop","adagrad","adam"],
+            "default":"sgd"
+        },
+        {
+            "name":"epochs",
+            "description":"train epochs",
+            "type":"int",
+            "lowerBound":5,
+            "upperBound":200,
+            "default":20
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}
