@@ -20,6 +20,7 @@ prediction result should be saved to self.result['cluster'] as a 1D np array
 class clustering(analytic):
 
     def predict(self):
+        self.clearSession()
         self.dataDf['cluster']=self.result['cluster']
         uid=fileUidGenerator().uid
         if self.dataType=='cv':
@@ -58,6 +59,8 @@ class clustering(analytic):
         return uid
     
     def test(self):
+        if self.action=='test':
+            self.clearSession()
         self.visualize()
         return {"text": self.txtRes, "fig": self.vizRes}
 

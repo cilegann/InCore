@@ -10,6 +10,7 @@ class in_oneLayerNN(regression):
         self.model.add(Dense(1,activation=self.param['output_activation']))
         self.model.compile(loss=self.param['loss'],optimizer=self.param['optimizer'])
         self.model.fit(self.inputData['X'],self.outputData['Y'],epochs=self.param['epochs'])
-        
     def predictAlgo(self):
-        self.result['Y']=self.model.predict(self.inputData['X'])
+        r=self.model.predict(self.inputData['X'])
+        r=r.reshape(r.shape[0])
+        self.result['Y']=r

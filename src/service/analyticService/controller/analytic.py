@@ -15,6 +15,8 @@ import threading
 import ctypes
 import pickle
 import shutil
+import tensorflow as tf
+import keras.backend.tensorflow_backend as KTF
 
 param=params()
 
@@ -219,7 +221,7 @@ class doModelPredict(Resource):
                 if preprocessActionFile:
                     with open(preprocessActionFile) as file:
                         action=json.load(file)
-                    preprocessedFid=preprocessCore(fid,action)
+                    preprocessedFid=preprocessCore(fid,action).do()
                     fid=preprocessedFid
             with open(os.path.join(param.modelpath,mid,'algoInfo.pkl'),'rb') as file:
                 algoInfo=pickle.load(file)
@@ -228,6 +230,7 @@ class doModelPredict(Resource):
             algo=attr(algoInfo,fid,'predict',mid=mid)
             algo.predictAlgo()
             predictedFid=algo.predict()
+            print(predictedFid)
             return {"status":"success","msg":"","data":{"preprocessedFileUid":preprocessedFid,"predictedFileUid":predictedFid}},200
         except Exception as e:
             logging.error(f"[API_doModelPredict]{traceback.format_exc()}")

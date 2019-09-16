@@ -10,6 +10,8 @@ class classification(analytic):
         super().__init__(algoInfo, fid, action, mid)
     
     def test(self):
+        if self.action=='test':
+            self.clearSession()
         self.txtRes +="\n\n"
         for k, v in self.outputDict.items():
             self.txtRes += f"{v}:\n"

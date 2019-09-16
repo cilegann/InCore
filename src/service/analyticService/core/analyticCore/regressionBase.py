@@ -7,6 +7,8 @@ class regression(analytic):
         super().__init__(algoInfo, fid, action, mid)
     
     def test(self):
+        if self.action=='test':
+            self.clearSession()
         self.txtRes += "\n\n"
         for k, v in self.outputData.items():
             self.txtRes += f"{self.outputDict[k]}:\n"

@@ -68,6 +68,7 @@ class abnormal(analytic):
             raise Exception(f'[{self.algoName}][init]{traceback.format_exc()}')
 
     def predict(self):
+        self.clearSession()
         self.dataDf['label']=self.result['label']
         uid=fileUidGenerator().uid
         if self.dataType=='cv':
@@ -106,6 +107,8 @@ class abnormal(analytic):
         return uid
     
     def test(self):
+        if self.action=='test':
+            self.clearSession()
         if self.action=='train':
             self.txtRes=""
         elif self.action=="test":

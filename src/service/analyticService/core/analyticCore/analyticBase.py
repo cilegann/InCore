@@ -89,7 +89,7 @@ class analytic():
             self.getData()
         except Exception as e:
             raise Exception(f'[{self.algoName}][init]{traceback.format_exc()}')
- 
+
     def getParams(self):
         rawParam=json.loads(self.algoInfo['param'])
         #check parameter definition matching
@@ -210,10 +210,7 @@ class analytic():
 
     def trainWrapper(self):
         try:
-            config = tf.ConfigProto()
-            config.gpu_options.allow_growth=True
-            session = tf.Session(config=config)
-            KTF.set_session(session)
+            self.setSession()
             self.trainAlgo()
             if self.txtRes=="":
                 self.predictAlgo()
@@ -222,7 +219,7 @@ class analytic():
                 except Exception:
                     pass
             self.saveModel()
-            KTF.clear_session()
+            self.clearSession()
             changeModelStatus(self.mid,"success")
         except Exception as e:
             errormsg=str(e).replace("'","''")
@@ -252,6 +249,7 @@ class analytic():
 
     # inherit in PROJECT to add feature
     def predict(self):
+        self.clearSession()
         for param in self.paramDef['output']:
             if param['type']=='classifiable':
                 v=self.result[param['name']]
@@ -337,6 +335,7 @@ class analytic():
 
     # inherit in PROJECT or ALGO to add feature
     def loadModel(self):
+        self.setSession()
         if self.lib=='keras':
             self.model=load_model(os.path.join(self.sysparam.modelpath,self.mid,"model.h5"))
         elif self.lib=='sklearn':
@@ -389,3 +388,16 @@ class analytic():
         return [array1, array2, ..., array3]
         '''
         return []
+    
+    def clearSession(self):
+        if self.lib=='keras':
+            KTF.clear_session()
+    
+    def setSession(self):
+        if self.lib=='keras':
+            KTF.clear_session()
+            config = tf.ConfigProto()
+            config.gpu_options.allow_growth=True
+            session = tf.Session(config=config)
+            KTF.set_session(session)
+        
