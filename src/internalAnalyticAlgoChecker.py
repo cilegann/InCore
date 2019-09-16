@@ -116,7 +116,7 @@ def algoChecker():
                             oWarn.append(f"[Syntax] outputData key error at {oo[2]}~{oo[3]}: {oo[1]}")
                     for pp in paramList:
                         if pp not in usedParam:
-                            notUsedWarn.append(f"[Not used] param {pp} defined in json is not used in python")
+                            notUsedWarn.append(f"[Not used] param '{pp}' defined in json is not used in python")
                     if len(iWarn)==0 and len(oWarn)==0 and len(pWarn)==0 and len(notUsedWarn)==0:
                         print(f"Algo [{filename}] checked with result: OK")
                     else:
