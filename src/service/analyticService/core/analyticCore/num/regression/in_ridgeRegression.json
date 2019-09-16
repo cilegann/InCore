@@ -1,0 +1,59 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"in_ridgeRegression",
+    "description": "Linear least squares with l2 regularization.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"alpha",
+            "description":"Regularization strength; must be a positive float. Regularization improves the conditioning of the problem and reduces the variance of the estimates. Larger values specify stronger regularization. Alpha corresponds to C^-1 in other linear models such as LogisticRegression or LinearSVC.",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":100,
+            "default":1
+        },
+        {
+            "name":"fit_intercept",
+            "description":"whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (e.g. data is expected to be already centered).",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"normalize",
+            "description":"This parameter is ignored when fit_intercept is set to False. If True, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations for conjugate gradient solver.",
+            "type":"int",
+            "upperBound":10000,
+            "lowerBound":1,
+            "default":1000
+        },
+        {
+            "name":"solver",
+            "description":"Solver to use in the computational routines:",
+            "type":"enum",
+            "list":["auto","svd","cholesky","lsqr","sparse_cg","sag","saga"],
+            "default":"auto"
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}
