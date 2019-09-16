@@ -6,7 +6,7 @@ class in_ridgeRegression(regression):
         self.model=Ridge(
             alpha=self.param['alpha'],
             normalize=self.param['normalize'],
-            fit_intercept=self.param['fit_intercep'],
+            fit_intercept=self.param['fit_intercept'],
             max_iter=self.param['max_iter'],
             solver=self.param['solver']
             )
