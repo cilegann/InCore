@@ -6,7 +6,7 @@
     "lib":"keras",
     "param":[
         {
-            "name":"neuron",
+            "name":"hidden_neuron",
             "description":"number of neurons",
             "type":"int",
             "lowerBound":1,
@@ -14,7 +14,14 @@
             "default":16
         },
         {
-            "name":"activation",
+            "name":"hidden_activation",
+            "description":"activation function",
+            "type":"enum",
+            "list":["linear","tanh","relu","elu","softmax","selu"],
+            "default":"linear"
+        },
+        {
+            "name":"output_activation",
             "description":"activation function",
             "type":"enum",
             "list":["linear","tanh","relu","elu","softmax","selu"],
