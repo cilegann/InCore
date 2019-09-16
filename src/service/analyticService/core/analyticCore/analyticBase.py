@@ -13,8 +13,6 @@ import pickle
 from keras.models import load_model
 from keras.utils import to_categorical
 import shutil
-import tensorflow as tf
-import keras.backend.tensorflow_backend as KTF
 
 class analytic():
     def __init__(self,algoInfo,fid,action='train',mid=None):
@@ -210,16 +208,9 @@ class analytic():
 
     def trainWrapper(self):
         try:
-            config = tf.ConfigProto()
-            config.gpu_options.allow_growth=True
-            session = tf.Session(config=config)
-            KTF.set_session(session)
             self.trainAlgo()
-            KTF.clear_session()
             if self.txtRes=="":
-                KTF.set_session(session)
                 self.predictAlgo()
-                KTF.clear_session()
                 try:
                     self.test()
                 except Exception:
