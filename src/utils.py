@@ -19,7 +19,6 @@ class sql():
 
 def dbCleaningOnLaunch():
     try:
-        logging.info("[dbCleaningOnLaunch] Start")
         db=sql()
         db.cursor.execute("select `mid` from models where `status`='train';")
         table=db.cursor.fetchall()
@@ -27,7 +26,7 @@ def dbCleaningOnLaunch():
         for mid in mids:
             db.cursor.execute(f"update `models` set `status`='fail',`failReason`='system restart, training abort.' where `mid`='{mid}';")
         db.conn.commit()
-        logging.info("[modelDbCleaningOnLaunch] success")
+        
         db.cursor.execute(f"select `fid` from models where `status`='train' or `status`='success'")
         usingFids=db.cursor.fetchall()
         usingFids=[f[0] for f in usingFids]
@@ -40,6 +39,7 @@ def dbCleaningOnLaunch():
         for f in usingFids:
             db.cursor.execute(f"update `files` set `inuse`='1' where `fid`='{f}';")
         db.conn.commit()
+        logging.info("[dbCleaningOnLaunch] success")
     except Exception as e:
         db.conn.rollback()
         logging.error(f"[dbCleaningOnLaunch] {traceback.format_exc()}")
