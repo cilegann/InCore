@@ -8,8 +8,7 @@ class in_elasticNet(regression):
             l1_ratio=self.param['l1_ratio'],
             normalize=self.param['normalize'],
             fit_intercept=self.param['fit_intercept'],
-            max_iter=self.param['max_iter'],
-            positive=self.param['positive']
+            max_iter=self.param['max_iter']
             )
         self.model.fit(self.inputData['X'],self.outputData['Y'])
     def predictAlgo(self):

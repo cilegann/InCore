@@ -102,7 +102,10 @@ def algoChecker():
                     pWarn=[]
                     iWarn=[]
                     oWarn=[]
+                    notUsedWarn=[]
+                    usedParam=[]
                     for pp in p:
+                        usedParam.append(pp[1].replace(" ","").replace("'","").replace('"',""))
                         if pp[1].replace(" ","").replace("'","").replace('"',"") not in paramList:
                             pWarn.append(f"[Syntax] param key error at {pp[2]}~{pp[3]}: {pp[1]}")
                     for ii in i:
@@ -111,7 +114,10 @@ def algoChecker():
                     for oo in o:
                         if oo[1].replace(" ","").replace("'","").replace('"',"") not in outputList:
                             oWarn.append(f"[Syntax] outputData key error at {oo[2]}~{oo[3]}: {oo[1]}")
-                    if len(iWarn)==0 and len(oWarn)==0 and len(pWarn)==0:
+                    for pp in paramList:
+                        if pp not in usedParam:
+                            notUsedWarn.append(f"[Not used] param {pp} defined in json is not used in python")
+                    if len(iWarn)==0 and len(oWarn)==0 and len(pWarn)==0 and len(notUsedWarn)==0:
                         print(f"Algo [{filename}] checked with result: OK")
                     else:
                         print(f"Algo [{filename}] checked with result:")
@@ -126,6 +132,9 @@ def algoChecker():
                         print(f"      {len(oWarn)} outputData key warning")
                         for ow in oWarn:
                             print(f"        -{ow}")
+                        print(f"      {len(notUsedWarn)} not used param warning")
+                        for nw in notUsedWarn:
+                            print(f"        -{nw}")
     print("---------------------------------------------------")
 
 if __name__=="__main__":
