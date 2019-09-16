@@ -19,6 +19,7 @@ class sql():
 
 def dbCleaningOnLaunch():
     try:
+        logging.info("[dbCleaningOnLaunch] Start")
         db=sql()
         db.cursor.execute("select `mid` from models where `status`='train';")
         table=db.cursor.fetchall()
@@ -41,7 +42,7 @@ def dbCleaningOnLaunch():
         db.conn.commit()
     except Exception as e:
         db.conn.rollback()
-        logging.error(f"[modelDbCleaningOnLaunch] {traceback.format_exc()}")
+        logging.error(f"[dbCleaningOnLaunch] {traceback.format_exc()}")
     finally:
         db.conn.close()
 
