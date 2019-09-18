@@ -204,7 +204,7 @@ class doModelPredict(Resource):
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('modelUid',type=str,required=True)
             parser.add_argument('fileUid',type=str,required=True)
-            parser.add_argument('preprocess',type=bool,required=True)
+            parser.add_argument('preprocess',type=int,required=True)
             args=parser.parse_args()
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
@@ -216,7 +216,7 @@ class doModelPredict(Resource):
             if status!='success':
                 return {"status":"error","msg":f"model {mid} is still training or failed. Can't predict","data":{}},400
             preprocessedFid="None"
-            if args['preprocess']:
+            if args['preprocess']==1:
                 _,_,_,_,_,preprocessActionFile=getFileInfo(modelFid)[0]
                 if preprocessActionFile:
                     with open(preprocessActionFile) as file:
