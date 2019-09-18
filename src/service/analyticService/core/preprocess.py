@@ -31,6 +31,13 @@ class preprocess():
                     self.data[c['col']]['stringCleaning']=c['stringCleaning']
                     self.data[c['col']]['data']=np.asarray(self.df[c['col']])
                     self.data[c['col']]['do']=True
+            okCount=0
+            for k,v in self.data.items():
+                if 'data' in v:
+                    okCount+=1
+                    break
+            if okCount==0:
+                raise Exception(f"[Preprocess Init] actionCol and fileCol not corresponed at all")
         except Exception as e:
             raise Exception(f"[Preprocess Init]{traceback.format_exc()}")
 
