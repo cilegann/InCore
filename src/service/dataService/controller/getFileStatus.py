@@ -33,7 +33,7 @@ class getFileStatus(Resource):
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
         args.pop('token')
-        logging.info(f"[API_getFileStatus] args: {args}")
+        #logging.info(f"[API_getFileStatus] args: {args}")
         try:
             fileInfo=[getFileInfo(fid)[0] for fid in fids]
         except Exception as e:
