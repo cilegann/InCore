@@ -39,10 +39,16 @@ class clusteringDot(circleXYClass):
             colors=[cmap[c] for c in self.cluster]
             dic['categ']=colors
             dic['bokeh_plt_x']=dic[menus[0]]
-            dic['bokeh_plt_y']=dic[menus[1]]
+            if len(menus)>1:
+                dic['bokeh_plt_y']=dic[menus[1]]
+            else:
+                dic['bokeh_plt_y']=dic[menus[0]]
             data=ColumnDataSource(dic)
             self.bokeh_fig.xaxis.axis_label=menus[0]
-            self.bokeh_fig.yaxis.axis_label=menus[1]
+            if len(menus)>1:
+                self.bokeh_fig.yaxis.axis_label=menus[1]
+            else:
+                self.bokeh_fig.yaxis.axis_label=menus[0]
             self.bokeh_fig.circle('bokeh_plt_x','bokeh_plt_y',source=data,color='categ',fill_alpha=0.2,size=10)
             self.bokeh_fig.add_tools(
                 HoverTool(tooltips = [('X,Y', '@bokeh_plt_x,@bokeh_plt_y')])
@@ -66,7 +72,10 @@ class clusteringDot(circleXYClass):
             dp1=Select(title="X-coordinate:",value=menus[0],options=menus)
             dp1.js_on_change('value', callbackX)
             #dp2 = Dropdown(label="Y value",menu=y_menu,default_value=y_menu[0])
-            dp2=Select(title="Y-coordinate:",value=menus[1],options=menus)
+            if len(menus)>1:
+                dp2=Select(title="Y-coordinate:",value=menus[1],options=menus)
+            else:
+                dp2=Select(title="Y-coordinate:",value=menus[0],options=menus)
             dp2.js_on_change('value', callbackY)
             self.bokeh_fig = column(row(dp1,dp2), self.bokeh_fig)
         except Exception as e:
