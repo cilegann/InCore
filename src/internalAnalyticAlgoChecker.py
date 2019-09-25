@@ -53,12 +53,14 @@ def algoChecker():
                             assert int(p["upperBound"])==p["upperBound"], f"upperBound must be int"
                             assert int(p["lowerBound"])==p["lowerBound"], f"lowerBound must be int"
                             assert int(p["default"])==p["default"], f"default must be int"
+                            assert p['upperBound']>p['lowerBound'], f"upperBound must be greater than lowerBound"
                         if p["type"]=="float":
                             assert "upperBound" in p, f"attribute 'upperBound' not found in {p}"
                             assert "lowerBound" in p, f"attribute 'lowerBound' not found in {p}"
                             assert float(p["upperBound"])==p["upperBound"], f"upperBound must be float"
                             assert float(p["lowerBound"])==p["lowerBound"], f"lowerBound must be float"
                             assert float(p["default"])==p["default"], f"default must be float"
+                            assert p['upperBound']>p['lowerBound'], f"upperBound must be greater than lowerBound"
                         if p["type"]=="bool":
                             assert (p["default"]==1 or p["default"]==0), f"default must be 0 or 1"
                         if p["type"]=="enum":
