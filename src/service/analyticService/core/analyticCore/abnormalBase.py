@@ -48,8 +48,8 @@ class abnormal(analytic):
             self.c2d={"label":{"-1":-1,"1":1}} # category to data mapping
             self.model=None #model
             self.result={} # A outputData liked structure
-            self.vizRes=None # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
-            self.txtRes=None # "string"
+            self.vizRes={} # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
+            self.txtRes="" # "string"
             self.customObj={} #other to-saved variable should place here e.g. text tokenization {"objName":obj}
             if action=='test':
                 if not testLabel:
@@ -142,4 +142,5 @@ class abnormal(analytic):
         algo.doBokehViz()
         algo.getComp()
         figs["Preview"]=algo.component
+        return figs
     
