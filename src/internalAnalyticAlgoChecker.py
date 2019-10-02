@@ -28,7 +28,8 @@ def algoChecker():
                     pyFile=os.path.join(param.analyticServiceRoot,"core","analyticCore",dl,pl,filename+".py")
                     assert os.path.isfile(jsonFile),f"{jsonFile} not found"
                     assert os.path.isfile(pyFile),f"{pyFile} not found"
-                    assert filename in reg[dl][pl],f"{dl}.{pl}.{filename} not in Reg"
+                    if filename not in reg[dl][pl]:
+                        logging.warning(f"{dl}.{pl}.{filename} not in Reg")
                     j=json.load(open(jsonFile))
                     assert "dataType" in j, "dataType not defined in json"
                     assert j["dataType"] in acceptableType,"dataType not supported. Check spelling"
