@@ -315,10 +315,12 @@ class analytic():
         except:
             pass
         if self.lib=='keras':
-            self.model.save(os.path.join(self.sysparam.modelpath,self.mid,"model.h5"))
-            jStr=self.model.to_json()
-            with open(os.path.join(self.sysparam.modelpath,self.mid,"model.json"),'w') as file:
-                file.write(jStr)
+            with self.session.as_default():
+                with self.graph.as_default():
+                    self.model.save(os.path.join(self.sysparam.modelpath,self.mid,"model.h5"))
+                    jStr=self.model.to_json()
+                    with open(os.path.join(self.sysparam.modelpath,self.mid,"model.json"),'w') as file:
+                        file.write(jStr)
         elif self.lib=='sklearn':
             with open(os.path.join(self.sysparam.modelpath,self.mid,"model.pkl"),'wb') as file:
                 pickle.dump(self.model,file)
@@ -390,17 +392,17 @@ class analytic():
         return []
     
     def clearSession(self):
+        return 0
         if self.lib=='keras':
-            KTF.clear_session(self.session)
+            self.session.close()
     
     def setSession(self):
         if self.lib=='keras':
-            KTF.clear_session()
             config = tf.ConfigProto()
             config.gpu_options.allow_growth=True
-            session = tf.Session(config=config)
-            KTF.set_session(session)
-            self.session=KTF.get_session()
+            self.session= tf.Session(config=config)
+            KTF.set_session(self.session)
+            # self.session=KTF.get_session()
             self.graph=tf.get_default_graph()
             # self.graph.finalize()
         
