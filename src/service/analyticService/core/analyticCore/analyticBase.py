@@ -391,8 +391,7 @@ class analytic():
     
     def clearSession(self):
         if self.lib=='keras':
-            # KTF.clear_session()
-            self.session.clear_session()
+            KTF.clear_session(self.session)
     
     def setSession(self):
         if self.lib=='keras':
