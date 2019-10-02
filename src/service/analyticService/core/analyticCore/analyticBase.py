@@ -403,5 +403,5 @@ class analytic():
             KTF.set_session(session)
             self.session=KTF.get_session()
             self.graph=tf.get_default_graph()
-            self.graph.finalize()
+            # self.graph.finalize()
         
