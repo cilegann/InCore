@@ -391,7 +391,8 @@ class analytic():
     
     def clearSession(self):
         if self.lib=='keras':
-            KTF.clear_session()
+            # KTF.clear_session()
+            self.session.clear_session()
     
     def setSession(self):
         if self.lib=='keras':
@@ -400,4 +401,7 @@ class analytic():
             config.gpu_options.allow_growth=True
             session = tf.Session(config=config)
             KTF.set_session(session)
+            self.session=KTF.get_session()
+            self.graph=tf.get_default_graph()
+            self.graph.finalize()
         
