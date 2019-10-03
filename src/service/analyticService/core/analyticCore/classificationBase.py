@@ -12,7 +12,6 @@ class classification(analytic):
     def test(self):
         if self.action=='test':
             self.clearSession()
-        self.txtRes +="\n\n"
         for k, v in self.outputDict.items():
             self.txtRes += f"{v}:\n"
             self.txtRes += f"  Cross Entropy: {crossEntropy(self.outputData[k],self.result[k])}\n"
@@ -20,6 +19,7 @@ class classification(analytic):
             predicted=[str(self.c2d[v][str(i)]) for i in  np.argmax(self.result[k],axis=1)]
             label=[k for k in self.d2c[v]]
             self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
+            self.txtRes += '\n'
         self.visualize()
         return {"text": self.txtRes, "fig": self.vizRes}
 

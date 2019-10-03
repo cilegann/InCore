@@ -9,12 +9,12 @@ class regression(analytic):
     def test(self):
         if self.action=='test':
             self.clearSession()
-        self.txtRes += "\n\n"
         for k, v in self.outputData.items():
             self.txtRes += f"{self.outputDict[k]}:\n"
             self.txtRes += f"  MAE: {(np.abs(v-self.result[k])).mean()}\n"
             self.txtRes += f"  MSE: {((v-self.result[k])**2).mean()}\n"
             self.txtRes += f"  RMSE: {np.sqrt(((v-self.result[k])**2).mean())}\n"
+            self.txtRes += "\n"
         self.visualize()
         return {"text": self.txtRes, "fig": self.vizRes}
 
