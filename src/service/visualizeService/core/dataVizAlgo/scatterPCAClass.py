@@ -60,6 +60,6 @@ class scatterPCAClass(dataViz):
                     ]
                 )
             )
-            self.bokeh_fig.scatter('x','y',source=source, color='color' , size=5)
+            self.bokeh_fig.scatter('x','y',source=source, color='color' , size=5,legend='class')
         except Exception as e:
             raise Exception(f'[{self.algoInfo["algoname"]}][do_bokeh_viz] {e}')

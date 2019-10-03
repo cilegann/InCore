@@ -35,6 +35,6 @@ class circleXYClass(dataViz):
                     ]
                 )
             )
-            self.bokeh_fig.circle('x','y',source=source, color='color' ,fill_alpha=0.2, size=10)
+            self.bokeh_fig.circle('x','y',source=source, color='color' ,fill_alpha=0.2, size=10,legend='class')
         except Exception as e:
             raise Exception(f'[{self.algoInfo["algoname"]}][do_bokeh_viz] {e}')
