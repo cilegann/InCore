@@ -141,7 +141,7 @@ class dataViz():
     def saveimg(self):
         try:
             self.mat_plt.savefig(f'{self.params.imgpath}/{self.imgId}.png', dpi=300,bbox_inches='tight')
-            self.imgWH=Image.open(f'{self.imgId}.png').size
+            self.imgWH=Image.open(f'{self.params.imgpath}/{self.imgId}.png').size
             td=date.today()
             db=sql()
             db.cursor.execute(f"INSERT INTO `incore`.`plottedImgs` (`id`, `path`, `width`, `height`, `createdTime`) VALUES ('{self.imgId}', '{self.params.imgpath}/{self.imgId}.png', '{self.imgWH[0]}', '{self.imgWH[1]}', '{td.year}-{td.month}-{td.day}');")
