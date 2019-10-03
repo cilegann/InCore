@@ -77,11 +77,10 @@ class fileChecker():
         # check if parsable, if numerical
         try:
             data=pd.read_csv(self.filepath)
-
             # check numerical value
             cols=data.columns.tolist()
             for c in cols:
-                if data[c].dtype!=np.float64 and data[c].dtype!=np.int64:
+                if data[c].dtype!=np.float64 and data[c].dtype!=np.int64 and classifiableChecker(data[c],dTypeConverter(data[c],'num'))==0:
                     #os.remove(self.filepath)
                     #break
                     raise Exception("[fileChecker] csv should only contain numerical value: (Col "+c+")")
