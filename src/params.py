@@ -1,8 +1,12 @@
+from configparser import ConfigParser, SafeConfigParser
+import os
 class params():
     def __init__(self):
-        self.host='140.112.26.132'
-        self.port=8003
-        self.secretkey='iloveraid1'
+        cfg=SafeConfigParser(os.environ)
+        cfg.read('secret.cfg')
+        self.host=cfg.get('DEFAULT','host')
+        self.port=int(cfg.get('DEFAULT','port'))
+        self.secretkey=cfg.get('DEFAULT','secretkey')
         self.filepath='./db'
         self.modelpath='./models'
         self.imgpath='./images'
@@ -21,9 +25,9 @@ class params():
         #self.dataExtensionType={'num':['.csv']}
         self.dataProjectType={'num':['regression','classification','abnormal','clustering'],'cv':['regression','classification'],'nlp':['regression','classification']}
         #self.dataProjectType={'num':['regression']}
-        self.dbhost='140.112.26.132'
-        self.dbuser='ican'
-        self.dbpwd='lab125a'
-        self.dbschema='incore'
+        self.dbhost=cfg.get('DEFAULT','dbhost')
+        self.dbuser=cfg.get('DEFAULT','dbuser')
+        self.dbpwd=cfg.get('DEFAULT','dbpwd')
+        self.dbschema=cfg.get('DEFAULT','dbschema')
 
         self.classifiableThreshold=5
