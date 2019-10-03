@@ -1,5 +1,5 @@
 from params import params
-from service.dataService.utils import getFileInfo,getDf,getColType,fileUidGenerator,dTypeConverter
+from service.dataService.utils import getFileInfo,getDf,getColType,fileUidGenerator,dTypeConverter,classifiableChecker
 from utils import sql
 import logging
 import json
@@ -21,7 +21,7 @@ class preprocess():
             self.df=getDf(self.numFile,self.dataType).get()
             self.data={}
             for c in self.colType:
-                self.data[c['name']]={'colType':c['type'],'do':False}
+                self.data[c['name']]={'colType':c['type'],'classifiable':c['classifiable'],'do':False}
                 # self.data={"col1":{"type":"int","action":action,"data":data}}
             for c in self.action:
                 if c['col'] in self.data:
@@ -76,23 +76,25 @@ class preprocess():
             processedDataLen=len(previewData['data'])
             processedData=previewData['data']
             processedColType=dTypeConverter(processedData,self.dataType)
+            processedClassifiable=classifiableChecker(processedData,processedColType)
             msg=f'Num of rows reduced {originDataLen-processedDataLen} from {originDataLen} to {processedDataLen}'
             beforeComp="None"
             afterComp="None"
 
-            if previewData['colType']=='float':
-                from service.visualizeService.core.analyticVizAlgo.histogramXCol import histogramXCol as algo
-            if previewData['colType']=='int':
+            if previewData['classifiable']==1:
                 from service.visualizeService.core.analyticVizAlgo.barCntCol import barCntCol as algo
+            elif previewData['colType']=='float' or previewData['colType']=='int':
+                from service.visualizeService.core.analyticVizAlgo.histogramXCol import histogramXCol as algo
+            
             before=algo(originData,"Before")
             before.doBokehViz()
             before.getComp()
             beforeComp=before.component
 
-            if processedColType=='float':
-                from service.visualizeService.core.analyticVizAlgo.histogramXCol import histogramXCol as algo
-            if processedColType=='int':
+            if processedClassifiable==1:
                 from service.visualizeService.core.analyticVizAlgo.barCntCol import barCntCol as algo
+            elif processedColType=='float' or processedColType=='int':
+                from service.visualizeService.core.analyticVizAlgo.histogramXCol import histogramXCol as algo
             after=algo(processedData,"After")
             after.doBokehViz()
             after.getComp()
