@@ -9,16 +9,16 @@
             "name": "param1Name",
             "description": "param1 Description",
             "type": "int",
-            "upperBound": upperBound,
-            "lowerBound": lowerBound,
+            "upperBound": 100,
+            "lowerBound": 1,
             "default":20
         },
         {
             "name": "param2 Name",
             "description": "param2 Description",
             "type": "float",
-            "upperBound": upperBound,
-            "lowerBound": lowerBound,
+            "upperBound": 30.5,
+            "lowerBound": 0,
             "default":23.2
         },
         {
