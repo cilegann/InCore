@@ -27,7 +27,6 @@ class DeleteFile(Resource):
         parser.add_argument('fileUid', type=str,required=True)
         parser.add_argument('token',type=str,required=True)
         args = parser.parse_args()
-        logging.info(f"[API_DelFile] args: {args}")
         fid = args['fileUid']
         token=args['token']
 

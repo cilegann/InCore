@@ -32,7 +32,7 @@ class getColumn(Resource):
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
         args.pop('token')
-        logging.info(f"[API_getCol] args: {args}")
+        logging.debug(f"[API_getCol] args: {args}")
         try:
             fileInfo=getFileInfo(fid)
         except Exception as e:

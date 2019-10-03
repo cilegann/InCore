@@ -14,7 +14,7 @@ params=params()
 class getPreprocessAlgoList(Resource):
     def get(self):
         try:
-            logging.info('[API_getPreprocessAlgoList]')
+            logging.debug('[API_getPreprocessAlgoList]')
             with open(params.dataPreprocessAlgoReg) as file:
                 j=file.read()
             return {'status':'success','msg':'','data':json.loads(j)},200

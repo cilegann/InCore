@@ -37,7 +37,7 @@ class Upload(Resource):
         if not tokenValidator(token):
             return {"status":"error","msg":"token error","data":{}},401
         args.pop('token')
-        logging.info(f"[API_Upload] args: {args}")
+        logging.debug(f"[API_Upload] args: {args}")
         pft=param.dataExtensionType
         #check project type
         if dataType not in pft:

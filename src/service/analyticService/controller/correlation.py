@@ -15,7 +15,7 @@ params=params()
 class getCorrelationAlgoList(Resource):
     def get(self):
         try:
-            logging.info('[API_getCorrelationAlgoList]')
+            logging.debug('[API_getCorrelationAlgoList]')
             with open(params.correlationAlgoReg) as file:
                 j=file.read()
             return {'status':'success','msg':'','data':json.loads(j)},200

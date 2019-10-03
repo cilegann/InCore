@@ -12,7 +12,6 @@ class getDataVizAlgoList(Resource):
     def get(self):
         try:
             reg=json.load(open(param.dataVizAlgoReg))
-            logging.info(f'[API_getDataVizAlgo]')
         except Exception as e:
             logging.error(f'[API_getDataVizAlgo] {e}')
             return  {'status':'error','msg':f'[getDataVizAlgo] {e}','data':{}},500

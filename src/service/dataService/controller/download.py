@@ -21,7 +21,7 @@ class Download(Resource):
             # parser.add_argument('tokenstr',type=str,required=True)
             # parser.add_argument('tokenint',type=int,required=True)
             args = parser.parse_args()
-            logging.info(f"[API_Download] args: {args}")
+            logging.debug(f"[API_Download] args: {args}")
             fileUid = args['fileUid']
             # fileName=args['fileName']
             # tokenstr=args['tokenstr']

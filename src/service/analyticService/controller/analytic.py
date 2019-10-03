@@ -23,7 +23,7 @@ param=params()
 class getAnalyticAlgoList(Resource):
     def get(self):
         try:
-            logging.info('[API_getAnalyticAlgoList]')
+            logging.debug('[API_getAnalyticAlgoList]')
             parser=reqparse.RequestParser()
             parser.add_argument('dataType',type=str,required=True)
             parser.add_argument('projectType',type=str,required=True)
@@ -42,7 +42,7 @@ class getAnalyticAlgoList(Resource):
 class getAnalyticAlgoParam(Resource):
     def get(self):
         try:
-            logging.info('[API_getAnalyticAlgoParam]')
+            logging.debug('[API_getAnalyticAlgoParam]')
             parser=reqparse.RequestParser()
             parser.add_argument('dataType',type=str,required=True)
             parser.add_argument('projectType',type=str,required=True)
@@ -60,7 +60,6 @@ class getAnalyticAlgoParam(Resource):
 class doModelTrain(Resource):
     def post(self):
         try:
-            logging.info('[API_doModelTrain]')
             parser=reqparse.RequestParser()
             parser.add_argument('token',type=str,required=True)
             parser.add_argument('fileUid',type=str,required=True)
@@ -283,7 +282,7 @@ class getModelStatus(Resource):
             if not tokenValidator(args['token']):
                 return {"status":"error","msg":"token error","data":{}},401
             args.pop('token')
-            logging.info(f'[API_getModelStatus] args:{args}')
+            logging.debug(f'[API_getModelStatus] args:{args}')
             mid=args['modelUid']
             _,_,_,_,_,status,_,_=getModelInfo(mid)[0]
             return {"status":"success","msg":"","data":status},200

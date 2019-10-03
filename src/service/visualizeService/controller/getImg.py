@@ -14,7 +14,7 @@ class getImg(Resource):
             parser.add_argument('uid', type=str,required=True)
             parser.add_argument('action',type=str,required=True)
             args = parser.parse_args()
-            logging.info(f"[API_getImg] args: {args}")
+            logging.debug(f"[API_getImg] args: {args}")
             uid = args['uid']
             action=args['action']
             db=sql()

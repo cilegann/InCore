@@ -11,7 +11,7 @@ param=params()
 class getDataProjectType(Resource):
     def get(self):
         try:
-            logging.info("[API_getDataProjectType]")
+            logging.debug("[API_getDataProjectType]")
             return {'status':'success','msg':'','data':param.dataProjectType},200
         except Exception as e:
             logging.error(f'[API_getDataProjectType] {traceback.format_exc()}')
@@ -25,7 +25,7 @@ class getDataExtensionType(Resource):
             parser.add_argument('datatype',type=str,required=True)
             args = parser.parse_args()
             datatype=args['datatype']
-            logging.info(f"[API_getDataExtensionType] args:{args}")
+            logging.debug(f"[API_getDataExtensionType] args:{args}")
         except Exception as e:
             logging.error(f'[API_getDataExtensionType] {e}')
             return  {'status':'error','msg':f'[getDataExtensionType] {e}','data':{}},400
