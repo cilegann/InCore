@@ -190,7 +190,7 @@ class doModelTest(Resource):
                 algo=attr(algoInfo,fid,'test',mid=mid,testLabel=args['label'])
             else:
                 algo=attr(algoInfo,fid,'test',mid=mid)
-            algo.predictAlgo()
+            algo.predictWrapper()
             result=algo.test()
             return {"status":"success","msg":"","data":result},200
         except Exception as e:
@@ -228,7 +228,7 @@ class doModelPredict(Resource):
             module=importlib.import_module(f"service.analyticService.core.analyticCore.{algoInfo['dataType']}.{algoInfo['projectType']}.{algoInfo['algoName']}")
             attr=getattr(module,algoInfo['algoName'])
             algo=attr(algoInfo,fid,'predict',mid=mid)
-            algo.predictAlgo()
+            algo.predictWrapper()
             predictedFid=algo.predict()
             print(predictedFid)
             return {"status":"success","msg":"","data":{"preprocessedFileUid":preprocessedFid,"predictedFileUid":predictedFid}},200

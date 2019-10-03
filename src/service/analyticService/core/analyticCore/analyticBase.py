@@ -211,9 +211,14 @@ class analytic():
     def trainWrapper(self):
         try:
             self.setSession()
-            self.trainAlgo()
+            if self.lib=='keras':
+                with self.session.as_default():
+                    with self.graph.as_default():
+                        self.trainAlgo()
+            else:
+                self.trainAlgo()
             if self.txtRes=="":
-                self.predictAlgo()
+                self.predictWrapper()
                 try:
                     self.test()
                 except Exception:
@@ -234,6 +239,17 @@ class analytic():
                 db.conn.close()
             raise Exception(f"{traceback.format_exc()}")
     
+    def predictWrapper(self):
+        try:
+            if self.lib=='keras':
+                with self.session.as_default():
+                    with self.graph.as_default():
+                        self.predictAlgo()
+            else:
+                self.predictAlgo()
+        except Exception as e:
+            raise Exception(f"{traceback.format_exc()}")
+
     def visualize(self):
         try:
             self.vizRes=self.projectVisualize()
@@ -258,8 +274,6 @@ class analytic():
                 self.dataDf[self.outputDict[param['name']]]=np.asarray(v)
             else:
                 self.dataDf[self.outputDict[param['name']]]=self.result[param['name']]
-        # for k,v in self.result.items():
-        #     self.dataDf[k]=v
         uid=fileUidGenerator().uid
         if self.dataType=='cv':
             oldNumFileName=self.numFile[self.numFile.rfind("/")+1:]
