@@ -73,14 +73,11 @@ def purge():
     purger().purgeImg()
 
 if __name__ == "__main__":
-    if '--deploy' in sys.argv:
-        api.add_resource(gitPull,'/autodeploy/git')
     if '--debug' in sys.argv:
         api.add_resource(gitPull,'/autodeploy/git')
         logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] %(message)s')
     else:
         logging.basicConfig(level=logging.INFO , format='[%(levelname)s] %(message)s')
-    logging.info(f'InCore running at port {par.port}')
     dbCleaningOnLaunch()
     checkFolder()
     algoChecker()
@@ -91,6 +88,7 @@ if __name__ == "__main__":
         port=par.port
     else:
         port=int(sys.argv[sys.argv.index('--port')+1])
+    logging.info(f'InCore running at port {par.port}')
     app.run(debug='--debug' in sys.argv,port=port,host='0.0.0.0')
     
 

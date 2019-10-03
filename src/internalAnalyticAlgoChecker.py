@@ -121,9 +121,9 @@ def algoChecker():
                         if pp not in usedParam:
                             notUsedWarn.append(f"[Not used] param '{pp}' defined in json is not used in python")
                     if len(iWarn)==0 and len(oWarn)==0 and len(pWarn)==0 and len(notUsedWarn)==0:
-                        print(f"Algo [{filename}] checked with result: OK")
+                        print(f"Algo [{dl}.{pl}.{filename}] checked with result: OK")
                     else:
-                        print(f"Algo [{filename}] checked with result:")
+                        print(f"Algo [{dl}.{pl}.{filename}] checked with result:")
                         print(f"  > JSON   : OK")
                         print(f"  > Python : ")
                         print(f"      {len(pWarn)} param key warning")
