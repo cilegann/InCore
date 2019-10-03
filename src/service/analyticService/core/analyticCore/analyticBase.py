@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from service.dataService.utils import getFileInfo,getColType,categoricalConverter,getDf,lockFile,fileUidGenerator
 from service.analyticService.utils import modelUidGenerator,changeModelStatus
+from service.visualizeService.core.analyticVizAlgo.customImg import customImg
 from utils import sql
 from params import params
 import threading
@@ -258,7 +259,10 @@ class analytic():
         try:
             algoGraphs=self.algoVisualize()
             if len(algoGraphs)!=0:
-                #TODO: save np.array to image, generate imgBokeh, add to self.vizRes
+                for i,g in enumerate(algoGraphs):
+                    ci=customImg(g)
+                    ci.convert()
+                    self.vizRes[f"Preview-{i}"]=ci.component
                 pass
         except Exception as e:
             logging.error(f"[{self.algoName}] custom Viz error: {traceback.format_exc()}")
