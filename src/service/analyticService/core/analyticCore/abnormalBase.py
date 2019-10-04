@@ -44,8 +44,8 @@ class abnormal(analytic):
             self.dataDf=None # raw dataframe
             self.inputData={}    
             self.outputData={}
-            self.d2c={"label":{"-1":-1,"1":1}} # data to category mapping
-            self.c2d={"label":{"-1":-1,"1":1}} # category to data mapping
+            self.d2c={"label":{"-1":1,"1":0}} # data to category mapping
+            self.c2d={"label":{"0":1,"1":-1}} # category to data mapping
             self.model=None #model
             self.result={} # A outputData liked structure
             self.vizRes={} # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
@@ -113,8 +113,12 @@ class abnormal(analytic):
             self.txtRes=""
         elif self.action=="test":
             self.txtRes += f"label:\n"
-            real=self.outputData["label"]
+            realTmp=self.outputData["label"]
             predicted=self.result["label"]
+            real=[]
+            for r in realTmp:
+                real.append(self.c2d["label"][str(np.argmax(r))])
+            print(real)
             label=[-1,1]
             self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
         self.visualize()
@@ -123,9 +127,11 @@ class abnormal(analytic):
     def projectVisualize(self):
         figs={}
         if self.action=='test':
-            real=[int(i) for i in self.outputData["label"]]
-            predicted=[int(i) for i in self.result["label"]]
-            label=[-1,1]
+            real=[]
+            for r in self.outputData["label"]:
+                real.append(str(self.c2d["label"][str(np.argmax(r))]))
+            predicted=[str(i) for i in self.result["label"]]
+            label=["-1","1"]
             cmx=confusion_matrix(real,predicted,labels=label)
             cmx=cmx.astype('float')/cmx.sum(axis=1)[:,np.newaxis]
             df=pd.DataFrame(cmx,columns=label)
