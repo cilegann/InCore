@@ -355,7 +355,6 @@ class doAPIPredict(Resource):
         parser=reqparse.RequestParser()
         parser.add_argument('APIId',type=str,required=True)
         parser.add_argument('file', type=FileStorage, location='files',required=True)
-        parser.add_argument('file')
         # check APIId
         # save upload file
             # write to file db
