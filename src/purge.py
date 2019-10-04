@@ -28,3 +28,4 @@ class purger():
             logging.error(f'[PurgeImg] {e}')
         finally:
             db.conn.close()
+    # purge tmp file

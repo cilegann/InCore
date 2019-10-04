@@ -17,6 +17,7 @@ import pickle
 import shutil
 import tensorflow as tf
 import keras.backend.tensorflow_backend as KTF
+from werkzeug.datastructures import FileStorage
 
 param=params()
 
@@ -331,3 +332,35 @@ class getModelFailReason(Resource):
         except Exception as e:
             logging.error(f"[API_getModelFailReason]{traceback.format_exc()}")
             return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400
+
+class genModelAPI(Resource):
+    def post(self):
+        parser=reqparse.RequestParser()
+        parser.add_argument('token',type=str,required=True)
+        parser.add_argument('modelUid',type=str,required=True)
+        args=parser.parse_args()
+        if not tokenValidator(args['token']):
+            return {"status":"error","msg":"token error","data":{}},401
+        args.pop('token')
+        logging.info(f'[API_genModelAPI] args:{args}')
+        mid=args['modelUid']
+        _,fid,_,_,_,status,_,_=getModelInfo(mid)[0]
+        if status!='success':
+            return {"status":"error","msg":"model unready","data":{}},400
+        APIID=mid+"#"+fid
+        return {"status":"success","msg":"","data":{"APIId":APIID}}
+
+class doAPIPredict(Resource):
+    def post(self):
+        parser=reqparse.RequestParser()
+        parser.add_argument('APIId',type=str,required=True)
+        parser.add_argument('file', type=FileStorage, location='files',required=True)
+        parser.add_argument('file')
+        # check APIId
+        # save upload file
+            # write to file db
+            # write to tmpfile db
+        # do predict
+        # write to tmpfile db
+        # remove preprocessed file
+        # throw final file
