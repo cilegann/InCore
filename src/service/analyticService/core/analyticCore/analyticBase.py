@@ -138,7 +138,7 @@ class analytic():
                         raise Exception(f'[getData] input {param["name"]} column {col} should be float or int')
                     d=rawDf[col]
                 if param["type"]=='classifiable':
-                    if colType[col]['classifiable']!="1":
+                    if colType[col]['classifiable']!=1:
                         raise Exception(f'[getData] input {param["name"]} column {col} should be classifiable')
                     d=rawDf[col]
                     if col not in self.d2c:
@@ -172,7 +172,7 @@ class analytic():
                         raise Exception(f'[getData] output {param["name"]} column {col} should be float or int')
                     d=rawDf[col]
                 if param["type"]=='classifiable':
-                    if colType[col]['classifiable']!="1":
+                    if colType[col]['classifiable']!=1:
                         raise Exception(f'[getData] output {param["name"]} column {col} should be classifiable')
                     d=rawDf[col]
                     if col not in self.d2c:
