@@ -32,7 +32,7 @@ class dotLineSelect(dataViz):
         1. dotData and lineData should contain same keys
         2. for the np.array, their length must be the same
     '''
-    def __init__(self,xData,dotData,lineData,dotName="real",lineName="predict",w=625,h=350):
+    def __init__(self,xData,dotData,lineData,dotName="real",lineName="predict",w=625,h=320):
         try:
             self.algoInfo={}
             self.algoInfo['lib']='bokeh'

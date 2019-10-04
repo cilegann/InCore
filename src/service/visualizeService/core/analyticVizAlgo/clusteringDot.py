@@ -14,7 +14,7 @@ class clusteringDot(circleXYClass):
         }
     @categ= 1D np.array
     '''
-    def __init__(self,data,cluster,figName,w=625,h=350):
+    def __init__(self,data,cluster,figName,w=625,h=320):
         try:
             self.algoInfo={}
             self.algoInfo['lib']='bokeh'

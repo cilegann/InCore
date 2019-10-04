@@ -13,7 +13,7 @@ class abnormalDot(circleXYClass):
         }
     @categ= 1D np.array of -1 and 1
     '''
-    def __init__(self,data,categ,figName,w=625,h=350):
+    def __init__(self,data,categ,figName,w=625,h=320):
         try:
             self.algoInfo={}
             self.algoInfo['lib']='bokeh'
