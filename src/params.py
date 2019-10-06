@@ -30,4 +30,4 @@ class params():
         self.dbpwd=cfg.get('DEFAULT','dbpwd')
         self.dbschema=cfg.get('DEFAULT','dbschema')
 
-        self.classifiableThreshold=5
+        self.classifiableThreshold=10
