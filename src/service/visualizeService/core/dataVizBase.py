@@ -38,8 +38,9 @@ class dataViz():
                 raise Exception(f'fileUid not found')
             fileInfo=fileInfo[0]
             data={}
-            colTypes=getColType(fileInfo[3],fileInfo[1]).get()
-            colTypes={c["name"]:c['type'] for c in colTypes}
+            colType=getColType(fileInfo[3],fileInfo[1]).get()
+            colTypes={c["name"]:c['type'] for c in colType}
+            classifiables={c["name"]:c['classifiable'] for c in colType}
             rawdata=getDf(fileInfo[3],fileInfo[1]).get()
 
             data['all']=rawdata
@@ -58,6 +59,9 @@ class dataViz():
                     if self.algoInfo['data']['x']=="string":
                         if colTypes[self.dataCol['x']]!="string":
                             raise Exception(f"col type of x error: can't convert {colTypes[self.dataCol['x']]} to {self.algoInfo['data']['x']}")
+                    if self.algoInfo['data']['x']=='classifiable':
+                        if classifiables[self.dataCol['x']]==0:
+                            raise Exception(f"col type of x error: {self.dataCol['x']} is not classifiable")
             if 'y' in self.dataCol:
                 data['y']=np.asarray(rawdata[self.dataCol['y']])
                 if self.dataCol['y']!="none":
@@ -73,6 +77,9 @@ class dataViz():
                     if self.algoInfo['data']['y']=="string":
                         if colTypes[self.dataCol['y']]!="string":
                             raise Exception(f"col type of y error: can't convert {colTypes[self.dataCol['y']]} to {self.algoInfo['data']['y']}")
+                    if self.algoInfo['data']['y']=='classifiable':
+                        if classifiables[self.dataCol['y']]==0:
+                            raise Exception(f"col type of y error: {self.dataCol['y']} is not classifiable")
             if 'value' in self.dataCol:
                 data['value']=np.asarray(rawdata[self.dataCol['value']])
                 if self.dataCol['value']!="none":
@@ -88,6 +95,9 @@ class dataViz():
                     if self.algoInfo['data']['value']=="string":
                         if colTypes[self.dataCol['value']]!="string":
                             raise Exception(f"col type of value error: can't convert {colTypes[self.dataCol['value']]} to {self.algoInfo['data']['value']}")
+                    if self.algoInfo['data']['value']=='classifiable':
+                        if classifiables[self.dataCol['value']]==0:
+                            raise Exception(f"col type of x error: {self.dataCol['value']} is not classifiable")
         except Exception as e:
             raise Exception(f'[getData] {e}')
             

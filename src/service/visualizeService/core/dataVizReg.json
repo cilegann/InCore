@@ -27,7 +27,7 @@
             "data":{
                 "x":"float",
                 "y":"float",
-                "value":"int"
+                "value":"classifiable"
             },
             "description":"2D circle plot with class"
         },{
@@ -47,7 +47,7 @@
             "data":{
                 "x":"float",
                 "y":"float",
-                "value":"int"
+                "value":"classifiable"
             },
             "description":"2D scatter plot with class"
         },{
@@ -55,7 +55,7 @@
             "lib":"bokeh",
             "algoname":"barCnt",
             "data":{
-                "x":"int",
+                "x":"classifiable",
                 "y":"none",
                 "value":"none"
             },
@@ -77,7 +77,7 @@
             "data":{
                 "x":"none",
                 "y":"none",
-                "value":"int"
+                "value":"classifiable"
             },
             "description":"Show PCA result, with different colors for each class"
         }
