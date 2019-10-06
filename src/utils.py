@@ -30,7 +30,7 @@ def dbCleaningOnLaunch():
         db.cursor.execute(f"select `fid` from models where `status`='train' or `status`='success'")
         usingFids=db.cursor.fetchall()
         usingFids=[f[0] for f in usingFids]
-        db.cursor.execute(f"select `fid` from models")
+        db.cursor.execute(f"select `fid` from files")
         allFids=db.cursor.fetchall()
         allFids=[f[0] for f in allFids]
         toFreeFilds=list(set(allFids)-set(usingFids))
