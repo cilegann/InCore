@@ -11,7 +11,7 @@ from sklearn.metrics import confusion_matrix
 import numpy as np
 import pandas as pd
 from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
-from service.visualizeService.core.analyticVizAlgo.abnormalDot import abnormalDot
+from service.visualizeService.core.analyticVizAlgo.clusteringDot import clusteringDot
 
 '''
 prediction result should be saved to self.result['cluster'] as a 1D np array
@@ -71,8 +71,9 @@ class clustering(analytic):
             for col in v:
                 if self.colType[col]['type']=='float' or self.colType[col]['type']=='int':
                     allInput[col]=self.dataDf[col]
-        algo=abnormalDot(allInput,self.result["cluster"],"preview")
+        algo=clusteringDot(allInput,self.result["cluster"],"preview")
         algo.doBokehViz()
         algo.getComp()
         figs["Preview"]=algo.component
+        return figs
     

@@ -51,7 +51,7 @@ class clusteringDot(circleXYClass):
                 self.bokeh_fig.yaxis.axis_label=menus[0]
             self.bokeh_fig.circle('bokeh_plt_x','bokeh_plt_y',source=data,color='categ',fill_alpha=0.2,size=10)
             self.bokeh_fig.add_tools(
-                HoverTool(tooltips = [('X,Y', '@bokeh_plt_x,@bokeh_plt_y')])
+                HoverTool(tooltips = [('X,Y,Class', '@bokeh_plt_x,@bokeh_plt_y,@cluster')])
             )
             callbackX = CustomJS(args=dict(source=data,axis=self.bokeh_fig.xaxis[0]), code="""
                         var data=source.data
