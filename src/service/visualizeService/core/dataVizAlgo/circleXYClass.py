@@ -14,7 +14,7 @@ class circleXYClass(dataViz):
         try:
             self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
             self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
-            [x,y,c]=missingFiltering().filtCols([self.data['x'],self.data['y'],self.data['value']],['float','float','int'],[True,True,True])
+            [x,y,c]=missingFiltering().filtCols([self.data['x'],self.data['y'],self.data['value']],['float','float',self.colTypes[self.dataCol['value']]],[True,True,True])
             
             if len(set(c))>9:
                 cmap=Category20[20]

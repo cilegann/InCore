@@ -40,6 +40,7 @@ class dataViz():
             data={}
             colType=getColType(fileInfo[3],fileInfo[1]).get()
             colTypes={c["name"]:c['type'] for c in colType}
+            self.colTypes=colTypes
             classifiables={c["name"]:c['classifiable'] for c in colType}
             rawdata=getDf(fileInfo[3],fileInfo[1]).get()
 

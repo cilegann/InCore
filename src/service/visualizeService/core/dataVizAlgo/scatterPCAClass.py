@@ -29,7 +29,7 @@ class scatterPCAClass(dataViz):
                     if tmp.dtype==np.int64 or tmp.dtype==np.float64:
                         data.append(tmp)
             data.append(c)
-            types=['float' for i in range(len(data)-1)]+['int']
+            types=['float' for i in range(len(data)-1)]+[self.colTypes[self.dataCol['value']]]
             filted=missingFiltering().filtCols(data,types,[True for i in range(len(data))])
             data=filted[:-1]
             c=filted[-1]
