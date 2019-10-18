@@ -33,7 +33,7 @@ class getImg(Resource):
             response.headers['Access-Control-Allow-Headers'] = 'x-requested-with'
             if action=='download':
                 response.headers['Content-Type']='application/octet-stream; charset=utf-8'
-                response.headers['Content-Disposition'] = 'attachment; filename=test.png'
+                response.headers['Content-Disposition'] = 'attachment; filename=visualize.png'
             elif action=='get':
                 pass
             else:
