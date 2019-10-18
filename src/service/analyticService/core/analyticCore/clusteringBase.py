@@ -7,7 +7,7 @@ import traceback
 import os
 import shutil
 from utils import sql
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, silhouette_samples, silhouette_score
 import numpy as np
 import pandas as pd
 from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
@@ -61,7 +61,20 @@ class clustering(analytic):
     def test(self):
         if self.action=='test':
             self.clearSession()
-        self.visualize()
+        #TODO: finish silhouette score
+        try:
+            x=[]
+            for k,v in self.inputDict.items():
+                for col in v:
+                    if self.colType[col]['type']=='float' or self.colType[col]['type']=='int':
+                        x.append(self.dataDf[col])
+            x=np.asarray(x)
+            x=np.transpose(x)        
+            silhouette_avg = silhouette_score(x, self.result['cluster'])
+            self.txtRes+=f"The average silhouette_score is : {silhouette_avg}"
+            self.visualize()
+        except Exception as e:
+            print(e)
         return {"text": self.txtRes, "fig": self.vizRes}
 
     def projectVisualize(self):
