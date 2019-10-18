@@ -111,7 +111,7 @@ class dataViz():
                 p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=w, plot_height=h,tools='pan,wheel_zoom,box_zoom,reset,save')
             else:
                 p = figure(title = self.algoInfo['friendlyname'], sizing_mode="fixed", plot_width=w, plot_height=h,tools='pan,wheel_zoom,box_zoom,reset')
-                saveCallback=CustomJS(code=f"""window.open('http://{self.params.host}:{self.params.port}/viz/getimg/?uid={self.imgId}&action=download');""")
+                saveCallback=CustomJS(code=f"""window.open('http://{self.params.host}:{self.params.port}/viz/getimg?uid={self.imgId}&action=download');""")
                 p.add_tools(CustomAction(icon="./icons/save_icon.png",callback=saveCallback))
                 p.xaxis.major_tick_line_color = None  # turn off x-axis major ticks
                 p.xaxis.minor_tick_line_color = None  # turn off x-axis minor ticks
