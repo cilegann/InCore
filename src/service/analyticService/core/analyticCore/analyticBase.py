@@ -16,6 +16,7 @@ from keras.utils import to_categorical
 import shutil
 import tensorflow as tf
 import keras.backend.tensorflow_backend as KTF
+import logging
 
 class analytic():
     def __init__(self,algoInfo,fid,action='train',mid=None):
@@ -259,11 +260,17 @@ class analytic():
         try:
             algoGraphs=self.algoVisualize()
             if len(algoGraphs)!=0:
-                for i,g in enumerate(algoGraphs):
-                    ci=customImg(g)
-                    ci.convert()
-                    self.vizRes[f"Preview-{i}"]=ci.component
-                pass
+                for k,v in algoGraphs.items():
+                    if type(v)!=dict:
+                        ci=customImg(v)
+                        ci.convert()
+                        comp=ci.component
+                    else:
+                        comp=v
+                    if k in self.vizRes:
+                        self.vizRes[f"{k}-1"]=comp
+                    else:
+                        self.vizRes[k]=comp
         except Exception as e:
             logging.error(f"[{self.algoName}] custom Viz error: {traceback.format_exc()}")
 
@@ -404,10 +411,18 @@ class analytic():
     def algoVisualize(self):
         '''
         implement in ALGO if needed
-        each visualized image should be converted to a 3D np.array
-        return [array1, array2, ..., array3]
+        each visualized figure should be converted to a dictionary with figure name as key and figure as value
+        valid figure type: (1) Image as 3D np.array (2) Bokeh component {"div":"the div","script":"the script"}
+        return example 
+        {
+            "figure 1 name": np.array,
+            "figure 2 name": {
+                "div": "the div",
+                "script": "the script"
+            }
+        }
         '''
-        return []
+        return {}
     
     def clearSession(self):
         return 0
