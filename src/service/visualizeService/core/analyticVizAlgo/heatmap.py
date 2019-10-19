@@ -72,9 +72,9 @@ class heatmap(dataViz):
             blockMapper=LinearColorMapper(palette=blockColor, low=self.minValue, high=self.maxValue)
             textMapper=LinearColorMapper(palette=textColor, low=self.minValue, high=self.maxValue)
             self.bokeh_fig.rect(x="x", y="y", width=1, height=1, source=source,line_color=None, fill_color=transform('abs', blockMapper))
-            if max([len(d) for d in self.data.columns]) > 10:
+            if max([len(d) for d in self.data.columns]) > 10 or len(self.data.columns)>8:
                 self.fontSize=10
-            if max([len(d) for d in self.data.columns]) > 15:
+            if max([len(d) for d in self.data.columns]) > 15 or len(self.data.columns)>12:
                 self.fontSize=8
             self.bokeh_fig.text(x="x", y="y",text='text', source=source,text_font_size=f'{self.fontSize}pt',text_font_style='bold',text_align='center',text_baseline='middle',text_color=transform('abs',textMapper))
             self.bokeh_fig.add_tools(
