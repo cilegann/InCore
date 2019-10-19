@@ -118,7 +118,6 @@ class abnormal(analytic):
             real=[]
             for r in realTmp:
                 real.append(self.c2d["label"][str(np.argmax(r))])
-            print(real)
             label=[-1,1]
             self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
         self.visualize()

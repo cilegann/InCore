@@ -230,7 +230,6 @@ class doModelPredict(Resource):
             algo=attr(algoInfo,fid,'predict',mid=mid)
             algo.predictWrapper()
             predictedFid=algo.predict()
-            print(predictedFid)
             return {"status":"success","msg":"","data":{"preprocessedFileUid":preprocessedFid,"predictedFileUid":predictedFid}},200
         except Exception as e:
             logging.error(f"[API_doModelPredict]{traceback.format_exc()}")
