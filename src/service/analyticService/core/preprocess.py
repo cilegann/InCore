@@ -22,6 +22,12 @@ class preprocess():
             self.data={}
             for c in self.colType:
                 self.data[c['name']]={'colType':c['type'],'classifiable':c['classifiable'],'do':False}
+                self.data[c['name']]['data']=np.asarray(self.df[c['col']])
+                #self.data[c['name']]['missingFiltering']=None
+                #self.data[c['name']]['outlierFiltering']=None
+                #self.data[c['name']]['normalize']=None
+                #self.data[c['name']]['stringCleaning']=None
+                self.data[c['name']]['do']=False
                 # self.data={"col1":{"type":"int","action":action,"data":data}}
             for c in self.action:
                 if c['col'] in self.data:
@@ -29,8 +35,11 @@ class preprocess():
                     self.data[c['col']]['outlierFiltering']=c['outlierFiltering']
                     self.data[c['col']]['normalize']=c['normalize']
                     self.data[c['col']]['stringCleaning']=c['stringCleaning']
-                    self.data[c['col']]['data']=np.asarray(self.df[c['col']])
+                    #self.data[c['col']]['data']=np.asarray(self.df[c['col']])
                     self.data[c['col']]['do']=True
+            for col in self.data:
+                if 'data' not in self.data[col]:
+                    pass
             okCount=0
             for k,v in self.data.items():
                 if 'data' in v:
