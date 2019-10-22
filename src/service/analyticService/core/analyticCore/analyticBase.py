@@ -82,6 +82,7 @@ class analytic():
             self.result={} # A outputData liked structure
             self.vizRes={} # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
             self.txtRes="" # "string"
+            self.formRes={}
             self.customObj={} #other to-saved variable should place here e.g. text tokenization {"objName":obj}
             
             self.getParams()
@@ -352,7 +353,7 @@ class analytic():
         with open(os.path.join(self.sysparam.modelpath,self.mid,"algoInfo.pkl"),'wb') as file:
             pickle.dump(self.algoInfo,file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"preview.pkl"),'wb') as file:
-            pickle.dump({"text":self.txtRes,"fig":self.vizRes},file)
+            pickle.dump({"text":self.txtRes,"fig":self.vizRes,"form":self.formRes},file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"d2c.json"),'w') as file:
             json.dump(self.d2c,file)
         with open(os.path.join(self.sysparam.modelpath,self.mid,"c2d.json"),'w') as file:

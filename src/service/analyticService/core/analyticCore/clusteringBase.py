@@ -75,7 +75,7 @@ class clustering(analytic):
             self.visualize()
         except Exception as e:
             print(e)
-        return {"text": self.txtRes, "fig": self.vizRes}
+        return {"text": self.txtRes, "fig": self.vizRes,"form":self.formRes}
 
     def projectVisualize(self):
         figs={}

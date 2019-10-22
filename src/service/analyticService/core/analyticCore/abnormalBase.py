@@ -50,6 +50,7 @@ class abnormal(analytic):
             self.result={} # A outputData liked structure
             self.vizRes={} # {"figname":{"div":"bokehDiv","script":"scriptDiv"}}
             self.txtRes="" # "string"
+            self.formRes={}
             self.customObj={} #other to-saved variable should place here e.g. text tokenization {"objName":obj}
             if action=='test':
                 if not testLabel:
@@ -112,16 +113,17 @@ class abnormal(analytic):
         if self.action=='train':
             self.txtRes=""
         elif self.action=="test":
-            self.txtRes += f"label:\n"
+            #self.txtRes += f"label:\n"
             realTmp=self.outputData["label"]
             predicted=self.result["label"]
             real=[]
             for r in realTmp:
                 real.append(self.c2d["label"][str(np.argmax(r))])
             label=[-1,1]
-            self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
+            #self.txtRes += f"Report:\n{classificationReport(real,predicted,label=label)}"
+            self.formRes["Classification Report"]=classificationReport(real,predicted,label=label)
         self.visualize()
-        return {"text": self.txtRes, "fig": self.vizRes}
+        return {"text": self.txtRes, "fig": self.vizRes,"form":self.formRes}
 
     def projectVisualize(self):
         figs={}

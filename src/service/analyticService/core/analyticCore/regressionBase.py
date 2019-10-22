@@ -16,7 +16,7 @@ class regression(analytic):
             self.txtRes += f"  RMSE: {np.sqrt(((v-self.result[k])**2).mean())}\n"
             self.txtRes += "\n"
         self.visualize()
-        return {"text": self.txtRes, "fig": self.vizRes}
+        return {"text": self.txtRes, "fig": self.vizRes,"form":self.formRes}
 
     def projectVisualize(self):
         allInputCols = {}

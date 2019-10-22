@@ -18,10 +18,10 @@ class classification(analytic):
             real=[str(self.c2d[v][str(i)]) for i in  np.argmax(self.outputData[k],axis=1)]
             predicted=[str(self.c2d[v][str(i)]) for i in  np.argmax(self.result[k],axis=1)]
             label=[k for k in self.d2c[v]]
-            self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
-            self.txtRes += '\n'
+            self.formRes[f"Report-{v}"]=classificationReport(real,predicted,label=label)
+            #self.txtRes += f"  Report:\n{classificationReport(real,predicted,label=label)}"
         self.visualize()
-        return {"text": self.txtRes, "fig": self.vizRes}
+        return {"text": self.txtRes, "fig": self.vizRes,"form":self.formRes}
 
     def projectVisualize(self):
         figs={}
