@@ -22,7 +22,7 @@ class preprocess():
             self.data={}
             for c in self.colType:
                 self.data[c['name']]={'colType':c['type'],'classifiable':c['classifiable'],'do':False}
-                self.data[c['name']]['data']=np.asarray(self.df[c['col']])
+                self.data[c['name']]['data']=np.asarray(self.df[c['name']])
                 #self.data[c['name']]['missingFiltering']=None
                 #self.data[c['name']]['outlierFiltering']=None
                 #self.data[c['name']]['normalize']=None
