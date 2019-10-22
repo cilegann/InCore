@@ -7,7 +7,7 @@ from sklearn.cluster import AffinityPropagation
 class in_affinityPropagation(clustering):
     def trainAlgo(self):
         self.model=AffinityPropagation(
-            dampling=self.param['dampling'],
+            damping=self.param['damping'],
             max_iter=self.param['max_iter'],
             convergence_iter=self.param['convergence_iter'],
             affinity=self.param['affinity']
