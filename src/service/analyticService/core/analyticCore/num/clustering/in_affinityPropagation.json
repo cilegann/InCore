@@ -1,0 +1,50 @@
+{
+    "dataType":"num",
+    "projectType":"clustering",
+    "algoName":"in_affinityPropagation",
+    "description": "Perform linear regression",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"dampling",
+            "description":"Damping factor (between 0.5 and 1) is the extent to which the current value is maintained relative to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when updating these values (messages).",
+            "lowerBound":0.5,
+            "upperBound":1,
+            "type":"float",
+            "default":0.5
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations of the k-means algorithm for a single run.",
+            "lowerBound":10,
+            "upperBound":300,
+            "type":"int",
+            "default":200
+        },
+        {
+            "name":"convergence_iter",
+            "description":"Number of iterations with no change in the number of estimated clusters that stops the convergence",
+            "lowerBound":5,
+            "upperBound":20,
+            "type":"int",
+            "default":15
+        },
+        {
+            "name":"affinity",
+            "description":"Which affinity to use. At the moment precomputed and euclidean are supported. euclidean uses the negative squared euclidean distance between points.",
+            "type":"enum",
+            "list":["euclidean","precomputed"],
+            "default":"euclidean"
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+    ]
+}
