@@ -36,4 +36,4 @@ class in_dbscan(clustering):
             )
         self.model.fit(self.inputData["X"])
     def predictAlgo(self):
-        self.result['cluster']=self.model.predict(self.inputData["X"])
+        self.result['cluster']=self.model.fit_predict(self.inputData["X"])
