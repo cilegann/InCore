@@ -1,0 +1,57 @@
+{
+    "dataType":"num",
+    "projectType":"classification",
+    "algoName":"in_linearSVC",
+    "description": "Linear Support Vector Classification. Similar to SVC with parameter kernel=’linear’, but implemented in terms of liblinear rather than libsvm, so it has more flexibility in the choice of penalties and loss functions and should scale better to large numbers of samples.    This class supports both dense and sparse input and the multiclass support is handled according to a one-vs-the-rest scheme.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"penalty",
+            "description":"Specifies the norm used in the penalization. The ‘l2’ penalty is the standard used in SVC. The ‘l1’ leads to coef_ vectors that are sparse.",
+            "type":"enum",
+            "list":["l1","l2"],
+            "default":"l2"
+        },
+        {
+            "name":"loss",
+            "description":"Specifies the loss function. ‘hinge’ is the standard SVM loss (used e.g. by the SVC class) while ‘squared_hinge’ is the square of the hinge loss.",
+            "type":"enum",
+            "list":["hinge","squared_hinge"],
+            "default":"squared_hinge"
+        },
+        {
+            "name":"dual",
+            "description":"Select the algorithm to either solve the dual or primal optimization problem. Prefer dual=False when n_samples > n_features.",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"multi_class",
+            "description":"Determines the multi-class strategy if y contains more than two classes. 'ovr' trains n_classes one-vs-rest classifiers, while 'crammer_singer' optimizes a joint objective over all classes. While crammer_singer is interesting from a theoretical perspective as it is consistent, it is seldom used in practice as it rarely leads to better accuracy and is more expensive to compute. If 'crammer_singer' is chosen, the options loss, penalty and dual will be ignored.",
+            "type":"enum",
+            "list":["ovr","crammer_singer"],
+            "default":"ovr"
+        },
+        {
+            "name":"fit_intercept",
+            "description":"Whether to calculate the intercept for this model. If set to false, no intercept will be used in calculations (i.e. data is expected to be already centered).",
+            "type":"bool",
+            "default":1
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"classifiable"
+        }
+    ]
+}

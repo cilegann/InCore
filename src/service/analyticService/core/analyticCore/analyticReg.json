@@ -1,7 +1,7 @@
 {
     "num":{
-        "regression":["in_linearRegression","in_ridgeRegression","in_lassoRegression","in_elasticNet","in_lassoLars","in_oneLayerNN"],
-        "classification":["in_knn"],
+        "regression":["in_linearRegression","in_ridgeRegression","in_lassoRegression","in_elasticNet","in_lassoLars","in_huberRegression","in_oneLayerNN"],
+        "classification":["in_knn","in_adaBoost","in_linearSVC"],
         "abnormal":["in_isolationForest"],
         "clustering":["in_kmeans"]
     },

@@ -1,0 +1,54 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"in_huberRegression",
+    "description": "Linear regression model that is robust to outliers.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"epsilon",
+            "description":"The parameter epsilon controls the number of samples that should be classified as outliers. The smaller the epsilon, the more robust it is to outliers.",
+            "type":"float",
+            "default":1.35,
+            "lowerBound":1,
+            "upperBound":10
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations that scipy.optimize.fmin_l_bfgs_b should run for.",
+            "type":"int",
+            "default":100,
+            "lowerBound":1,
+            "upperBound":200
+        },
+        {
+            "name":"alpha",
+            "description":"Regularization parameter.",
+            "type":"float",
+            "default":0.0001,
+            "lowerBound":0.0001,
+            "upperBound":1
+        },
+        {
+            "name":"fit_intercept",
+            "description":"whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (e.g. data is expected to be already centered).",
+            "type":"bool",
+            "default":1
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}
