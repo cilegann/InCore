@@ -1,0 +1,52 @@
+{
+    "dataType":"num",
+    "projectType":"classification",
+    "algoName":"in_decisionTree",
+    "description": "A decision tree classifier.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"criterion",
+            "description":"The function to measure the quality of a split. Supported criteria are “gini” for the Gini impurity and “entropy” for the information gain.",
+            "type":"enum",
+            "list":["gini","entropy"],
+            "default":"gini"
+        },
+        {
+            "name":"splitter",
+            "description":"The strategy used to choose the split at each node. Supported strategies are “best” to choose the best split and “random” to choose the best random split.",
+            "type":"enum",
+            "list":["best","random"],
+            "default":"best"
+        },
+        {
+            "name":"min_samples_split",
+            "description":"The minimum number of samples required to split an internal node:",
+            "type":"float",
+            "lowerBound":0.1,
+            "upperBound":0.8,
+            "default":0.2
+        },
+        {
+            "name":"presort",
+            "description":"Whether to presort the data to speed up the finding of best splits in fitting. For the default settings of a decision tree on large datasets, setting this to true may slow down the training process. When using either a smaller dataset or a restricted depth, this may speed up the training.",
+            "type":"bool",
+            "default":0
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"classifiable"
+        }
+    ]
+}
