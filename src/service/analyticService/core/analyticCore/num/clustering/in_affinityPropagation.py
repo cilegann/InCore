@@ -4,7 +4,7 @@ from sklearn.cluster import AffinityPropagation
 
 
 
-class in_kmeans(clustering):
+class in_affinityPropagation(clustering):
     def trainAlgo(self):
         self.model=AffinityPropagation(
             dampling=self.param['dampling'],
