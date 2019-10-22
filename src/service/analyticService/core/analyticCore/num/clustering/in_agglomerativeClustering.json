@@ -9,8 +9,8 @@
             "name":"n_clusters",
             "description":"The number of clusters to find. It will be set to ignored if set_distance_threshold is True",
             "type":"int",
-            "lowerBound":20,
-            "upperBound":2,
+            "lowerBound":2,
+            "upperBound":20,
             "default":2
         },
         {
