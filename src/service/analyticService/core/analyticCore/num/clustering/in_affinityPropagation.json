@@ -2,7 +2,7 @@
     "dataType":"num",
     "projectType":"clustering",
     "algoName":"in_affinityPropagation",
-    "description": "Perform linear regression",
+    "description": "Perform Affinity Propagation Clustering of data.",
     "lib":"sklearn",
     "param":[
         {
