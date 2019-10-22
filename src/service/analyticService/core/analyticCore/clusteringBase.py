@@ -61,7 +61,6 @@ class clustering(analytic):
     def test(self):
         if self.action=='test':
             self.clearSession()
-        #TODO: finish silhouette score
         try:
             x=[]
             for k,v in self.inputDict.items():
@@ -71,10 +70,14 @@ class clustering(analytic):
             x=np.asarray(x)
             x=np.transpose(x)        
             silhouette_avg = silhouette_score(x, self.result['cluster'])
-            self.txtRes+=f"The average silhouette_score is : {silhouette_avg}"
-            self.visualize()
+            self.txtRes+=f"Average silhouette score: {silhouette_avg}"
         except Exception as e:
-            print(e)
+            if self.txtRes=="":
+                self.txtRes="Average silhouette score: Nan"
+        try:
+            self.visualize()
+        except:
+            pass
         return {"text": self.txtRes, "fig": self.vizRes,"form":self.formRes}
 
     def projectVisualize(self):
