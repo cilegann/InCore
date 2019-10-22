@@ -2,8 +2,8 @@ from service.visualizeService.core.dataVizAlgo.circleXYClass import circleXYClas
 from bokeh.models import HoverTool,ColumnDataSource
 from bokeh.models import CustomJS,Select
 from bokeh.layouts import column,row
-from bokeh.palettes import Category20,Category10
-
+from bokeh.palettes import Category20,Category10,YlGnBu,YlGn,YlOrBr,Reds,RdPu,Purples
+import random
 class clusteringDot(circleXYClass):
     '''
     @data =
@@ -34,6 +34,9 @@ class clusteringDot(circleXYClass):
             colors=[]
             if len(set(self.cluster))>9:
                 cmap=Category20[20]
+                if len(set(self.cluster))>=20:
+                    cmap=YlGnBu[9]+YlGn[9]+YlOrBr[9]+Reds[9]+RdPu[9]+Purples[9]
+                    random.shuffle(cmap)
             else:
                 cmap=Category10[10]
             colors=[cmap[c] for c in self.cluster]
