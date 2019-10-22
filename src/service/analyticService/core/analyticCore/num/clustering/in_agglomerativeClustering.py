@@ -14,7 +14,7 @@ class in_agglomerativeClustering(clustering):
                 affinity=self.param["affinity"],
                 compute_full_tree=True,
                 linkage=self.param["linkage"],
-                distance_threshold=self.param["distamce_threshold"]
+                distance_threshold=self.param["distance_threshold"]
             )
         else:
             self.model=AgglomerativeClustering(
