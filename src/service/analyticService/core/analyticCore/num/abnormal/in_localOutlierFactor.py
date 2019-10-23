@@ -9,17 +9,15 @@ class in_localOutlierFactor(abnormal):
                     algorithm=self.param["algorithm"],
                     leaf_size=self.param["leaf_size"],
                     metric='minkowski',
-                    p=self.param['p'],
-                    novelty=True
+                    p=self.param['p']
             )
         else:
             self.model = LocalOutlierFactor(
                     n_neighbors=self.param["n_neighbors"],
                     algorithm=self.param["algorithm"],
                     leaf_size=self.param["leaf_size"],
-                    metric=self.param['metric'],
-                    novelty=True
+                    metric=self.param['metric']
             )
         self.model.fit(self.inputData["X"])
     def predictAlgo(self):
-        self.result["label"]=self.model.predict(self.inputData["X"])
+        self.result["label"]=self.model.fit_predict(self.inputData["X"])
