@@ -28,13 +28,6 @@
             "upperBound":20,
             "type":"int",
             "default":15
-        },
-        {
-            "name":"affinity",
-            "description":"Which affinity to use. At the moment precomputed and euclidean are supported. euclidean uses the negative squared euclidean distance between points.",
-            "type":"enum",
-            "list":["euclidean","precomputed"],
-            "default":"euclidean"
         }
     ],
     "input":[

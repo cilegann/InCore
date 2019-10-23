@@ -10,7 +10,7 @@ class in_affinityPropagation(clustering):
             damping=self.param['damping'],
             max_iter=self.param['max_iter'],
             convergence_iter=self.param['convergence_iter'],
-            affinity=self.param['affinity']
+            # affinity=self.param['affinity']
             )
         self.model.fit(self.inputData["X"])
     def predictAlgo(self):
