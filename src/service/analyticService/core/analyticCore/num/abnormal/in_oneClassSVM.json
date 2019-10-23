@@ -1,0 +1,50 @@
+{
+    "dataType":"num",
+    "projectType":"abnormal",
+    "algoName":"in_oneClassSVM",
+    "description": "Unsupervised Outlier Detection.Estimate the support of a high-dimensional distribution.The implementation is based on libsvm.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"kernel",
+            "description":"Specifies the kernel type to be used in the algorithm.",
+            "type":"enum",
+            "list":["linear","poly","rbf","sigmoid","precomputed"],
+            "default":"rbf"
+        },
+        {
+            "name":"degree",
+            "description":"Degree of the polynomial kernel function (‘poly’). Ignored by all other kernels.",
+            "type":"int",
+            "upperBound":10,
+            "lowerBound":1,
+            "default":3
+        },
+        {
+            "name":"coef0",
+            "description":"Independent term in kernel function.",
+            "type":"flot",
+            "upperBound":6.0,
+            "lowerBound":0.0,
+            "default":0.0
+            
+        },
+        {
+            "name":"max_iter",
+            "description":"Hard limit on iterations within solver, or -1 for no limit.",
+            "type":"int",
+            "upperBound":100,
+            "lowerBound":-1,
+            "default":-1
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[]
+}
