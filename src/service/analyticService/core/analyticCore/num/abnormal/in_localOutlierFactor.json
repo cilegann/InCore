@@ -1,0 +1,56 @@
+{
+    "dataType":"num",
+    "projectType":"abnormal",
+    "algoName":"in_localOutlierFactor",
+    "description": "Unsupervised Outlier Detection using Local Outlier Factor (LOF). The anomaly score of each sample is called Local Outlier Factor. It measures the local deviation of density of a given sample with respect to its neighbors. It is local in that the anomaly score depends on how isolated the object is with respect to the surrounding neighborhood. More precisely, locality is given by k-nearest neighbors, whose distance is used to estimate the local density. By comparing the local density of a sample to the local densities of its neighbors, one can identify samples that have a substantially lower density than their neighbors. These are considered outliers.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"n_neighbors",
+            "description":"Number of neighbors to use by default for kneighbors queries. If n_neighbors is larger than the number of samples provided, all samples will be used.",
+            "type":"int",
+            "upperBound":200,
+            "lowerBound":1,
+            "default":20
+        },
+        {
+            "name":"algorithm",
+            "description":"Algorithm used to compute the nearest neighbors. Note: fitting on sparse input will override the setting of this parameter, using brute force.",
+            "type":"enum",
+            "list":["auto","ball_tree","kd_tree","brute"],
+            "default":"auto"
+        },
+        {
+            "name":"leaf_size",
+            "description":"Leaf size passed to BallTree or KDTree. This can affect the speed of the construction and query, as well as the memory required to store the tree. The optimal value depends on the nature of the problem.",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":100,
+            "default":30
+        },
+        {
+            "name":"metric",
+            "description":"metric used for the distance computation.",
+            "type":"enum",
+            "list":["cityblock", "cosine", "euclidean", "l1", "l2", "manhattan","braycurtis", "canberra", "chebyshev", "correlation", "dice", "hamming", "jaccard", "kulsinski", "mahalanobis", "minkowski", "rogerstanimoto", "russellrao", "seuclidean", "sokalmichener", "sokalsneath", "sqeuclidean", "yule"],
+            "default":"minkowski"
+        },
+        {
+            "name":"p",
+            "description":"Parameter for the Minkowski metric from. Ignored when metric is not minkowskiWhen p = 1, this is equivalent to using manhattan_distance (l1), and euclidean_distance (l2) for p = 2. For arbitrary p, minkowski_distance (l_p) is used.",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":10,
+            "default":1
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[]
+}
