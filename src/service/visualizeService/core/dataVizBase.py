@@ -25,7 +25,7 @@ class dataViz():
             self.imgWH=None
             self.mat_plt=None
             self.component=None
-            logging.debug(f'[dataViz] algoInfo: {self.algoInfo}')
+            # logging.debug(f'[dataViz] algoInfo: {self.algoInfo}')
         except Exception as e:
             raise Exception(f'[dataViz][{self.algoInfo["algoname"]}]{e}')
         
