@@ -17,7 +17,7 @@ def classificationReport(targets,predictions,label,offset=3):
     form["title"]=['Label','Precision','Recall','FScore','Support']
     form["value"]=[]
     for i,l in enumerate(label):
-        c=[str(l),str(precision[i]),str(recall[i]),str(fscore[i]),str(support[i])]
+        c=[str(l),str(round(precision[i],4)),str(round(recall[i],4)),str(round(fscore[i],4)),str(support[i])]
         form["value"].append(c)
     return form
 
