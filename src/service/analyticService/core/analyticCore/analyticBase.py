@@ -146,7 +146,7 @@ class analytic():
                     if col not in self.d2c:
                         self.d2c[col],self.c2d[col]=categoricalConverter(d,colType[col]['type'])
                     d=np.asarray([self.d2c[col][str(i)] for i in d])
-                    d=to_categorical(d)
+                    d=[np.asarray(i) for i in to_categorical(d)]
                 if param["type"]=='string':
                     if colType[col]['type']!='string':
                         raise Exception(f'[getData] input {param["name"]} column {col} should be string')
@@ -157,7 +157,8 @@ class analytic():
                     d=rawDf[col]
                 self.inputData[param["name"]].append(d)
             if param['type']=='classifiable':
-                self.inputData[param['name']]=self.inputData[param['name']].transpose(1,0,2)
+                self.inputData[param['name']]=np.asarray(self.inputData[param['name']])
+                self.inputData[param['name']]=self.inputData[param['name']].transpose()
             else:
                 self.inputData[param["name"]]=np.transpose(self.inputData[param["name"]])
     
