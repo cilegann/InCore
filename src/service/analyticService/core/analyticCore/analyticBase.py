@@ -158,7 +158,10 @@ class analytic():
                 self.inputData[param["name"]].append(d)
             if param['type']=='classifiable':
                 self.inputData[param['name']]=np.asarray(self.inputData[param['name']])
-                self.inputData[param['name']]=self.inputData[param['name']].transpose()
+                try:
+                    self.inputData[param['name']]=self.inputData[param['name']].transpose(1,0,2)
+                except:
+                    self.inputData[param['name']]=self.inputData[param['name']].transpose()
             else:
                 self.inputData[param["name"]]=np.transpose(self.inputData[param["name"]])
     
