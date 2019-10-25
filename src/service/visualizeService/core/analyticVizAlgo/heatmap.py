@@ -76,6 +76,8 @@ class heatmap(dataViz):
                 self.fontSize=10
             if max([len(d) for d in self.data.columns]) > 15 or len(self.data.columns)>12:
                 self.fontSize=8
+            if max([len(d) for d in self.data.columns]) > 15 or len(self.data.columns)>15:
+                self.fontSize=6
             self.bokeh_fig.text(x="x", y="y",text='text', source=source,text_font_size=f'{self.fontSize}pt',text_font_style='bold',text_align='center',text_baseline='middle',text_color=transform('abs',textMapper))
             self.bokeh_fig.add_tools(
                 HoverTool(tooltips = [("Column", "@x , @y"),('Value', '@value'),])
