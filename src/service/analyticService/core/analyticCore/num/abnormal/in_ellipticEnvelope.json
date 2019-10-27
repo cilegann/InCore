@@ -1,0 +1,46 @@
+{
+    "dataType":"num",
+    "projectType":"abnormal",
+    "algoName":"in_ellipticEnvelope",
+    "description": "An object for detecting outliers in a Gaussian distributed dataset.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"assume_centered",
+            "description":"If True, the support of robust location and covariance estimates is computed, and a covariance estimate is recomputed from it, without centering the data. Useful to work with data whose mean is significantly equal to zero but is not exactly zero. If False, the robust location and covariance are directly computed with the FastMCD algorithm without additional treatment.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"set_support_fraction",
+            "description":"set support_fraction or not. If False, support_fraction will be ignored.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"support_fraction",
+            "description":"The proportion of points to be included in the support of the raw MCD estimate. If None, the minimum value of support_fraction will be used within the algorithm: [n_sample + n_features + 1] / 2.",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.8
+        },
+        {
+            "name":"contamination",
+            "description":"The amount of contamination of the data set, i.e. the proportion of outliers in the data set.",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":0.5,
+            "default":0.1
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[]
+}
