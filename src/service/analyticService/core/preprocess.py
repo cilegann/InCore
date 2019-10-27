@@ -130,12 +130,13 @@ class preprocess():
                     if 'missingFiltering' in v and v['missingFiltering']=='1':
                         data.append(v['data'])
                         colType.append(v['colType'])
-                retainIndex=missingFiltering().getRetainIndex(data,colType,self.path)
-                for k,v in self.data.items():
-                    self.data[k]['data']=v['data'][retainIndex]
-                    if v['colType']=='int':
-                        self.data[k]['data']=v['data'].astype(np.int64)
-                    dataLen=len(self.data[k]['data'])
+                if len(data)!=0:
+                    retainIndex=missingFiltering().getRetainIndex(data,colType,self.path)
+                    for k,v in self.data.items():
+                        self.data[k]['data']=v['data'][retainIndex]
+                        if v['colType']=='int':
+                            self.data[k]['data']=v['data'].astype(np.int64)
+                        dataLen=len(self.data[k]['data'])
 
             # outlier filtering
             if dataLen!=0:
