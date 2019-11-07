@@ -12,4 +12,5 @@ db/*
 .mypy_cache
 *.ipynb
 secret.cfg
-error.log
+*.log
+error

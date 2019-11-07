@@ -10,6 +10,7 @@ from flask import Flask
 from flask_restful import Api
 import logging
 import sys
+from datetime import datetime
 from utils import dbCleaningOnLaunch,checkFolder
 sys.dont_write_bytecode = True #disable __pycache__
 from params import params
@@ -79,7 +80,10 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level=logging.INFO , format='[%(levelname)s] %(message)s')
     formatter=logging.Formatter('%(asctime)s [%(levelname)s] %(message)s',"%Y-%m-%d %H:%M:%S")
-    fh = logging.FileHandler('error.log')
+    #fh = logging.FileHandler('./log/{:%Y-%m-%d}_error.log'.format(datetime.now()))
+    import logging.handlers as lh
+    fh = lh.TimedRotatingFileHandler("./log/error",'midnight',1)
+    fh.suffix="%Y-%m-%d.log"
     fh.setLevel(logging.ERROR)
     fh.setFormatter(formatter)
     logging.getLogger('').addHandler(fh)
