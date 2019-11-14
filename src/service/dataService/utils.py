@@ -10,6 +10,7 @@ import logging
 import numpy as np
 from utils import sql
 import traceback
+from sklearn.utils import shuffle
 
 def lockFile(fid):
     try:
@@ -207,4 +208,4 @@ class getDf():
                 data=pd.read_csv(self.filepath,sep='\t')
             except Exception as e:
                 raise Exception(f'[getDf]{e}')
-        return data
+        return shuffle(data)
