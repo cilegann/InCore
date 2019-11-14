@@ -15,7 +15,7 @@ def XYdataGenerator(fileList,yList,height,width,batchSize):
         y=yList[lowerBound:upperBound]
         x=[]
         for f in todo_fileList:
-            img=Image.open(f[0])
+            img=Image.open(f)
             try:
                 img=img.resize((width,height))
             except:
@@ -40,7 +40,7 @@ def XdataGenerator(fileList,height,width,batchSize):
         todo_fileList=fileList[lowerBound:upperBound]
         x=[]
         for f in todo_fileList:
-            img=Image.open(f[0])
+            img=Image.open(f)
             try:
                 img=img.resize((width,height))
             except:

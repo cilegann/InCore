@@ -158,14 +158,15 @@ class analytic():
                     for di in range(len(d)):
                         d[di]=os.path.join(self.path,d[di])
                 self.inputData[param["name"]].append(d)
-            if param['type']=='classifiable':
-                self.inputData[param['name']]=np.asarray(self.inputData[param['name']])
-                try:
-                    self.inputData[param['name']]=self.inputData[param['name']].transpose(1,0,2)
-                except:
-                    self.inputData[param['name']]=self.inputData[param['name']].transpose()
-            else:
-                self.inputData[param["name"]]=np.transpose(self.inputData[param["name"]])
+            if param["amount"]!="single":
+                if param['type']=='classifiable':
+                    self.inputData[param['name']]=np.asarray(self.inputData[param['name']])
+                    try:
+                        self.inputData[param['name']]=self.inputData[param['name']].transpose(1,0,2)
+                    except:
+                        self.inputData[param['name']]=self.inputData[param['name']].transpose()
+                else:
+                    self.inputData[param["name"]]=np.transpose(self.inputData[param["name"]])
     
         # check output columns if action is training or testing
         if self.action=='train' or self.action=='test':
