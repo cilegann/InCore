@@ -155,6 +155,8 @@ class analytic():
                     if colType[col]['type']!='path':
                         raise Exception(f'[getData] input {param["name"]} column {col} should be path')
                     d=rawDf[col]
+                    for di in range(len(d)):
+                        d[di]=os.path.join(self.path,d[di])
                 self.inputData[param["name"]].append(d)
             if param['type']=='classifiable':
                 self.inputData[param['name']]=np.asarray(self.inputData[param['name']])
