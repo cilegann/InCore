@@ -31,8 +31,8 @@ class in_oneLayerRNN(classification):
             epochs=self.param['epochs']
         )
     def predictAlgo(self):
-        self.customObj["tokenizer"]=Tokenizer()
-        self.customObj["tokenizer"].fit_on_texts(self.inputData['X'].reshape(-1))
+        # self.customObj["tokenizer"]=Tokenizer()
+        # self.customObj["tokenizer"].fit_on_texts(self.inputData['X'].reshape(-1))
         word_index=self.customObj["tokenizer"].word_index
         sequences=self.customObj["tokenizer"].texts_to_sequences(self.inputData['X'].reshape(-1))
         x=pad_sequences(sequences,maxlen=self.param['max_seq_len'])

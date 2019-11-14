@@ -47,7 +47,7 @@
             "name":"epochs",
             "description":"train epochs",
             "type":"int",
-            "lowerBound":5,
+            "lowerBound":1,
             "upperBound":200,
             "default":20
         },
@@ -56,7 +56,7 @@
             "description":"batch size of training",
             "type":"int",
             "lowerBound":32,
-            "upperBound":128,
+            "upperBound":256,
             "default":32
         }
     ],
