@@ -7,7 +7,7 @@ from math import ceil
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 
-class in_oneLayerCNN(classification):
+class in_oneLayerRNN(classification):
     def trainAlgo(self):
         self.customObj["tokenizer"]=Tokenizer()
         self.customObj["tokenizer"].fit_on_texts(self.inputData['X'].reshape(-1))
