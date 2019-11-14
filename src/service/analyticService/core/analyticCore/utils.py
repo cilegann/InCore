@@ -1,6 +1,6 @@
 import numpy as np
 from PIL import Image
-import cv2
+
 def XYdataGenerator(fileList,yList,height,width,batchSize):
     trainIndex=0
     while(1):
