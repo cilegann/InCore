@@ -7,7 +7,7 @@
     },
     "cv":{
         "regression":[],
-        "classification":[]
+        "classification":["in_oneLayerCNN"]
     },
     "nlp":{
         "regression":[],
