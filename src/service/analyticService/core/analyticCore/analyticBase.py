@@ -167,6 +167,8 @@ class analytic():
                         self.inputData[param['name']]=self.inputData[param['name']].transpose()
                 else:
                     self.inputData[param["name"]]=np.transpose(self.inputData[param["name"]])
+            else:
+                self.inputData[param["name"]]=np.asarray(self.inputData[param["name"]])
     
         # check output columns if action is training or testing
         if self.action=='train' or self.action=='test':
