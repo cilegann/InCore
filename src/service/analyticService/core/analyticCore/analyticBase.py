@@ -138,11 +138,11 @@ class analytic():
                 if param["type"]=='float':
                     if colType[col]['type']!='float' and colType[col]['type']!='int':
                         raise Exception(f'[getData] input {param["name"]} column {col} should be float or int')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
                 if param["type"]=='classifiable':
                     if colType[col]['classifiable']!=1:
                         raise Exception(f'[getData] input {param["name"]} column {col} should be classifiable')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
                     if col not in self.d2c:
                         self.d2c[col],self.c2d[col]=categoricalConverter(d,colType[col]['type'])
                     d=np.asarray([self.d2c[col][str(i)] for i in d])
@@ -150,11 +150,11 @@ class analytic():
                 if param["type"]=='string':
                     if colType[col]['type']!='string':
                         raise Exception(f'[getData] input {param["name"]} column {col} should be string')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
                 if param["type"]=='path':
                     if colType[col]['type']!='path':
                         raise Exception(f'[getData] input {param["name"]} column {col} should be path')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
                     for di in range(len(d)):
                         d[di]=os.path.join(self.path,d[di])
                 self.inputData[param["name"]].append(d)
@@ -178,11 +178,11 @@ class analytic():
                 if param["type"]=='float':
                     if colType[col]['type']!='float' and colType[col]['type']!='int':
                         raise Exception(f'[getData] output {param["name"]} column {col} should be float or int')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
                 if param["type"]=='classifiable':
                     if colType[col]['classifiable']!=1:
                         raise Exception(f'[getData] output {param["name"]} column {col} should be classifiable')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
                     if col not in self.d2c:
                         self.d2c[col],self.c2d[col]=categoricalConverter(d,colType[col]['type'])
                     d=np.asarray([self.d2c[col][str(i)] for i in d])
@@ -190,11 +190,13 @@ class analytic():
                 if param["type"]=='string':
                     if colType[col]['type']!='string':
                         raise Exception(f'[getData] output {param["name"]} column {col} should be string')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
                 if param["type"]=='path':
                     if colType[col]['type']!='path':
                         raise Exception(f'[getData] output {param["name"]} column {col} should be path')
-                    d=rawDf[col]
+                    d=rawDf[col].tolist()
+                    for di in range(len(d)):
+                        d[di]=os.path.join(self.path,d[di])
                 self.outputData[param["name"]]=d
         self.dataDf=rawDf
 
