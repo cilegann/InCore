@@ -20,7 +20,7 @@ class in_oneLayerCNN(classification):
     def predictAlgo(self):
         
         r=self.model.predict_generator(
-            self.XdataGenerator(self.inputData['X'],32,32,self.param['batch_size']),
+            XdataGenerator(self.inputData['X'],32,32,self.param['batch_size']),
             steps=int(ceil((len(self.inputData['X'])/self.param['batch_size'])))
         )
         self.result['Y']=r

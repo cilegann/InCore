@@ -15,7 +15,12 @@ def XYdataGenerator(fileList,yList,height,width,batchSize):
         y=yList[lowerBound:upperBound]
         x=[]
         for f in todo_fileList:
-            img=np.asarray(Image.open(f[0]).resize(width,height))
+            img=Image.open(f[0])
+            try:
+                img=img.resize((width,height))
+            except:
+                pass
+            img=np.asarray(img)
             img=img.astype('float64')
             img/=255.
             x.append(img)
@@ -35,7 +40,12 @@ def XdataGenerator(fileList,height,width,batchSize):
         todo_fileList=fileList[lowerBound:upperBound]
         x=[]
         for f in todo_fileList:
-            img=np.asarray(Image.open(f[0]).resize(width,height))
+            img=Image.open(f[0])
+            try:
+                img=img.resize((width,height))
+            except:
+                pass
+            img=np.asarray(img)
             img=img.astype('float64')
             img/=255.
             x.append(img)
