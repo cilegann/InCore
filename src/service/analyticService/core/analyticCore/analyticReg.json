@@ -11,6 +11,6 @@
     },
     "nlp":{
         "regression":[],
-        "classification":[]
+        "classification":["in_oneLayerRNN"]
     }
 }

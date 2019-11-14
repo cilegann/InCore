@@ -1,0 +1,78 @@
+{
+    "dataType":"nlp",
+    "projectType":"classification",
+    "algoName":"in_oneLayerRNN",
+    "description": "Single layer LSTM",
+    "lib":"keras",
+    "param":[
+        {
+            "name":"embed_dim",
+            "description":"Dimension of word embedding vector",
+            "type":"int",
+            "lowerBound":16,
+            "upperBound":300,
+            "default":128
+        },
+        {
+            "name":"max_seq_len",
+            "description":"Max length of a sequence",
+            "type":"int",
+            "lowerBound":20,
+            "upperBound":100,
+            "default":50
+        },
+        {
+            "name":"LSTM_hidden_neuron",
+            "description":"number of neurons of LSTM layer",
+            "type":"int",
+            "lowerBound":2,
+            "upperBound":64,
+            "default":16
+        },
+        {
+            "name":"LSTM_hidden_activation",
+            "description":"activation function",
+            "type":"enum",
+            "list":["linear","tanh","relu","elu","softmax","selu"],
+            "default":"tanh"
+        },
+        {
+            "name":"optimizer",
+            "description":"optimizer",
+            "type":"enum",
+            "list":["sgd","rmsprop","adagrad","adam"],
+            "default":"sgd"
+        },
+        {
+            "name":"epochs",
+            "description":"train epochs",
+            "type":"int",
+            "lowerBound":5,
+            "upperBound":200,
+            "default":20
+        },
+        {
+            "name":"batch_size",
+            "description":"batch size of training",
+            "type":"int",
+            "lowerBound":32,
+            "upperBound":128,
+            "default":32
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"string",
+            "amount":"single"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"classifiable"
+        }
+    ]
+}
