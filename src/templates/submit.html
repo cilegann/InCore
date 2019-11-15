@@ -1,0 +1,97 @@
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<style>
+/* #browsebutton1 {
+    background-color: white;
+}
+#browsebutton2 {
+    background-color: white;
+} */
+#my-file-selector1 {
+    display: none;
+}
+#my-file-selector2 {
+    display: none;
+}
+</style>
+<br>
+<div>
+{{ error }}
+    </div>
+<h1 class="text-center">Inanalysis</h1>
+<h3 class="text-center"> Algorithm Upload-Test System</h3>
+<hr>
+<div class="d-flex justify-content-center">
+    <form class="formcenter-block" enctype='multipart/form-data' method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="input-group">
+                <label class="input-group-btn">
+                <span id="browsebutton1" class="btn btn-outline-secondary" for="my-file-selector1">
+                    {{ form.jsonfile(id="my-file-selector1") }}
+                    Json File
+                </span>
+                </label>
+                <input type="text" class="form-control" readonly>
+        </div>
+
+        <div class="input-group">
+                <label id="browsebutton2" class="btn btn-outline-secondary" for="my-file-selector2">
+                    {{ form.pyfile(id="my-file-selector2") }}
+                    Python File
+                </label>
+                <input type="text" class="form-control" readonly>
+        </div>
+
+        {{ form.submit(class="btn btn-outline-success btn-lg btn-block") }}
+
+    </form>
+</div>
+
+<script>
+$(document).on('change', '#browsebutton1 :file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('#browsebutton1 :file').on('fileselect', function(event, numFiles, label) {
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if( input.length ) {
+            input.val(log);
+        } else {
+            if( log ) alert(log);
+        }
+
+    });
+});
+$(document).on('change', '#browsebutton2 :file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('#browsebutton2 :file').on('fileselect', function(event, numFiles, label) {
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if( input.length ) {
+            input.val(log);
+        } else {
+            if( log ) alert(log);
+        }
+
+    });
+});
+
+
+</script>

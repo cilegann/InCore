@@ -1,16 +1,44 @@
 {
-    "num":{
-        "regression":["in_linearRegression","in_ridgeRegression","in_lassoRegression","in_elasticNet","in_lassoLars","in_huberRegression","in_oneLayerNN"],
-        "classification":["in_knn","in_adaBoost","in_linearSVC","in_decisionTree","___internalTest"],
-        "abnormal":["in_isolationForest","in_localOutlierFactor","in_ellipticEnvelope","in_oneClassSVM"],
-        "clustering":["in_kmeans","in_affinityPropagation","in_dbscan","in_agglomerativeClustering" ]
+    "num": {
+        "regression": [
+            "in_linearRegression",
+            "in_ridgeRegression",
+            "in_lassoRegression",
+            "in_elasticNet",
+            "in_lassoLars",
+            "in_huberRegression",
+            "in_oneLayerNN"
+        ],
+        "classification": [
+            "in_knn",
+            "in_adaBoost",
+            "in_linearSVC",
+            "in_decisionTree",
+            "___internalTest"
+        ],
+        "abnormal": [
+            "in_isolationForest",
+            "in_localOutlierFactor",
+            "in_ellipticEnvelope",
+            "in_oneClassSVM"
+        ],
+        "clustering": [
+            "in_kmeans",
+            "in_affinityPropagation",
+            "in_dbscan",
+            "in_agglomerativeClustering"
+        ]
     },
-    "cv":{
-        "regression":[],
-        "classification":["in_oneLayerCNN"]
+    "cv": {
+        "regression": [],
+        "classification": [
+            "in_oneLayerCNN"
+        ]
     },
-    "nlp":{
-        "regression":[],
-        "classification":["in_oneLayerRNN"]
+    "nlp": {
+        "regression": [],
+        "classification": [
+            "in_oneLayerRNN"
+        ]
     }
 }

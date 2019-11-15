@@ -35,9 +35,12 @@ from service.analyticService.controller.analytic import getAnalyticAlgoList,getA
 
 par=params()
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'ACLARRR'
 api = Api(app)
 cors = CORS(app, resources=r"/*")
 
+from extender.moduleExtend import submitPage
+app.register_blueprint(submitPage)
 # bind api
 api.add_resource(getDataProjectType,"/sys/dataproject")
 api.add_resource(getDataExtensionType,"/sys/dataextension")
