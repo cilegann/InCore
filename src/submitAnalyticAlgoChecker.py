@@ -14,8 +14,6 @@ def algoChecker(jsonName,pyName):
     acceptableLib=["sklearn","keras"]
     acceptableParamType=["int","float","bool","enum","string"]
     acceptableIOType=["float","classifiable","string","path"]
-    logging.info("[checkAlgo] Start")
-    print("---------------------------------------------------")
     # jsonFile=os.path.join(param.analyticServiceRoot,"core","analyticCore",dl,pl,filename+".json")
     # pyFile=os.path.join(param.analyticServiceRoot,"core","analyticCore",dl,pl,filename+".py")
     if not os.path.isfile(jsonFile):
@@ -47,81 +45,83 @@ def algoChecker(jsonName,pyName):
         return "param must be a list"
     for p in j["param"]:
         if not ("name" in p):
-            return f"attribute 'name' missing in {p}"
+            return f"attribute 'name' missing <br>In parameter:<br>{p}"
         if not ("description" in p):
-            return f"attribute 'description' missing in {p}"
+            return f"attribute 'description' missing <br>In parameter:<br>{p}"
         if not ("type" in p):
-            return f"attribute 'type' missing in {p}"
+            return f"attribute 'type' missing <br>In parameter:<br>{p}"
         if not (p["type"] in acceptableParamType):
-            return f"type {p['type']} not supported, check spelling"
+            return f"type {p['type']} not supported, check spelling.<br>In parameter:<br>{p}"
         if not ("default" in p):
-            return f"attribute 'default' missing in {p}"
+            return f"attribute 'default' missing <br>In parameter:<br>{p}"
         if p["type"]=="int":
             if not ("upperBound" in p):
-                return f"attribute 'upperBound' not found in {p}"
+                return f"attribute 'upperBound' not found <br>In parameter:<br>{p}"
             if not ("lowerBound" in p):
-                return f"attribute 'lowerBound' not found in {p}"
+                return f"attribute 'lowerBound' not found <br>In parameter:<br>{p}"
             if int(p["upperBound"])!=p["upperBound"]:
-                return f"upperBound must be int in {p}"
+                return f"upperBound must be int <br>In parameter:<br>{p}"
             if int(p["lowerBound"])!=p["lowerBound"]:
-                return f"lowerBound must be int in {p}"
+                return f"lowerBound must be int <br>In parameter:<br>{p}"
             if int(p["default"])!=p["default"]:
-                return f"default must be int in {p}"
+                return f"default must be int <br>In parameter:<br>{p}"
             if p['upperBound']<=p['lowerBound']:
-                return f"upperBound must be greater than lowerBound in {p}"
+                return f"upperBound must be greater than lowerBound <br>In parameter:<br>{p}"
         if p["type"]=="float":
             if not ("upperBound" in p):
-                return f"attribute 'upperBound' not found in {p}"
+                return f"attribute 'upperBound' not found <br>In parameter:<br>{p}"
             if not ("lowerBound" in p):
-                return f"attribute 'lowerBound' not found in {p}"
+                return f"attribute 'lowerBound' not found <br>In parameter:<br>{p}"
             if float(p["upperBound"])!=p["upperBound"]:
-                return f"upperBound must be float in {p}"
+                return f"upperBound must be float <br>In parameter:<br>{p}"
             if float(p["lowerBound"])!=p["lowerBound"]:
-                return f"lowerBound must be float in {p}"
+                return f"lowerBound must be float <br>In parameter:<br>{p}"
             if float(p["default"])!=p["default"]:
-                return f"default must be float in {p}"
+                return f"default must be float <br>In parameter:<br>{p}"
             if not p['upperBound']>p['lowerBound']:
-                return f"upperBound must be greater than lowerBound in {p}"
+                return f"upperBound must be greater than lowerBound <br>In parameter:<br>{p}"
         if p["type"]=="bool":
             if not (p["default"]==1 or p["default"]==0):
-                return f"default must be 0 or 1 in {p}"
+                return f"default must be 0 or 1 <br>In parameter:<br>{p}"
         if p["type"]=="enum":
             if not ("list" in p):
-                return f"attribute 'list' not found in {p}"
+                return f"attribute 'list' not found <br>In parameter:<br>{p}"
             if not (p["default"] in p["list"]):
-                return f"default value not in list"
+                return f"default value not in list<br>In parameter:<br>{p}"
     if not ("input" in j):
-        return f"input not defined in json in"
+        return f"input not defined in json"
     for p in j["input"]:
         if not ("name" in p):
-            return f"attribute 'name' not found in {p}"
+            return f"attribute 'name' not found <br>In input:<br>{p}"
         if not ("description" in p):
-            return f"attribute 'description' not found in {p}"
+            return f"attribute 'description' not found <br>In input:<br>{p}"
         if not ("type" in p):
-            return f"attribure 'type' not found in {p}"
+            return f"attribure 'type' not found <br>In input:<br>{p}"
         if not (p["type"] in acceptableIOType):
-            return f"type {p['type']} is not acceptable"
+            return f"type {p['type']} is not acceptable <br>In input:<br>{p}"
         if not ("amount" in p):
-            return f"attribute 'amount' not found in {p}"
+            return f"attribute 'amount' not found<br>In input:<br>{p}"
         if not (p["amount"] in ["multiple","single"]):
-            return f"amount {p['amount']} is not acceptable"
+            return f"amount {p['amount']} is not acceptable<br>In input:<br>{p}"
     if not ("output" in j):
         return "output not defined in json"
     for p in j["output"]:
         if not ("name" in p):
-            return f"attribute 'name' not found in {p}"
+            return f"attribute 'name' not found <br>In output:<br>{p}"
         if not ("description" in p):
-            return f"attribute 'description' not found in {p}"
+            return f"attribute 'description' not found <br>In output:<br>{p}"
         if not ("type" in p):
-            return f"attribure 'type' not found in {p}"
+            return f"attribure 'type' not found <br>In output:<br>{p}"
         if not (p["type"] in acceptableIOType):
-            return f"type {p['type']} is not acceptable"
+            return f"type {p['type']} is not acceptable<br>In output:<br>{p}"
         if not ("amount" not in p):
-            return "output has no attribute 'amount'"
+            return f"output has no attribute 'amount'<br>In output:<br>{p}"
     paramList=[p["name"] for p in j["param"]]
     inputList=[p["name"] for p in j["input"]]
     outputList=[p["name"] for p in j["output"]]
-    
+    name=pyFile.replace(".py","").replace("tmp/","")
+    if not(name in open(pyFile).read()):
+        return f"Class name of algorithm should be identical with filename: {name}"
     g=generate_tokens(open(pyFile).readline)
     record=[]
     for typ,syn,start,end,line in g:
@@ -163,7 +163,8 @@ def algoChecker(jsonName,pyName):
         shutil.move(pyFile,os.path.join("src","service","analyticService","core","analyticCore",j["dataType"],j["projectType"],pyName))        
         with open(param.analyticAlgoReg,"r") as file:
             reg=json.load(file)
-        reg[j["dataType"]][j["projectType"]].append(j["algoName"])
+        if j["algoName"] not in reg[j["dataType"]][j["projectType"]]:
+            reg[j["dataType"]][j["projectType"]].append(j["algoName"])
         with open(param.analyticAlgoReg,"w") as file:
             json.dump(reg,file, indent=4)
         return (f"success")
@@ -183,7 +184,7 @@ def algoChecker(jsonName,pyName):
         result+=(f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{len(notUsedWarn)} not used param warning<br>")
         for nw in notUsedWarn:
             result+=(f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{nw}<br>")
-    result+=("---------------------------------------------------<br>")
+    # result+=("---------------------------------------------------<br>")
     return result
 if __name__=="__main__":
     algoChecker()
