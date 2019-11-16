@@ -92,6 +92,7 @@ class doModelTrain(Resource):
                 return {"status":"error","msg":f"Algo {algoName} not found in {dataType}.{projectType}","data":{}},400
             algoInfo={'dataType':dataType,'projectType':projectType,'algoName':algoName,'param':algoParam,'input':algoInput,'output':algoOutput}
             module=importlib.import_module(f"service.analyticService.core.analyticCore.{dataType}.{projectType}.{algoName}")
+            importlib.reload(module)
             attr=getattr(module,algoName)
             algo=attr(algoInfo,fid,'train')
             mid=algo.train()
@@ -185,6 +186,7 @@ class doModelTest(Resource):
             with open(os.path.join(param.modelpath,mid,'algoInfo.pkl'),'rb') as file:
                 algoInfo=pickle.load(file)
             module=importlib.import_module(f"service.analyticService.core.analyticCore.{algoInfo['dataType']}.{algoInfo['projectType']}.{algoInfo['algoName']}")
+            importlib.reload(module)
             attr=getattr(module,algoInfo['algoName'])
             if algoInfo['projectType']=='abnormal':
                 algo=attr(algoInfo,fid,'test',mid=mid,testLabel=args['label'])
@@ -226,6 +228,7 @@ class doModelPredict(Resource):
             with open(os.path.join(param.modelpath,mid,'algoInfo.pkl'),'rb') as file:
                 algoInfo=pickle.load(file)
             module=importlib.import_module(f"service.analyticService.core.analyticCore.{algoInfo['dataType']}.{algoInfo['projectType']}.{algoInfo['algoName']}")
+            importlib.reload(module)
             attr=getattr(module,algoInfo['algoName'])
             algo=attr(algoInfo,fid,'predict',mid=mid)
             algo.predictWrapper()
