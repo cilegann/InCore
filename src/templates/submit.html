@@ -1,97 +1,164 @@
+<head>
+    <title>InCore - Algo Upoad</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <style>
+        /* #browsebutton1 {
+        background-color: white;
+    }
+    #browsebutton2 {
+        background-color: white;
+    } */
+        #my-file-selector1 {
+            display: none;
+        }
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<style>
-/* #browsebutton1 {
-    background-color: white;
-}
-#browsebutton2 {
-    background-color: white;
-} */
-#my-file-selector1 {
-    display: none;
-}
-#my-file-selector2 {
-    display: none;
-}
-</style>
-<br>
-<div>
-{{ error }}
+        #my-file-selector2 {
+            display: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <br>
+        <h1 class="text-center">InCore</h1>
+        <h3 class="text-center"> Algorithm Upload System</h3>
+        <hr>
+        <div class="d-flex justify-content-center" style="max-width: 80%; margin-right: auto;margin-left: auto;">
+            {% if alert %}
+            <div class="alert alert-danger">
+                <a href="#" class="close" data-dismiss="alert">
+                    &times;
+                </a>
+                <br>
+                {{ alert|safe }}
+            </div>
+            {% endif %}
+            {% if success %}
+            <div class="alert alert-success">
+                <a href="#" class="close" data-dismiss="alert">
+                    &times;
+                </a>
+                {{ success|safe }}
+            </div>
+            {% endif %}
+        </div>
+        <div class="d-flex justify-content-center">
+            <form class="formcenter-block" enctype='multipart/form-data' method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="input-group">
+                    <label class="input-group-btn" >
+                        <span id="browsebutton1" class="btn btn-outline-secondary" for="my-file-selector1"  required>
+                            {{ form.jsonfile(id="my-file-selector1") }}
+                            Json File
+                        </span>
+                    </label>
+                    <input type="text" class="form-control" readonly>
+                </div>
+
+                <div class="input-group">
+                    <label id="browsebutton2" class="btn btn-outline-secondary" for="my-file-selector2">
+                        {{ form.pyfile(id="my-file-selector2") }}
+                        Python File
+                    </label>
+                    <input type="text" class="form-control" readonly>
+                </div>
+
+                <br>
+                <div class="form-group form-check">
+                    {{ form.checked() }}
+                    <label class="form-check-label" for="Check1">I have read and agree to the <a data-toggle="modal" data-target="#agreeModal" style="color:dodgerblue;">term of uploading</a></label>
+                </div>
+
+                
+                {{ form.submit(class="btn btn-outline-success btn-lg btn-block") }}
+
+            </form>
+        <!-- Modal -->
+        <div class="modal fade bd-example-modal-lg" id="agreeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Term of uploading</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                You must agree with the following policies<br>
+                &nbsp;&nbsp;&nbsp;(1). Obey the copyright law and never plagiarize<br>
+                &nbsp;&nbsp;&nbsp;(2). Check the program syntax before uploading<br>
+                &nbsp;&nbsp;&nbsp;(3). The uploaded program does not contain statements that attack the system<br>
+                &nbsp;&nbsp;&nbsp;(4). We have the right to adjust your program for a better performance<br>
+                &nbsp;&nbsp;&nbsp;(5). You can remove your algorithm from the system by contacting us anytime<br>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        <br>
+        <br>
+        <div class="d-flex justify-content-center well">
+            <p style="color:dimgrey">If you want to delete your algorithm, please contact us.</p>
+        </div>
     </div>
-<h1 class="text-center">Inanalysis</h1>
-<h3 class="text-center"> Algorithm Upload-Test System</h3>
-<hr>
-<div class="d-flex justify-content-center">
-    <form class="formcenter-block" enctype='multipart/form-data' method="POST">
-        {{ form.hidden_tag() }}
-
-        <div class="input-group">
-                <label class="input-group-btn">
-                <span id="browsebutton1" class="btn btn-outline-secondary" for="my-file-selector1">
-                    {{ form.jsonfile(id="my-file-selector1") }}
-                    Json File
-                </span>
-                </label>
-                <input type="text" class="form-control" readonly>
-        </div>
-
-        <div class="input-group">
-                <label id="browsebutton2" class="btn btn-outline-secondary" for="my-file-selector2">
-                    {{ form.pyfile(id="my-file-selector2") }}
-                    Python File
-                </label>
-                <input type="text" class="form-control" readonly>
-        </div>
-
-        {{ form.submit(class="btn btn-outline-success btn-lg btn-block") }}
-
-    </form>
-</div>
+</body>
 
 <script>
-$(document).on('change', '#browsebutton1 :file', function() {
-    var input = $(this),
-        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
-});
-
-$(document).ready( function() {
-    $('#browsebutton1 :file').on('fileselect', function(event, numFiles, label) {
-        var input = $(this).parents('.input-group').find(':text'),
-            log = numFiles > 1 ? numFiles + ' files selected' : label;
-
-        if( input.length ) {
-            input.val(log);
-        } else {
-            if( log ) alert(log);
-        }
-
+    $(document).on('change', '#browsebutton1 :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
     });
-});
-$(document).on('change', '#browsebutton2 :file', function() {
-    var input = $(this),
-        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
-});
 
-$(document).ready( function() {
-    $('#browsebutton2 :file').on('fileselect', function(event, numFiles, label) {
-        var input = $(this).parents('.input-group').find(':text'),
-            log = numFiles > 1 ? numFiles + ' files selected' : label;
+    $(document).ready(function () {
+        $('#browsebutton1 :file').on('fileselect', function (event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
 
-        if( input.length ) {
-            input.val(log);
-        } else {
-            if( log ) alert(log);
-        }
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
 
+        });
     });
-});
+    $(document).on('change', '#browsebutton2 :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $(document).ready(function () {
+        $('#browsebutton2 :file').on('fileselect', function (event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+    });
 
 
 </script>
