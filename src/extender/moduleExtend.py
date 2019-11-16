@@ -34,7 +34,7 @@ def submit(key):
         return render_template('404.html')
     form=formming()
     if form.validate_on_submit():
-        logging.info(f"[]{idd} submitting")
+        logging.info(f"[SUBMIT] {idd} submitting")
         try:
             jsonFile=form.jsonfile.data
             pyFile=form.pyfile.data
@@ -75,7 +75,8 @@ def submit(key):
                 except:
                     pass
                 return render_template('submit.html',form=form,alert=text)
-            text='Submit successfully. Your algorithm is now added to the system.'
+            text='You have passed the basic test, submitted algorithm is now installed to the system.'
+            logging.info(f"[SUBMIT] {idd} submitted: {jsonFileName[:jsonFileName.rfind('.')]}")
             return render_template('submit.html',form=form,success=text)
         except Exception as e:
             text="During parsing, some error occured, please notify us or try again later"
