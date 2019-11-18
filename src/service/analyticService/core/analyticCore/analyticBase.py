@@ -241,7 +241,7 @@ class analytic():
             errormsg=str(e).replace("'","''")
             try:
                 db=sql()
-                db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{errormsg}' WHERE `mid`='{self.mid}';")
+                db.cursor.execute("UPDATE `models` SET `status`='fail',`failReason`='{em}' WHERE `mid`='{midd}';".format(em=traceback.format_exc(),midd=self.mid))
                 db.conn.commit()
             except Exception as e:
                 db.conn.rollback()
