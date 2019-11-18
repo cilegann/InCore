@@ -47,23 +47,23 @@ def submit(key):
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text)
+                return render_template('submit.html',form=form,alert=text,idd=idd)
             if jsonFileName[jsonFileName.rfind("."):]!=".json" or pyFileName[pyFileName.rfind("."):]!='.py':
                 text='We found some error in your submitted files, please fix it and upload again<br><br>----------ERROR REPORT BELOW----------<br>there should be a .json file and a .py file<br>--------------------------------------------'
                 try:
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text)
+                return render_template('submit.html',form=form,alert=text,idd=idd)
             jsonFileID=jsonFileName.split("_")[0]
             pyFileID=pyFileName.split("_")[0]
-            if jsonFileID!=idd or pyFileID!=idd:
+            if jsonFileID.lower()!=idd or pyFileID.lower()!=idd:
                 text='We found some error in your submitted files, please fix it and upload again<br><br>----------ERROR REPORT BELOW----------<br>Filename format: studentID_algoname.py and studentID_algoname.json<br>--------------------------------------------'
                 try:
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text)
+                return render_template('submit.html',form=form,alert=text,idd=idd)
 
             jsonFile.save(os.path.join("tmp",form.jsonfile.data.filename))
             pyFile.save(os.path.join("tmp",form.pyfile.data.filename))
@@ -74,15 +74,15 @@ def submit(key):
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text)
+                return render_template('submit.html',form=form,alert=text,idd=idd)
             text='You have passed the basic test, submitted algorithm is now installed to the system.'
             logging.info(f"[SUBMIT] {idd} submitted: {jsonFileName[:jsonFileName.rfind('.')]}")
-            return render_template('submit.html',form=form,success=text)
+            return render_template('submit.html',form=form,success=text,idd=idd)
         except Exception as e:
             text="During parsing, some error occured, please notify us or try again later"
             try:
                 purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
             except:
                 pass
-            return render_template('submit.html',form=form,alert=text)
-    return render_template('submit.html',form=form)
+            return render_template('submit.html',form=form,alert=text,idd=idd)
+    return render_template('submit.html',form=form,idd=idd)

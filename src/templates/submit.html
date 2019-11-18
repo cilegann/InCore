@@ -58,9 +58,10 @@
                 {{ form.hidden_tag() }}
 
                 <div class="input-group">
-                    <label class="input-group-btn" >
+                    <label class="input-group-btn">
                         <span id="browsebutton1" class="btn btn-outline-secondary" for="my-file-selector1"  required>
                             {{ form.jsonfile(id="my-file-selector1") }}
+                            <!-- <img src="https://cdn0.iconfinder.com/data/icons/file-types-vol-5/64/json_file-512.png" width="25px" height="25px">  -->
                             Json File
                         </span>
                     </label>
@@ -70,6 +71,7 @@
                 <div class="input-group">
                     <label id="browsebutton2" class="btn btn-outline-secondary" for="my-file-selector2">
                         {{ form.pyfile(id="my-file-selector2") }}
+                        <!-- <img src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-3/512/267_Python-512.png" width="25px" height="25px">  -->
                         Python File
                     </label>
                     <input type="text" class="form-control" readonly>
@@ -78,7 +80,7 @@
                 <br>
                 <div class="form-group form-check">
                     {{ form.checked() }}
-                    <label class="form-check-label" for="Check1">I have read and agree to the <a data-toggle="modal" data-target="#agreeModal" style="color:dodgerblue;">term of uploading</a></label>
+                    <label class="form-check-label" for="Check1">I have read and agree to the <a data-toggle="modal" data-target="#agreeModal" style="color:dodgerblue;">term of submitting</a></label>
                 </div>
 
                 
@@ -90,7 +92,7 @@
             <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Term of uploading</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Term of submitting</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -114,6 +116,19 @@
         <br>
         <div class="d-flex justify-content-center well">
             <p style="color:dimgrey">If you want to delete your algorithm, please contact us.</p>
+        </div>
+        <div role="alert"  aria-atomic="true" style="position: relative; min-height: 200px;">
+            <div class="toast" style="position: absolute; top: 0; right: 0;">
+              <div class="toast-header">
+                <strong class="mr-auto">Hi</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="toast-body">
+                Have a good day, Developer_{{idd}}
+              </div>
+            </div>
         </div>
     </div>
 </body>
@@ -159,6 +174,7 @@
 
         });
     });
-
+    $('.toast').toast({ autohide: false });
+    $('.toast').toast('show');
 
 </script>
