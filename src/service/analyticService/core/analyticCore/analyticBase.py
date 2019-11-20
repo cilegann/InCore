@@ -145,7 +145,10 @@ class analytic():
                     d=rawDf[col].tolist()
                     if col not in self.d2c:
                         self.d2c[col],self.c2d[col]=categoricalConverter(d,colType[col]['type'])
-                    d=np.asarray([self.d2c[col][str(i)] for i in d])
+                    try:
+                        d=np.asarray([self.d2c[col][str(i)] for i in d])
+                    except:
+                        d=np.asarray([self.d2c[col][str(int(i))] for i in d])
                     d=[np.asarray(i) for i in to_categorical(d)]
                 if param["type"]=='string':
                     if colType[col]['type']!='string':
@@ -185,7 +188,11 @@ class analytic():
                     d=rawDf[col].tolist()
                     if col not in self.d2c:
                         self.d2c[col],self.c2d[col]=categoricalConverter(d,colType[col]['type'])
-                    d=np.asarray([self.d2c[col][str(i)] for i in d])
+                    # d=np.asarray([self.d2c[col][str(i)] for i in d])
+                    try:
+                        d=np.asarray([self.d2c[col][str(i)] for i in d])
+                    except:
+                        d=np.asarray([self.d2c[col][str(int(i))] for i in d])
                     d=to_categorical(d)
                 if param["type"]=='string':
                     if colType[col]['type']!='string':
@@ -238,10 +245,14 @@ class analytic():
             self.clearSession()
             changeModelStatus(self.mid,"success")
         except Exception as e:
-            errormsg=str(e).replace("'","''")
+            # errormsg=str(e).replace("'","''")
+            # error,sg=traceback.format_exc()
             try:
                 db=sql()
-                db.cursor.execute("UPDATE `models` SET `status`='fail',`failReason`='{em}' WHERE `mid`='{midd}';".format(em=traceback.format_exc(),midd=self.mid))
+                errormsg=db.conn.escape(traceback.format_exc())
+                # db.cursor.execute("UPDATE `models` SET `status`='fail',`failReason`='{em}' WHERE `mid`='{midd}';".format(em=errormsg,midd=self.mid))
+                # db.cursor.execute(f"UPDATE `models` SET `status`='fail',`failReason`='{errormsg}' WHERE `mid`='{self.mid}';")
+                db.cursor.execute("UPDATE `models` SET `status`='fail',`failReason`=%s WHERE `mid`=%s;",(errormsg,self.mid))
                 db.conn.commit()
             except Exception as e:
                 db.conn.rollback()
