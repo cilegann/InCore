@@ -77,7 +77,7 @@ def purge():
     purger().purgeImg()
 
 if __name__ == "__main__":
-    if '--debug' in sys.argv:
+    if '--debug' in sys.argv or par.maintaining:
         api.add_resource(gitPull,'/autodeploy/git')
         logging.basicConfig(level=logging.DEBUG, format='[%(levelname)s] %(message)s')
     else:
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     else:
         port=int(sys.argv[sys.argv.index('--port')+1])
     logging.info(f'InCore running at port {par.port}')
-    app.run(debug='--debug' in sys.argv,port=port,host='0.0.0.0')
+    app.run(debug='--debug' in sys.argv or par.maintaining,port=port,host='0.0.0.0')
     
 
 #   █████▒█    ██  ▄████▄   ██ ▄█▀       ██████╗ ██╗   ██╗ ██████╗
