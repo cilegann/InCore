@@ -4,6 +4,16 @@ import pymysql
 import jwt
 import traceback
 import os
+from datetime import datetime, time
+from pynvml import (
+    NVMLError,
+    nvmlDeviceGetCount,
+    nvmlDeviceGetHandleByIndex,
+    nvmlDeviceGetMemoryInfo,
+    nvmlDeviceGetName,
+    nvmlInit,
+)
+
 
 def tokenValidator(token):
     if token=='testing':
@@ -64,15 +74,13 @@ def checkFolder():
         except Exception as e:
             logging.error(f"[checkFolder] {e}")
 
-from pynvml import (
-    NVMLError,
-    nvmlDeviceGetCount,
-    nvmlDeviceGetHandleByIndex,
-    nvmlDeviceGetMemoryInfo,
-    nvmlDeviceGetName,
-    nvmlInit,
-)
-
+def maintaining():
+    param=params()
+    check_time = datetime.now().time()
+    if param.maintainBegin < param.maintainEnd:
+        return (check_time >= param.maintainBegin and check_time <= param.maintainEnd) or param.maintaining
+    else: # crosses midnight
+        return check_time >= param.maintainBegin or check_time <= param.maintainEnd or param.maintaining
 
 def _convert_kb_to_gb(size):
     """Convert given size in kB to GB with 2-decimal places rounding."""

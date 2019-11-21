@@ -35,6 +35,13 @@
         <h3 class="text-center"> Algorithm Install System</h3>
         <hr>
         <div class="d-flex justify-content-center" style="max-width: 80%; margin-right: auto;margin-left: auto;">
+            {% if maintain !="0"%}
+            <div class="alert alert-warning">
+                {{maintain|safe}}
+            </div>
+            {%endif%}
+        </div>
+        <div class="d-flex justify-content-center" style="max-width: 80%; margin-right: auto;margin-left: auto;">
             {% if alert %}
             <div class="alert alert-danger">
                 <a href="#" class="close" data-dismiss="alert">
@@ -126,9 +133,10 @@
         <br>
         <br>
         <br>
-        <div class="d-flex justify-content-center" style="max-width: 100%; margin-right: auto;margin-left: auto;"><h3>System GPU Status</h3></div><hr>
+        <hr>
+        <div class="d-flex justify-content-center" style="max-width: 100%; margin-right: auto;margin-left: auto;"><h3>System GPU Status</h3></div><br>
         {% for gpu in gpu_data %}
-        <div class="justify-content-center" style="max-width: 60%; margin-right: auto;margin-left: auto;">
+        <div class="justify-content-center" style="max-width: 40%; margin-right: auto;margin-left: auto;">
             <div class="card" style="margin-bottom: 15px">
                 <div class="card-header">
                     {{ gpu['name'] }} (GPU ID: {{ gpu['gpu'] }})

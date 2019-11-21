@@ -1,5 +1,7 @@
 from configparser import ConfigParser, SafeConfigParser
 import os
+from datetime import datetime, time
+
 class params():
     def __init__(self):
         cfg=SafeConfigParser(os.environ)
@@ -31,3 +33,8 @@ class params():
         self.dbschema=cfg.get('DEFAULT','dbschema')
 
         self.classifiableThreshold=10
+
+        self.maintainBegin=time(22,00)
+        self.maintainEnd=time(23,59)
+        self.maintaining=False
+        self.maintainMsg="為了提供穩定訓練環境，現在為系統維護時段，您仍可正常使用<br>但可能會出現瞬斷、模型訓練中止等情況。抱歉造成不便"
