@@ -245,6 +245,7 @@ class analytic():
             self.clearSession()
             changeModelStatus(self.mid,"success")
         except Exception as e:
+            self.clearSession()
             # errormsg=str(e).replace("'","''")
             # error,sg=traceback.format_exc()
             try:
@@ -260,6 +261,8 @@ class analytic():
             finally:
                 db.conn.close()
             raise Exception(f"{traceback.format_exc()}")
+        finally:
+            self.clearSession()
     
     def predictWrapper(self):
         try:
@@ -445,8 +448,9 @@ class analytic():
         return {}
     
     def clearSession(self):
-        return 0
+        # return 0
         if self.lib=='keras':
+            # del self.model
             self.session.close()
     
     def setSession(self):
