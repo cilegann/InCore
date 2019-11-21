@@ -8,6 +8,7 @@ import os
 from submitAnalyticAlgoChecker import algoChecker
 import traceback
 import logging
+from utils import get_gpu_statistics
 class formming(FlaskForm):
     jsonfile = FileField('\nStep 1. Json file: ',validators=[DataRequired(message="Can't be empty")])
     pyfile = FileField('\nStep 2. Python file:',validators=[DataRequired(message="Can't be empty")])
@@ -47,14 +48,14 @@ def submit(key):
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text,idd=idd)
+                return render_template('submit.html',form=form,alert=text,idd=idd,gpu_data=get_gpu_statistics())
             if jsonFileName[jsonFileName.rfind("."):]!=".json" or pyFileName[pyFileName.rfind("."):]!='.py':
                 text='We found some error in your submitted files, please fix it and upload again<br><br>----------ERROR REPORT BELOW----------<br>there should be a .json file and a .py file<br>--------------------------------------------'
                 try:
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text,idd=idd)
+                return render_template('submit.html',form=form,alert=text,idd=idd,gpu_data=get_gpu_statistics())
             jsonFileID=jsonFileName.split("_")[0]
             pyFileID=pyFileName.split("_")[0]
             if jsonFileID.lower()!=idd or pyFileID.lower()!=idd:
@@ -63,7 +64,7 @@ def submit(key):
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text,idd=idd)
+                return render_template('submit.html',form=form,alert=text,idd=idd,gpu_data=get_gpu_statistics())
 
             jsonFile.save(os.path.join("tmp",form.jsonfile.data.filename))
             pyFile.save(os.path.join("tmp",form.pyfile.data.filename))
@@ -74,10 +75,10 @@ def submit(key):
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
                     pass
-                return render_template('submit.html',form=form,alert=text,idd=idd)
+                return render_template('submit.html',form=form,alert=text,idd=idd,gpu_data=get_gpu_statistics())
             text='You have passed the basic test, submitted algorithm is now installed to the system.'
             logging.info(f"[SUBMIT] {idd} submitted: {jsonFileName[:jsonFileName.rfind('.')]}")
-            return render_template('submit.html',form=form,success=text,idd=idd)
+            return render_template('submit.html',form=form,success=text,idd=idd,gpu_data=get_gpu_statistics())
         except Exception as e:
             text="During parsing, some error occured, please notify us or try again later"
             try:
@@ -85,4 +86,4 @@ def submit(key):
             except:
                 pass
             return render_template('submit.html',form=form,alert=text,idd=idd)
-    return render_template('submit.html',form=form,idd=idd)
+    return render_template('submit.html',form=form,idd=idd,gpu_data=get_gpu_statistics())

@@ -39,8 +39,8 @@ app.config['SECRET_KEY'] = 'ACLARRR'
 api = Api(app)
 cors = CORS(app, resources=r"/*")
 
-from extender.moduleExtend import submitPage
-app.register_blueprint(submitPage)
+from controller.analyticModuleExtend import submitPage as analyticAlgosubmit
+app.register_blueprint(analyticAlgosubmit)
 # bind api
 api.add_resource(getDataProjectType,"/sys/dataproject")
 api.add_resource(getDataExtensionType,"/sys/dataextension")

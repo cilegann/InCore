@@ -25,9 +25,9 @@
         #my-file-selector2 {
             display: none;
         }
-        
     </style>
 </head>
+
 <body>
     <div class="container">
         <br>
@@ -59,7 +59,7 @@
 
                 <div class="input-group">
                     <label class="input-group-btn">
-                        <span id="browsebutton1" class="btn btn-outline-secondary" for="my-file-selector1"  required>
+                        <span id="browsebutton1" class="btn btn-outline-secondary" for="my-file-selector1" required>
                             {{ form.jsonfile(id="my-file-selector1") }}
                             <!-- <img src="https://cdn0.iconfinder.com/data/icons/file-types-vol-5/64/json_file-512.png" width="25px" height="25px">  -->
                             Json File
@@ -80,56 +80,76 @@
                 <br>
                 <div class="form-group form-check">
                     {{ form.checked() }}
-                    <label class="form-check-label" for="Check1">I have read and agree to the <a data-toggle="modal" data-target="#agreeModal" style="color:dodgerblue;">term of submitting</a></label>
+                    <label class="form-check-label" for="Check1">I have read and agree to the <a data-toggle="modal"
+                            data-target="#agreeModal" style="color:dodgerblue;">term of submitting</a></label>
                 </div>
 
-                
+
                 {{ form.submit(class="btn btn-outline-success btn-lg btn-block") }}
 
             </form>
-        <!-- Modal -->
-        <div class="modal fade bd-example-modal-lg" id="agreeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Term of submitting</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                You must agree with the following policies<br>
-                &nbsp;&nbsp;&nbsp;(1). Obey the copyright law and never plagiarize<br>
-                &nbsp;&nbsp;&nbsp;(2). Check the program syntax before uploading<br>
-                &nbsp;&nbsp;&nbsp;(3). The uploaded program does not contain statements that may attack the system<br>
-                &nbsp;&nbsp;&nbsp;(4). We have the right to adjust your algorithm for a better performance<br>
-                &nbsp;&nbsp;&nbsp;(5). You can remove your algorithm from the system by contacting us anytime<br>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            <!-- Modal -->
+            <div class="modal fade bd-example-modal-lg" id="agreeModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Term of submitting</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            You must agree with the following policies<br>
+                            &nbsp;&nbsp;&nbsp;(1). Obey the copyright law and never plagiarize<br>
+                            &nbsp;&nbsp;&nbsp;(2). Check the program syntax before uploading<br>
+                            &nbsp;&nbsp;&nbsp;(3). The uploaded program does not contain statements that may attack the
+                            system<br>
+                            &nbsp;&nbsp;&nbsp;(4). We have the right to adjust your algorithm for a better
+                            performance<br>
+                            &nbsp;&nbsp;&nbsp;(5). You can remove your algorithm from the system by contacting us
+                            anytime<br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
         </div>
         <br>
         <br>
-        <div class="d-flex justify-content-center well">
-            <p style="color:dimgrey">If you want to delete your algorithm, please contact us.</p>
+        <div class="d-flex justify-content-center well" style="color:dimgrey">
+            If you want to delete your algorithm, please contact us.
         </div>
-        <div role="alert"  aria-atomic="true" style="position: relative; min-height: 200px;">
-            <div class="toast" style="position: absolute; top: 0; right: 0;">
-              <div class="toast-header">
-                <strong class="mr-auto">Hi</strong>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="toast-body">
-                Have a good day, Developer_{{idd}}
-              </div>
+        <br>
+        <br>
+        <br>
+        <div class="d-flex justify-content-center" style="max-width: 100%; margin-right: auto;margin-left: auto;"><h3>System GPU Status</h3></div><hr>
+        {% for gpu in gpu_data %}
+        <div class="justify-content-center" style="max-width: 60%; margin-right: auto;margin-left: auto;">
+            <div class="card" style="margin-bottom: 15px">
+                <div class="card-header">
+                    {{ gpu['name'] }} (GPU ID: {{ gpu['gpu'] }})
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <p>Memory: {{ gpu['memory']['utilisation'] }}% ({{ gpu['memory']['used'] }} GB /
+                            {{ gpu['memory']['total'] }} GB)</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar"
+                                style="width: {{ gpu['memory']['utilisation'] }}%"
+                                aria-valuenow="{{ gpu['memory']['utilisation'] }}" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="card-footer">
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </body>
 

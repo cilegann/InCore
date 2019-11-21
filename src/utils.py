@@ -63,4 +63,42 @@ def checkFolder():
             os.mkdir(param.imgpath)
         except Exception as e:
             logging.error(f"[checkFolder] {e}")
-    
+
+from pynvml import (
+    NVMLError,
+    nvmlDeviceGetCount,
+    nvmlDeviceGetHandleByIndex,
+    nvmlDeviceGetMemoryInfo,
+    nvmlDeviceGetName,
+    nvmlInit,
+)
+
+
+def _convert_kb_to_gb(size):
+    """Convert given size in kB to GB with 2-decimal places rounding."""
+    return round(size / 1024 ** 3, 2)
+
+def get_gpu_statistics():
+    """Get statistics for each GPU installed in the system."""
+    nvmlInit()
+    statistics = []
+
+    try:
+        count = nvmlDeviceGetCount()
+        for i in range(count):
+            handle = nvmlDeviceGetHandleByIndex(i)
+
+            memory = nvmlDeviceGetMemoryInfo(handle)
+
+            statistics.append({
+                "gpu": i,
+                "name": nvmlDeviceGetName(handle).decode("utf-8"),
+                "memory": {
+                    "total": _convert_kb_to_gb(int(memory.total)),
+                    "used": _convert_kb_to_gb(int(memory.used)),
+                    "utilisation": int(memory.used / memory.total * 100)
+                },
+            })
+    except NVMLError as error:
+        print(error)
+    return statistics
