@@ -86,7 +86,9 @@ def submit(key):
             logging.info(f"[SUBMIT] {idd} submitted: {jsonFileName[:jsonFileName.rfind('.')]}")
             return render_template('submit.html',form=form,success=text,idd=idd,gpu_data=get_gpu_statistics(),maintain=maintain)
         except Exception as e:
-            text="During parsing, some error occured, please notify us or try again later"
+            logging.error(traceback.format_exc())
+            text="During parsing, some error occured, please notify us or try again later<br>"
+            text+=str(e)
             try:
                 purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
             except:
