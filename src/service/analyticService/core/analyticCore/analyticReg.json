@@ -7,7 +7,9 @@
             "in_elasticNet",
             "in_lassoLars",
             "in_huberRegression",
-            "in_oneLayerNN"
+            "in_oneLayerNN",
+            "r07522507_lassoRegression",
+            "r08525098_lassoRegression"
         ],
         "classification": [
             "in_knn",
@@ -32,7 +34,11 @@
     "cv": {
         "regression": [],
         "classification": [
-            "in_oneLayerCNN"
+            "in_oneLayerCNN",
+            "r08525108_algo",
+            "r08522734_oneLayerCNN",
+            "r08522721_ThreeLayerCNN",
+            "r08522734_vgg16CNN"
         ]
     },
     "nlp": {
