@@ -4,6 +4,7 @@ import warnings
 from tokenize import generate_tokens
 from params import params
 import logging
+import traceback
 
 def algoChecker(jsonName,pyName):
     jsonFile=os.path.join("tmp",jsonName)
@@ -17,116 +18,122 @@ def algoChecker(jsonName,pyName):
     # jsonFile=os.path.join(param.analyticServiceRoot,"core","analyticCore",dl,pl,filename+".json")
     # pyFile=os.path.join(param.analyticServiceRoot,"core","analyticCore",dl,pl,filename+".py")
     if not os.path.isfile(jsonFile):
-        return f"{jsonFile} not found"
+        return {"status":"error","msg":f"{jsonFile} not found"}
     if not os.path.isfile(pyFile):
-        return f"{pyFile} not found"
-    j=json.load(open(jsonFile))
+        return {"status":"error","msg":f"{pyFile} not found"}
+    try:
+        j=json.load(open(jsonFile))
+    except Exception as e:
+        return f"Can't parse json:<br> {traceback.format_exc()}"
     if not ("dataType" in j):
-        return "dataType not defined in json"
+        return {"status":"error","msg":"dataType not defined in json"}
     if not (j["dataType"] in acceptableType):
-        return "dataType not supported. Check spelling"
+        return {"status":"error","msg":"dataType not supported. Check spelling"}
     if not ("projectType" in j):
-        return "projectType not defined in json"
+        return {"status":"error","msg":"projectType not defined in json"}
     if not (j["projectType"] in acceptableType[j["dataType"]]):
-        return "projectType not supported. Check spelling"
+        return {"status":"error","msg":"projectType not supported. Check spelling"}
     if not ("algoName" in j):
-        return "algoName not defined in json"
+        return {"status":"error","msg":"algoName not defined in json"}
     if not (j["algoName"]==jsonName[:jsonName.rfind(".")]):
-        return "algoName defined in json must be identical with filename"
+        return {"status":"error","msg":"algoName defined in json must be identical with filename"}
     if not ("description" in j):
-        return "description not defined in json"
+        return {"status":"error","msg":"description not defined in json"}
     if not ("lib" in j):
-        return "lib not defined in json"
+        return {"status":"error","msg":"lib not defined in json"}
     if not (j["lib"] in acceptableLib):
-        return "lib not supported, Check spelling"
+        return {"status":"error","msg":"lib not supported, Check spelling"}
     if not ("param" in j):
-        return "param not defined in json"
+        return {"status":"error","msg":"param not defined in json"}
     if not (type(j["param"]) is list):
-        return "param must be a list"
+        return {"status":"error","msg":"param must be a list"}
     for p in j["param"]:
         if not ("name" in p):
-            return f"attribute 'name' missing <br>In parameter:<br>{p}"
+            return {"status":"error","msg":f"attribute 'name' missing <br>In parameter:<br>{p}"}
         if not ("description" in p):
-            return f"attribute 'description' missing <br>In parameter:<br>{p}"
+            return {"status":"error","msg":f"attribute 'description' missing <br>In parameter:<br>{p}"}
         if not ("type" in p):
-            return f"attribute 'type' missing <br>In parameter:<br>{p}"
+            return {"status":"error","msg":f"attribute 'type' missing <br>In parameter:<br>{p}"}
         if not (p["type"] in acceptableParamType):
-            return f"type {p['type']} not supported, check spelling.<br>In parameter:<br>{p}"
+            return {"status":"error","msg":f"type {p['type']} not supported, check spelling.<br>In parameter:<br>{p}"}
         if not ("default" in p):
-            return f"attribute 'default' missing <br>In parameter:<br>{p}"
+            return {"status":"error","msg":f"attribute 'default' missing <br>In parameter:<br>{p}"}
         if p["type"]=="int":
             if not ("upperBound" in p):
-                return f"attribute 'upperBound' not found <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"attribute 'upperBound' not found <br>In parameter:<br>{p}"}
             if not ("lowerBound" in p):
-                return f"attribute 'lowerBound' not found <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"attribute 'lowerBound' not found <br>In parameter:<br>{p}"}
             if int(p["upperBound"])!=p["upperBound"]:
-                return f"upperBound must be int <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"upperBound must be int <br>In parameter:<br>{p}"}
             if int(p["lowerBound"])!=p["lowerBound"]:
-                return f"lowerBound must be int <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"lowerBound must be int <br>In parameter:<br>{p}"}
             if int(p["default"])!=p["default"]:
-                return f"default must be int <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"default must be int <br>In parameter:<br>{p}"}
             if p['upperBound']<=p['lowerBound']:
-                return f"upperBound must be greater than lowerBound <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"upperBound must be greater than lowerBound <br>In parameter:<br>{p}"}
         if p["type"]=="float":
             if not ("upperBound" in p):
-                return f"attribute 'upperBound' not found <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"attribute 'upperBound' not found <br>In parameter:<br>{p}"}
             if not ("lowerBound" in p):
-                return f"attribute 'lowerBound' not found <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"attribute 'lowerBound' not found <br>In parameter:<br>{p}"}
             if float(p["upperBound"])!=p["upperBound"]:
-                return f"upperBound must be float <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"upperBound must be float <br>In parameter:<br>{p}"}
             if float(p["lowerBound"])!=p["lowerBound"]:
-                return f"lowerBound must be float <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"lowerBound must be float <br>In parameter:<br>{p}"}
             if float(p["default"])!=p["default"]:
-                return f"default must be float <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"default must be float <br>In parameter:<br>{p}"}
             if not p['upperBound']>p['lowerBound']:
-                return f"upperBound must be greater than lowerBound <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"upperBound must be greater than lowerBound <br>In parameter:<br>{p}"}
         if p["type"]=="bool":
             if not (p["default"]==1 or p["default"]==0):
-                return f"default must be 0 or 1 <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"default must be 0 or 1 <br>In parameter:<br>{p}"}
         if p["type"]=="enum":
             if not ("list" in p):
-                return f"attribute 'list' not found <br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"attribute 'list' not found <br>In parameter:<br>{p}"}
             if not (p["default"] in p["list"]):
-                return f"default value not in list<br>In parameter:<br>{p}"
+                return {"status":"error","msg":f"default value not in list<br>In parameter:<br>{p}"}
     if not ("input" in j):
-        return f"input not defined in json"
+        return {"status":"error","msg":f"input not defined in json"}
     for p in j["input"]:
         if not ("name" in p):
-            return f"attribute 'name' not found <br>In input:<br>{p}"
+            return {"status":"error","msg":f"attribute 'name' not found <br>In input:<br>{p}"}
         if not ("description" in p):
-            return f"attribute 'description' not found <br>In input:<br>{p}"
+            return {"status":"error","msg":f"attribute 'description' not found <br>In input:<br>{p}"}
         if not ("type" in p):
-            return f"attribure 'type' not found <br>In input:<br>{p}"
+            return {"status":"error","msg":f"attribure 'type' not found <br>In input:<br>{p}"}
         if not (p["type"] in acceptableIOType):
-            return f"type {p['type']} is not acceptable <br>In input:<br>{p}"
+            return {"status":"error","msg":f"type {p['type']} is not acceptable <br>In input:<br>{p}"}
         if not ("amount" in p):
-            return f"attribute 'amount' not found<br>In input:<br>{p}"
+            return {"status":"error","msg":f"attribute 'amount' not found<br>In input:<br>{p}"}
         if not (p["amount"] in ["multiple","single"]):
-            return f"amount {p['amount']} is not acceptable<br>In input:<br>{p}"
+            return {"status":"error","msg":f"amount {p['amount']} is not acceptable<br>In input:<br>{p}"}
     if not ("output" in j):
-        return "output not defined in json"
+        return {"status":"error","msg":"output not defined in json"}
     for p in j["output"]:
         if not ("name" in p):
-            return f"attribute 'name' not found <br>In output:<br>{p}"
+            return {"status":"error","msg":f"attribute 'name' not found <br>In output:<br>{p}"}
         if not ("description" in p):
-            return f"attribute 'description' not found <br>In output:<br>{p}"
+            return {"status":"error","msg":f"attribute 'description' not found <br>In output:<br>{p}"}
         if not ("type" in p):
-            return f"attribure 'type' not found <br>In output:<br>{p}"
+            return {"status":"error","msg":f"attribure 'type' not found <br>In output:<br>{p}"}
         if not (p["type"] in acceptableIOType):
-            return f"type {p['type']} is not acceptable<br>In output:<br>{p}"
+            return {"status":"error","msg":f"type {p['type']} is not acceptable<br>In output:<br>{p}"}
         if not ("amount" not in p):
-            return f"output has no attribute 'amount'<br>In output:<br>{p}"
+            return {"status":"error","msg":f"output has no attribute 'amount'<br>In output:<br>{p}"}
     paramList=[p["name"] for p in j["param"]]
     inputList=[p["name"] for p in j["input"]]
     outputList=[p["name"] for p in j["output"]]
     name=pyFile.replace(".py","").replace("tmp/","")
     if not(name in open(pyFile).read()):
-        return f"Class name of algorithm should be identical with filename: {name}"
-    g=generate_tokens(open(pyFile).readline)
-    record=[]
-    for typ,syn,start,end,line in g:
-        if typ==1 or typ==53 or typ==3:
-            record.append((typ,syn,start,end,line))
+        return {"status":"error","msg":f"Class name of algorithm should be identical with filename: {name}"}
+    try:
+        g=generate_tokens(open(pyFile).readline)
+        record=[]
+        for typ,syn,start,end,line in g:
+            if typ==1 or typ==53 or typ==3:
+                record.append((typ,syn,start,end,line))
+    except Exception as e:
+        return {"status":"error","msg":f"Can't parse python: <br> {traceback.format_exc()}"}
     p=[]
     i=[]
     o=[]
@@ -167,7 +174,7 @@ def algoChecker(jsonName,pyName):
             reg[j["dataType"]][j["projectType"]].append(j["algoName"])
         with open(param.analyticAlgoReg,"w") as file:
             json.dump(reg,file, indent=4)
-        return (f"success")
+        return {"status":"success","msg":""}
     else:
         result+=(f"Algo [{j['dataType']}.{j['projectType']}.{j['algoName']}] checked with result:<br>")
         result+=(f"&nbsp;&nbsp;>&nbsp;JSON&nbsp;&nbsp;&nbsp;:&nbsp;OK<br>")
@@ -185,6 +192,6 @@ def algoChecker(jsonName,pyName):
         for nw in notUsedWarn:
             result+=(f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-{nw}<br>")
     # result+=("---------------------------------------------------<br>")
-    return result
+    return {"status":"error","msg":result}
 if __name__=="__main__":
     algoChecker()

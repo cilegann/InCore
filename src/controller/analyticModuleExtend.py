@@ -75,8 +75,8 @@ def submit(key):
             jsonFile.save(os.path.join("tmp",form.jsonfile.data.filename))
             pyFile.save(os.path.join("tmp",form.pyfile.data.filename))
             result=algoChecker(form.jsonfile.data.filename,form.pyfile.data.filename)
-            if result!="success":
-                text="We found some error in your submitted files, please fix it and upload again<br><br>----------ERROR REPORT BELOW----------<br>"+result
+            if result['status']!="success":
+                text="We found some error in your submitted files, please fix it and upload again<br><br>----------ERROR REPORT BELOW----------<br>"+result['msg']
                 try:
                     purgeTmp(form.jsonfile.data.filename,form.pyfile.data.filename)
                 except:
