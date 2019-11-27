@@ -32,6 +32,7 @@ class classification(analytic):
             cmx=confusion_matrix(real,predicted,labels=label)
             cmx=cmx.astype('float')/cmx.sum(axis=1)[:,np.newaxis]
             df=pd.DataFrame(cmx,columns=label)
+            df = df.fillna(0)
             algo=heatmap(df,f"confusion matrix of {v}",color='blue',xName='predict',yName='real')
             algo.doBokehViz()
             algo.getComp()
