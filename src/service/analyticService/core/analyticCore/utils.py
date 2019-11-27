@@ -21,6 +21,8 @@ def XYdataGenerator(fileList,yList,height,width,batchSize):
             except:
                 pass
             img=np.asarray(img)
+            if len(img.shape)==2 or img.shape[2]==1: #add support for grey scale image
+                img=np.stack((img,img,img),axis=2)
             img=img.astype('float64')
             img/=255.
             x.append(img)
@@ -46,6 +48,8 @@ def XdataGenerator(fileList,height,width,batchSize):
             except:
                 pass
             img=np.asarray(img)
+            if len(img.shape)==2 or img.shape[2]==1: #add support for grey scale image
+                img=np.stack((img,img,img),axis=2)
             img=img.astype('float64')
             img/=255.
             x.append(img)
