@@ -32,7 +32,7 @@ class params():
         self.dbpwd=cfg.get('DEFAULT','dbpwd')
         self.dbschema=cfg.get('DEFAULT','dbschema')
 
-        self.classifiableThreshold=10
+        self.classifiableThreshold=22
 
         self.maintainBegin=time(23,00)
         self.maintainEnd=time(1,00)
