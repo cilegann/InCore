@@ -144,7 +144,7 @@ def dTypeConverter(data,dataType):
 
 def classifiableChecker(data,colType):
     try:
-        if colType=='float' or colType=='path':
+        if colType=='float':
             return 0
         else:
             if len(set(data))<=params().classifiableThreshold:
