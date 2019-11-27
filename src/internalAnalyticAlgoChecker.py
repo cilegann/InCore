@@ -4,6 +4,7 @@ import warnings
 from tokenize import generate_tokens
 from params import params
 import logging
+import traceback
 
 def algoChecker():
     param=params()
@@ -24,13 +25,17 @@ def algoChecker():
                 filenames=[f[:f.rfind(".")] for f in fl]
                 filenames=list(set(filenames))
                 for filename in filenames:
+                    print(f"Algo [{dl}.{pl}.{filename}] checking")
                     jsonFile=os.path.join(param.analyticServiceRoot,"core","analyticCore",dl,pl,filename+".json")
                     pyFile=os.path.join(param.analyticServiceRoot,"core","analyticCore",dl,pl,filename+".py")
                     assert os.path.isfile(jsonFile),f"{jsonFile} not found"
                     assert os.path.isfile(pyFile),f"{pyFile} not found"
                     if filename not in reg[dl][pl]:
                         logging.warning(f"{dl}.{pl}.{filename} not in Reg")
-                    j=json.load(open(jsonFile))
+                    try:
+                        j=json.load(open(jsonFile))
+                    except Exception as e:
+                        assert True==False, f"Can't load json file:\n {traceback.format_exc()}"
                     assert "dataType" in j, "dataType not defined in json"
                     assert j["dataType"] in acceptableType,"dataType not supported. Check spelling"
                     assert "projectType" in j, "projectType not defined in json"
@@ -85,12 +90,14 @@ def algoChecker():
                     paramList=[p["name"] for p in j["param"]]
                     inputList=[p["name"] for p in j["input"]]
                     outputList=[p["name"] for p in j["output"]]
-                    
-                    g=generate_tokens(open(pyFile).readline)
-                    record=[]
-                    for typ,syn,start,end,line in g:
-                        if typ==1 or typ==53 or typ==3:
-                            record.append((typ,syn,start,end,line))
+                    try:
+                        g=generate_tokens(open(pyFile).readline)
+                        record=[]
+                        for typ,syn,start,end,line in g:
+                            if typ==1 or typ==53 or typ==3:
+                                record.append((typ,syn,start,end,line))
+                    except Exception as e:
+                        assert 1==0,f"Error when parsing:\n{traceback.format_exc()}"
                     p=[]
                     i=[]
                     o=[]
