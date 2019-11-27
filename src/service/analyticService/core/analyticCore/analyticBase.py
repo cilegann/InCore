@@ -149,7 +149,7 @@ class analytic():
                         d=np.asarray([self.d2c[col][str(i)] for i in d])
                     except:
                         d=np.asarray([self.d2c[col][str(int(i))] for i in d])
-                    d=[np.asarray(i) for i in to_categorical(d)]
+                    d=[np.asarray(i) for i in to_categorical(d,num_classes=len(self.d2c[col]))]
                 if param["type"]=='string':
                     if colType[col]['type']!='string':
                         raise Exception(f'[getData] input {param["name"]} column {col} should be string')
@@ -193,7 +193,7 @@ class analytic():
                         d=np.asarray([self.d2c[col][str(i)] for i in d])
                     except:
                         d=np.asarray([self.d2c[col][str(int(i))] for i in d])
-                    d=to_categorical(d)
+                    d=to_categorical(d,num_classes=len(self.d2c[col]))
                 if param["type"]=='string':
                     if colType[col]['type']!='string':
                         raise Exception(f'[getData] output {param["name"]} column {col} should be string')
