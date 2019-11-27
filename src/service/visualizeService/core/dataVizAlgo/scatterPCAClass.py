@@ -1,6 +1,6 @@
 from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool,ColumnDataSource
-from bokeh.palettes import Category20,Category10
+from bokeh.palettes import Category20,Category10,YlGnBu,YlGn,YlOrBr,Reds,RdPu,Purples
 from random import shuffle
 import pandas as pd
 import logging
@@ -16,7 +16,10 @@ class scatterPCAClass(dataViz):
         try:
             rawdata=self.data['all']
             c=self.data['value']
-            if max(c)>9:
+            if len(set(c))>19:
+                cmap=YlGnBu[9]+YlGn[9]+YlOrBr[9]+Reds[9]+RdPu[9]+Purples[9]
+                random.shuffle(cmap)
+            elif len(set(c))>9:
                 cmap=Category20[20]
             else:
                 cmap=Category10[10]

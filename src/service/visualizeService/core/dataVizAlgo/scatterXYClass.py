@@ -1,6 +1,6 @@
 from service.visualizeService.core.dataVizBase import dataViz
 from bokeh.models import HoverTool,ColumnDataSource
-from bokeh.palettes import Category20,Category10
+from bokeh.palettes import Category20,Category10,YlGnBu,YlGn,YlOrBr,Reds,RdPu,Purples
 from random import shuffle
 import pandas as pd
 import logging
@@ -15,7 +15,10 @@ class scatterXYClass(dataViz):
             self.bokeh_fig.xaxis.axis_label = self.dataCol['x']
             self.bokeh_fig.yaxis.axis_label = self.dataCol['y']
             [x,y,c]=missingFiltering().filtCols([self.data['x'],self.data['y'],self.data['value']],['float','float',self.colTypes[self.dataCol['value']]],[True,True,True])
-            if len(set(c))>9:
+            if len(set(c))>19:
+                cmap=YlGnBu[9]+YlGn[9]+YlOrBr[9]+Reds[9]+RdPu[9]+Purples[9]
+                random.shuffle(cmap)
+            elif len(set(c))>9:
                 cmap=Category20[20]
             else:
                 cmap=Category10[10]
