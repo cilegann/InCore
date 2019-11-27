@@ -20,6 +20,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from purge import purger
 from controller.getConfig import getDataProjectType,getDataExtensionType
 from controller.autoDeploy import gitPull
+from controller.watchDog import watchDog
 from service.dataService.controller.upload import Upload
 from service.dataService.controller.download import Download
 from service.dataService.controller.getColumn import getColumn
@@ -44,6 +45,7 @@ app.register_blueprint(analyticAlgosubmit)
 # bind api
 api.add_resource(getDataProjectType,"/sys/dataproject")
 api.add_resource(getDataExtensionType,"/sys/dataextension")
+api.add_resource(watchDog,"/sys/watchdog")
 
 api.add_resource(Upload, "/data/upload")
 api.add_resource(Download,'/data/download')
