@@ -1,5 +1,7 @@
 import numpy as np
 from PIL import Image
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def XYdataGenerator(fileList,yList,height,width,batchSize):
     trainIndex=0
@@ -18,8 +20,8 @@ def XYdataGenerator(fileList,yList,height,width,batchSize):
             img=Image.open(f[0])
             try:
                 img=img.resize((width,height))
-            except:
-                pass
+            except Exception as e:
+                continue
             img=np.asarray(img)
             if len(img.shape)==2 or img.shape[2]==1: #add support for grey scale image
                 img=np.stack((img,img,img),axis=2)
@@ -47,8 +49,8 @@ def XdataGenerator(fileList,height,width,batchSize):
             img=Image.open(f[0])
             try:
                 img=img.resize((width,height))
-            except:
-                pass
+            except Exception as e:
+                continue
             img=np.asarray(img)
             if len(img.shape)==2 or img.shape[2]==1: #add support for grey scale image
                 img=np.stack((img,img,img),axis=2)
