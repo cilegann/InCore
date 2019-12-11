@@ -84,7 +84,7 @@ class fileChecker():
                 if data[c].dtype!=np.float64 and data[c].dtype!=np.int64 and classifiableChecker(data[c],dTypeConverter(data[c],'num'))==0:
                     #os.remove(self.filepath)
                     #break
-                    raise Exception("[fileChecker] csv should only contain numerical value: (Col "+c+")")
+                    raise Exception("[fileChecker] csv should only contain numerical or classifiable value: (Col "+c+")")
         except Exception as e:
             os.remove(self.filepath)
             raise Exception(f'[fileChecker]{e}')
