@@ -237,10 +237,10 @@ class analytic():
                 self.trainAlgo()
             if self.txtRes=="":
                 self.predictWrapper()
-                try:
-                    self.test()
-                except Exception:
-                    pass
+                # try:
+                self.test()
+                # except Exception:
+                #     pass
             self.saveModel()
             self.clearSession()
             changeModelStatus(self.mid,"success")
