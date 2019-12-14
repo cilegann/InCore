@@ -24,7 +24,7 @@ def algoChecker(jsonName,pyName):
     try:
         j=json.load(open(jsonFile))
     except Exception as e:
-        return f"Can't parse json:<br> {traceback.format_exc()}"
+        return {"status":"error","msg":f"Can't parse json:<br> {traceback.format_exc()}"}
     if not ("dataType" in j):
         return {"status":"error","msg":"dataType not defined in json"}
     if not (j["dataType"] in acceptableType):
