@@ -1,25 +1,17 @@
 {
     "dataType":"cv",
     "projectType":"classification",
-    "algoName":"r08522721_ThreeLayerCNN",
-    "description": "Three layer convolutional neural network.",
+    "algoName":"r08525057_threeLayerCNN",
+    "description": "Three layers convolutional neural network.",
     "lib":"keras",
     "param":[
         {
             "name":"hidden_neuron",
             "description":"number of neurons (filters of Convolutional Layer)",
             "type":"int",
-            "lowerBound":8,
+            "lowerBound":2,
             "upperBound":128,
-            "default":64
-        },
-		{
-            "name":"DropOut",
-            "description":"probability that neurons are ignored",
-            "type":"float",
-            "lowerBound":0,
-            "upperBound":0.9,
-            "default":0.5
+            "default":32
         },
         {
             "name":"hidden_kernel_size",
@@ -37,11 +29,19 @@
             "default":"relu"
         },
         {
+            "name":"dropout",
+            "description":"cut off some percentage of neurons",
+            "type":"float",
+            "lowerBound":0.05,
+            "upperBound":0.9,
+            "default":0.25
+        },
+        {
             "name":"optimizer",
             "description":"optimizer",
             "type":"enum",
             "list":["sgd","rmsprop","adagrad","adam"],
-            "default":"sgd"
+            "default":"adam"
         },
         {
             "name":"epochs",
@@ -49,7 +49,7 @@
             "type":"int",
             "lowerBound":5,
             "upperBound":200,
-            "default":20
+            "default":10
         },
         {
             "name":"batch_size",
@@ -57,15 +57,7 @@
             "type":"int",
             "lowerBound":4,
             "upperBound":128,
-            "default":32
-        },
-		{
-            "name":"shape_size",
-            "description":"shape size of training",
-            "type":"int",
-            "lowerBound":28,
-            "upperBound":32,
-            "default":28
+            "default":128
         }
     ],
     "input":[

@@ -1,25 +1,33 @@
 {
     "dataType":"cv",
     "projectType":"classification",
-    "algoName":"r08522721_ThreeLayerCNN",
-    "description": "Three layer convolutional neural network.",
+    "algoName":"r08525113_cifar10CNN",
+    "description": "three layer convolutional neural network.",
     "lib":"keras",
     "param":[
         {
             "name":"hidden_neuron",
             "description":"number of neurons (filters of Convolutional Layer)",
             "type":"int",
-            "lowerBound":8,
-            "upperBound":128,
-            "default":64
+            "lowerBound":2,
+            "upperBound":64,
+            "default":16
         },
-		{
-            "name":"DropOut",
-            "description":"probability that neurons are ignored",
+        {
+            "name":"dropout",
+            "description":"number of dropout",
             "type":"float",
             "lowerBound":0,
-            "upperBound":0.9,
-            "default":0.5
+            "upperBound":1,
+            "default":0.25
+        },
+        {
+            "name":"dropout2",
+            "description":"number of dropout",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.25
         },
         {
             "name":"hidden_kernel_size",
@@ -34,7 +42,7 @@
             "description":"activation function",
             "type":"enum",
             "list":["linear","tanh","relu","elu","softmax","selu"],
-            "default":"relu"
+            "default":"tanh"
         },
         {
             "name":"optimizer",
@@ -58,14 +66,6 @@
             "lowerBound":4,
             "upperBound":128,
             "default":32
-        },
-		{
-            "name":"shape_size",
-            "description":"shape size of training",
-            "type":"int",
-            "lowerBound":28,
-            "upperBound":32,
-            "default":28
         }
     ],
     "input":[

@@ -1,0 +1,56 @@
+{
+    "dataType":"num",
+    "projectType":"classification",
+    "algoName":"r07546007_LinearSVC",
+    "description": "Linear Model trained with linear SVC of  SVM",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"C",
+            "description":"Penalty parameter C of the error term",
+            "type":"float",
+            "lowerBound":0.00001,
+            "upperBound":1,
+            "default":1
+        },
+        {
+            "name":"dual",
+            "description":"Select the algorithm to either solve the dual or primal optimization problem. Prefer dual=False when n_samples > n_features",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"penalty",
+            "description":"Specifies the norm used in the penalization. The ‘l2’ penalty is the standard used in SVC. The ‘l1’ leads to coef_ vectors that are sparse.",
+            "type":"enum",
+            "list":["l1","l2"],
+            "default":"l2"
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations for conjugate gradient solver.",
+            "type":"int",
+            "upperBound":10000,
+            "lowerBound":1,
+            "default":1000
+        }
+    ],
+
+
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"classifiable"
+        }
+    ]
+}

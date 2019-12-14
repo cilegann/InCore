@@ -1,0 +1,47 @@
+{
+    "dataType":"num",
+    "projectType":"classification",
+    "algoName":"r07945013_knn",
+    "description": "Classifier implementing the k-nearest neigbors vote.",
+    "lib":"sklearn",
+  "param": [
+    {
+      "default": 5,
+      "description": "Number of neighbors to use by default for kneighbors queries.",
+      "lowerBound": 1,
+      "name": "n_neigbors",
+      "type": "int",
+      "upperBound": 50
+    },
+    {
+      "name": "algorithm",
+      "description": "Algorithm to use to compute nearest neigbors.",
+      "type": "enum",
+      "list": [ "auto", "ball_tree", "kd_tree", "brute_force" ],
+      "default": "auto"
+    },
+    {
+      "name": "p",
+      "description": "Power parameter for the Minkowski metric. When p = 1, this is equivalent to using manhattan_distance (l1), and euclidean_distance (l2) for p = 2. For arbitrary p, minkowski_distance (l_p) is used. ",
+      "type": "int",
+      "upperBound": 5,
+      "lowerBound": 1,
+      "default": 2
+    }
+  ],
+    "input":[
+      {
+        "amount": "multiple",
+        "description": "input data",
+        "name": "X",
+        "type": "float"
+      }
+    ],
+    "output":[
+      {
+        "name": "Y",
+        "description": "output data",
+        "type":"classifiable"
+      }
+    ]
+}

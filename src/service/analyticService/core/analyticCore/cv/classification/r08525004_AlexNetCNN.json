@@ -1,25 +1,17 @@
 {
     "dataType":"cv",
     "projectType":"classification",
-    "algoName":"r08522721_ThreeLayerCNN",
-    "description": "Three layer convolutional neural network.",
+    "algoName":"r08525004_AlexNetCNN",
+    "description": "Single layer convolutional neural network.",
     "lib":"keras",
     "param":[
         {
             "name":"hidden_neuron",
             "description":"number of neurons (filters of Convolutional Layer)",
             "type":"int",
-            "lowerBound":8,
-            "upperBound":128,
+            "lowerBound":2,
+            "upperBound":512,
             "default":64
-        },
-		{
-            "name":"DropOut",
-            "description":"probability that neurons are ignored",
-            "type":"float",
-            "lowerBound":0,
-            "upperBound":0.9,
-            "default":0.5
         },
         {
             "name":"hidden_kernel_size",
@@ -41,7 +33,7 @@
             "description":"optimizer",
             "type":"enum",
             "list":["sgd","rmsprop","adagrad","adam"],
-            "default":"sgd"
+            "default":"adam"
         },
         {
             "name":"epochs",
@@ -59,13 +51,13 @@
             "upperBound":128,
             "default":32
         },
-		{
-            "name":"shape_size",
-            "description":"shape size of training",
-            "type":"int",
-            "lowerBound":28,
-            "upperBound":32,
-            "default":28
+        {
+            "name":"dropout",
+            "description":"dropout",
+            "type":"float",
+            "lowerBound":0.1,
+            "upperBound":0.9,
+            "default":0.5
         }
     ],
     "input":[

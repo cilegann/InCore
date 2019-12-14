@@ -6,38 +6,90 @@
     "lib":"sklearn",
     "param":[
         {
-            "name":"alpha",
-            "description":"Constant that multiplies the L1 term. Defaults to 1.0. alpha = 0 is equivalent to an ordinary least square, solved by the LinearRegression object. For numerical reasons, using alpha = 0 with the Lasso object is not advised.",
-            "type":"float",
-            "lowerBound":0,
-            "upperBound":100,
-            "default":1
-        },
-        {
-            "name":"fit_intercept",
-            "description":"whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (e.g. data is expected to be already centered).",
-            "type":"bool",
-            "default":1
-        },
-        {
-            "name":"normalize",
-            "description":"This parameter is ignored when fit_intercept is set to False. If True, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm.",
-            "type":"bool",
-            "default":0
-        },
-        {
-            "name":"max_iter",
-            "description":"Maximum number of iterations for conjugate gradient solver.",
+            "name":"n_iter",
+            "description":"Maximum number of iterations. Should be greater than or equal to 1.",
             "type":"int",
-            "upperBound":10000,
             "lowerBound":1,
-            "default":1000
+            "upperBound":500,
+            "default":300
         },
         {
-            "name":"positive",
-            "description":"When set to True, forces the coefficients to be positive.",
+            "name": "tol",
+            "description": "Stop the algorithm if w has converged.",
+            "type": "float",
+            "lowerBound": 1e-4,
+            "upperBound": 1e-2,
+            "default": 1e-3
+        },
+        {
+            "name": "alpha_1",
+            "description": "Hyper-parameter : shape parameter for the Gamma distribution prior over the alpha parameter.",
+            "type": "float",
+            "lowerBound": 1e-7,
+            "upperBound": 1e-5,
+            "default": 1e-6
+        },
+        {
+            "name": "alpha_2",
+            "description": "Hyper-parameter : inverse scale parameter (rate parameter) for the Gamma distribution prior over the alpha parameter.",
+            "type": "float",
+            "lowerBound": 1e-7,
+            "upperBound": 1e-5,
+            "default": 1e-6
+        },
+        {
+            "name": "lambda_1",
+            "description": "Hyper-parameter : shape parameter for the Gamma distribution prior over the lambda parameter.",
+            "type": "float",
+            "lowerBound": 1e-7,
+            "upperBound": 1e-5,
+            "default": 1e-6
+        },
+        {
+            "name": "lambda_2",
+            "description": "Hyper-parameter : inverse scale parameter (rate parameter) for the Gamma distribution prior over the lambda parameter.",
+            "type": "float",
+            "lowerBound": 1e-7,
+            "upperBound": 1e-5,
+            "default": 1e-6
+        },
+        {
+            "name": "lambda_init",
+            "description": "Initial value for lambda (precision of the weights). If not set, lambda_init is 1.",
+            "type": "float",
+            "lowerBound": 0,
+            "upperBound": 10,
+            "default": 1
+        },
+        {
+            "name":"compute_score",
+            "description":"If True, compute the log marginal likelihood at each iteration of the optimization.",
             "type":"bool",
             "default":0
+        },
+        {
+            "name": "fit_intercept",
+            "description": "Whether to calculate the intercept for this model. The intercept is not treated as a probabilistic parameter and thus has no associated variance. If set to False, no intercept will be used in calculations (i.e. data is expected to be centered).",
+            "type": "bool",
+            "default": 1
+        },
+        {
+            "name": "normalize",
+            "description": "This parameter is ignored when fit_intercept is set to False. If True, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm.",
+            "type": "bool",
+            "default": 0
+        },
+        {
+            "name": "copy_X",
+            "description": "If True, X will be copied; else, it may be overwritten.",
+            "type": "bool",
+            "default": 1
+        },
+        {
+            "name": "verbose",
+            "description": "Verbose mode when fitting the model.",
+            "type": "bool",
+            "default": 0
         }
     ],
     "input":[

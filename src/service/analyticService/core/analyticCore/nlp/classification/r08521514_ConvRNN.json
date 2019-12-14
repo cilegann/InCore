@@ -1,0 +1,157 @@
+{
+    "dataType":"nlp",
+    "projectType":"classification",
+    "algoName":"r08521514_ConvRNN",
+    "description": "Convolution1D + Double layer GRU",
+    "lib":"keras",
+    "param":[
+        {
+            "name":"embed_dim",
+            "description":"Dimension of word embedding vector",
+            "type":"int",
+            "lowerBound":16,
+            "upperBound":300,
+            "default":128
+        },
+        {
+            "name":"max_seq_len",
+            "description":"Max length of a sequence",
+            "type":"int",
+            "lowerBound":20,
+            "upperBound":100,
+            "default":50
+        },
+        {
+            "name":"Conv_filters",
+            "description":"number of filters of Conv1D",
+            "type":"int",
+            "lowerBound":16,
+            "upperBound":256,
+            "default":256
+        },
+        {
+            "name":"Conv_kernalsize",
+            "description":"number of kernal size of Conv1D",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":5,
+            "default":3
+        },
+        {
+            "name":"strides",
+            "description":"number of strides of Conv1D",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":3,
+            "default":1
+        },
+        {
+            "name":"Conv_activation",
+            "description":"activation function of conv",
+            "type":"enum",
+            "list":["linear","tanh","relu","sigmoid","softmax","selu"],
+            "default":"relu"
+        },
+        {
+            "name":"pool_size",
+            "description":"size of MaxPool1D",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":5,
+            "default":2
+        },
+        {
+            "name":"GRU_hidden1_neuron",
+            "description":"number of neuron of layer of GRU_1",
+            "type":"int",
+            "lowerBound":16,
+            "upperBound":256,
+            "default":256
+        },
+        {
+            "name":"GRU_dropout1",
+            "description":"porpotion of dropout of GRU_1",
+            "type":"float",
+            "lowerBound":0.0,
+            "upperBound":0.5,
+            "default":0.2
+        },
+        {
+            "name":"GRU_recurrent_dropout1",
+            "description":"porpotion of recurrent dropout of GRU_1",
+            "type":"float",
+            "lowerBound":0.0,
+            "upperBound":0.5,
+            "default":0.1
+        },
+        {
+            "name":"GRU_hidden2_neuron",
+            "description":"number of neuron of layer of GRU_2",
+            "type":"int",
+            "lowerBound":16,
+            "upperBound":256,
+            "default":256
+        },
+        {
+            "name":"GRU_dropout2",
+            "description":"porpotion of dropout of GRU_2",
+            "type":"float",
+            "lowerBound":0.0,
+            "upperBound":0.5,
+            "default":0.2
+        },
+        {
+            "name":"GRU_recurrent_dropout2",
+            "description":"porpotion of recurrent dropout of GRU_2",
+            "type":"float",
+            "lowerBound":0.0,
+            "upperBound":0.5,
+            "default":0.1
+        },
+        {
+            "name":"Dense_activation",
+            "description":"activation function of Dense",
+            "type":"enum",
+            "list":["linear","tanh","relu","sigmoid","softmax","selu"],
+            "default":"softmax"
+        },
+        {
+            "name":"optimizer",
+            "description":"optimizer",
+            "type":"enum",
+            "list":["sgd","rmsprop","adagrad","adam"],
+            "default":"sgd"
+        },
+        {
+            "name":"epochs",
+            "description":"train epochs",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":200,
+            "default":20
+        },
+        {
+            "name":"batch_size",
+            "description":"batch size of training",
+            "type":"int",
+            "lowerBound":32,
+            "upperBound":256,
+            "default":32
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"string",
+            "amount":"single"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"classifiable"
+        }
+    ]
+}

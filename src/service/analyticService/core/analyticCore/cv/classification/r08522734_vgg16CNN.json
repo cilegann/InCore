@@ -68,8 +68,35 @@
             "lowerBound": 0.1,
             "upperBound": 0.8,
             "default": 0.5
-        }
+        },
 
+        {
+            "name": "vgg16_CCCP",
+            "description": "VGG16_layer",
+            "type": "bool",
+            "default":0
+        },
+
+        {
+            "name": "vgg16_CCCP2",
+            "description": "VGG16_layer",
+            "type": "bool",
+            "default":0
+        },
+
+        {
+            "name": "vgg16_fc",
+            "description": "fc_layer",
+            "type": "bool",
+            "default":0
+        },
+
+        {
+            "name": "vgg16_fc2",
+            "description": "fc_layer",
+            "type": "bool",
+            "default":0
+        }
     ],
     "input":[
         {

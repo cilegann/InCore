@@ -8,7 +8,7 @@ from math import ceil
 class r08525108_algo(classification):
     def trainAlgo(self):
         self.model=Sequential()
-        #/////////////////////////////////////////////////////////////////////
+        #=====================================================================
         self.model.add(
             Conv2D(self.param['hidden_neuron'],
                    (self.param['hidden_kernel_size'],
@@ -16,14 +16,14 @@ class r08525108_algo(classification):
                    input_shape=(32,32,3),
                    data_format='channels_last',
                    activation=self.param['hidden_activation']))
-        #/////////////////////////////////////////////////////////////////////
+        #=====================================================================
         self.model.add(
-            Dropout( rate=0.25 ))
-        #/////////////////////////////////////////////////////////////////////
+            Dropout( rate=self.param['drop_rate'] ))
+        #=====================================================================
         self.model.add(
-            MaxPooling2D(pool_size=(2,2),
-                         strides=(2,2)))
-        #/////////////////////////////////////////////////////////////////////
+            MaxPooling2D(pool_size=(self.param['pooling_size'],self.param['pooling_size']),
+                         strides=(self.param['pooling_strides'],self.param['pooling_strides'])))
+        #=====================================================================
         self.model.add(
             Conv2D(
                 self.param['hidden_neuron'],
@@ -31,17 +31,17 @@ class r08525108_algo(classification):
                  self.param['hidden_kernel_size']),
                 data_format='channels_last',
                 activation=self.param['hidden_activation'] ))
-        #/////////////////////////////////////////////////////////////////////
+        #=====================================================================
         self.model.add(
-            Dropout(rate=0.25))
-        #/////////////////////////////////////////////////////////////////////
+            Dropout( rate=self.param['drop_rate'] ))
+        #=====================================================================
         self.model.add(
-            MaxPooling2D(pool_size=(2, 2),
-                         strides=(2, 2)))
-        #/////////////////////////////////////////////////////////////////////
+            MaxPooling2D(pool_size=(self.param['pooling_size'], self.param['pooling_size']),
+                         strides=(self.param['pooling_strides'], self.param['pooling_strides'])))
+        #=====================================================================
         self.model.add(
             Flatten())
-        #/////////////////////////////////////////////////////////////////////
+        #=====================================================================
         self.model.add(Dense(self.outputData['Y'].shape[1],activation='softmax'))
         self.model.compile(loss='categorical_crossentropy',optimizer=self.param['optimizer'])
         self.model.fit_generator(

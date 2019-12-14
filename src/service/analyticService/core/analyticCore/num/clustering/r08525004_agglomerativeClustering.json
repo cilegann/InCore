@@ -1,0 +1,55 @@
+{
+    "dataType":"num",
+    "projectType":"clustering",
+    "algoName":"r08525004_agglomerativeClustering",
+    "description": "Agglomerative Clustering. Recursively merges the pair of clusters that minimally increases a given linkage distance.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"n_clusters",
+            "description":"The number of clusters to find. It will be set to ignored if set_distance_threshold is True",
+            "type":"int",
+            "lowerBound":2,
+            "upperBound":20,
+            "default":2
+        },
+        {
+            "name":"affinity",
+            "description":"Metric used to compute the linkage. Can be “euclidean”, “l1”, “l2”, “manhattan”, “cosine”, or “precomputed”. If linkage is “ward”, only “euclidean” is accepted. If “precomputed”, a distance matrix (instead of a similarity matrix) is needed as input for the fit method.",
+            "type":"enum",
+            "list":["euclidean","l1","l2","manhattan","cosine"],
+            "default":"euclidean"
+        },
+        {
+            "name":"linkage",
+            "description":"Which linkage criterion to use. The linkage criterion determines which distance to use between sets of observation. The algorithm will merge the pairs of cluster that minimize this criterion.",
+            "type":"enum",
+            "list":["ward","complete","average","single"],
+            "default":"ward"
+        },
+        {
+            "name":"set_distance_threshold",
+            "description":"Set distance threshold or not.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"distance_threshold",
+            "description":"The linkage distance threshold above which, clusters will not be merged. Ignored when set_distance_threshold is false.",
+            "type":"float",
+            "lowerBound":0.1,
+            "upperBound":1000,
+            "default":0.5
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+    ]
+}

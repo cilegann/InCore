@@ -1,0 +1,59 @@
+{
+    "dataType":"num",
+    "projectType":"clustering",
+    "algoName":"b05505033_kmeansclustering",
+    "description": "kmeans Clustering. Separate samples in groups of equal variance",
+    "lib":"sklearn",
+    "param":[
+        {
+		
+            "name":"n_int",
+			"description":"this runs the how much centroids when running",
+			"type":"int",
+			"lowerBound":5,
+            "upperBound":30,
+            "default":10
+		},
+		{	"name":"max_iter",
+			"description":"Maximum number of iterations of the k-means algorithm for a single run.",
+			"type":"int",
+			"upperBound":600,
+			"lowerBound":200,
+			"default":300
+		},
+		{
+			"name":"tollerance",
+			"description":"Relative tolerance with regards to inertia to declare convergence",
+			"type":"float",
+			"upperBound":0.001,
+			"lowerBound":0.00005,
+			"default":0.0001
+		
+		},
+		{
+            "name":"n_clusters",
+            "description":"The number of clusters to find",
+            "type":"int",
+            "lowerBound":2,
+            "upperBound":15,
+            "default":8
+        },
+        {
+            "name":"algorithm",
+            "description":"K-means algorithm to use.",
+            "type":"enum",
+			"list":["auto","full","elkan"],
+            "default":"auto"
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+    ]
+}

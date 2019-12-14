@@ -9,14 +9,25 @@
             "in_huberRegression",
             "in_oneLayerNN",
             "r07522507_lassoRegression",
-            "r08525098_lassoRegression"
+            "r08525098_lassoRegression",
+            "r07522507_TheilSenRegressor",
+            "r07525065_HuberRegressor",
+            "r08525098_huberRegression",
+            "r07546035_ICRegression",
+            "r08525067_huberRegression",
+            "r06546050_Polynomial_regression"
         ],
         "classification": [
             "in_knn",
             "in_adaBoost",
             "in_linearSVC",
             "in_decisionTree",
-            "___internalTest"
+            "___internalTest",
+            "r07546007_LinearSVC",
+            "r07525032_RadiusNeighbors",
+            "r08543042_ExtraTrees",
+            "r07945013_classification",
+            "r07945013_knn"
         ],
         "abnormal": [
             "in_isolationForest",
@@ -28,7 +39,10 @@
             "in_kmeans",
             "in_affinityPropagation",
             "in_dbscan",
-            "in_agglomerativeClustering"
+            "in_agglomerativeClustering",
+            "b05505033_kmeansclustering",
+            "r08525004_agglomerativeClustering",
+            "r08631002_DBSCANClustering"
         ]
     },
     "cv": {
@@ -38,13 +52,30 @@
             "r08525108_algo",
             "r08522734_oneLayerCNN",
             "r08522721_ThreeLayerCNN",
-            "r08522734_vgg16CNN"
+            "r08522734_vgg16CNN",
+            "r08522732_oneLayerCNN",
+            "r08522732_PML",
+            "r08525103_oneLayerCNN",
+            "r08525113_oneLayerCNN",
+            "r08525059_twoLayerCNN",
+            "r08525113_threeLayerCNN",
+            "r08525113_VGG16CNN",
+            "r07543049_num_recognitionCNN",
+            "r08525057_oneLayerCNN",
+            "r08525057_threeLayerCNN",
+            "r08525004_oneLayerCNN",
+            "r08525004_AlexNetCNN",
+            "r07525060_oneLayerCNN",
+            "r08525113_cifar10CNN"
         ]
     },
     "nlp": {
         "regression": [],
         "classification": [
-            "in_oneLayerRNN"
+            "in_oneLayerRNN",
+            "r08521514_oneLayerRNN",
+            "r08521514_ConvRNN",
+            "r08521514_Conv"
         ]
     }
 }

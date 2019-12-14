@@ -1,0 +1,82 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"r07522507_TheilSenRegressor",
+    "description": "TheilSenRegressor",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"fit_intercept",
+            "description":"Whether to calculate the intercept for this model. If set to false, no intercept will be used in calculations.",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"copy_X",
+            "description":"If True, X will be copied; else, it may be overwritten.",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"max_subpopulation",
+            "description":"Instead of computing with a set of cardinality ‘n choose k’, where n is the number of samples and k is the number of subsamples (at least number of features), consider only a stochastic subpopulation of a given maximal size if ‘n choose k’ is larger than max_subpopulation. For other than small problem sizes this parameter will determine memory usage and runtime if n_subsamples is not changed.",
+            "type":"int",
+            "upperBound":1000,
+            "lowerBound":10,
+            "default":100
+        },
+        {
+            "name":"n_subsamples",
+            "description":"Number of samples to calculate the parameters. This is at least the number of features (plus 1 if fit_intercept=True) and the number of samples as a maximum. A lower number leads to a higher breakdown point and a low efficiency while a high number leads to a low breakdown point and a high efficiency. If None, take the minimum number of subsamples leading to maximal robustness. If n_subsamples is set to n_samples, Theil-Sen is identical to least squares.",
+            "type":"int",
+            "upperBound":100,
+            "lowerBound":5,
+            "default":10
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations for the calculation of spatial median.",
+            "type":"int",
+            "upperBound":500,
+            "lowerBound":100,
+            "default":300
+        },
+        {
+            "name":"tol",
+            "description":"Tolerance when calculating spatial median.",
+            "type":"float",
+            "upperBound":0.01,
+            "lowerBound":0.0001,
+            "default":0.001
+        },
+        {
+            "name":"random_state",
+            "description":"A random number generator instance to define the state of the random permutations generator. If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.",
+            "type":"int",
+            "upperBound":100,
+            "lowerBound":0,
+            "default":0
+        },
+        {
+            "name":"verbose",
+            "description":"Verbose mode when fitting the model.",
+            "type":"bool",
+            "default":0
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}

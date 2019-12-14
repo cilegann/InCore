@@ -1,0 +1,39 @@
+{
+    "dataType":"num",
+    "projectType":"classification",
+    "algoName":"r08543042_ExtraTrees",
+    "description": "An extra-trees classifier. This class implements a meta estimator that fits a number of randomized decision trees (a.k.a. extra-trees) on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"n_estimators",
+            "description":"The maximum number of estimators at which boosting is terminated. In case of perfect fit, the learning procedure is stopped early.",
+            "type":"int",
+            "upperBound":100,
+            "lowerBound":1,
+            "default":50
+        },
+        {
+            "name":"max_features",
+            "description":"The number of features to consider when looking for the best split:",
+            "type":"enum",
+            "list":["auto","sqrt","log2","None"],
+            "default":"auto"
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"classifiable"
+        }
+    ]
+}

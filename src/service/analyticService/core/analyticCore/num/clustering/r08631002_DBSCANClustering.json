@@ -1,0 +1,69 @@
+{
+    "dataType":"num",
+    "projectType":"clustering",
+    "algoName":"r08631002_DBSCANClustering",
+    "description": "DBSCAN clustering. Views clusters as areas of high density separated by areas of low density.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"auto_eps",
+            "description":"Let algorithm decides the eps or not",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"eps",
+            "description":"The maximum distance between two samples for one to be considered as in the neighborhood of the other.",
+            "type":"float",
+            "lowerBound":0.1,
+            "upperBound":10000,
+            "default":0.5
+        },
+        {
+            "name":"auto_min_samples",
+            "description":"Let algorithm decides the min_samples or not.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"min_samples",
+            "description":"The number of samples (or total weight) in a neighborhood for a point to be considered as a core point. This includes the point itself.",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":10000,
+            "default":5
+        },
+        {   "name":"metric",
+            "description":"The metric to use when calculating distance between instances in a feature array.",
+            "type":"enum",
+            "list":["cityblock","cosine","euclidean","l1","l2","manhattan","braycurtis","canberra","chebyshev","correlation",
+                    "dice","hamming","jaccard","kulsinski","mahalanobis","minkowski","rogerstanimoto","russellrao","seuclidean","sokalmichener","sokalsneath","sqeuclidean",
+                    "yule"],
+            "default":"euclidean"
+        },
+        {   "name":"leaf_size",
+            "description":"Leaf size passed to BallTree or cKDTree.",
+            "type":"int",
+            "lowerBound":2,
+            "upperBound":100,
+            "default":30
+        },
+        {
+            "name":"algorithm",
+            "description":"The algorithm to be used by the NearestNeighbors module to compute pointwise distances and find nearest neighbors.",
+            "type":"enum",
+            "list":["auto","ball_tree","kd_tree","brute"],
+            "default":"auto"
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+    ]
+}

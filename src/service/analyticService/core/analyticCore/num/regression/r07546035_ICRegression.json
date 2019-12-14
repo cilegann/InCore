@@ -1,0 +1,65 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"r07546035_ICRegression",
+    "description": "Lasso Model fit with AIC or BIC",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"criterion",
+            "description":"The Type Of Criterion",
+            "type":"enum",
+            "list":["aic","bic"],
+            "default":"aic"
+        },
+        {
+            "name":"fit_intercept",
+            "description":"Whether to calculate the intercept for this model.",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"normalize",
+            "description":"This parameter is ignored when fit_intercept is set to False.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations for conjugate gradient solver.",
+            "type":"int",
+            "upperBound":10000,
+            "lowerBound":1,
+            "default":500
+        },
+        {
+            "name":"eps",
+            "description":"The machine-precision regularization in the computation of the Cholesky diagonal factors",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.5
+        },
+        {
+            "name":"positive",
+            "description":"When set to True, forces the coefficients to be positive.",
+            "type":"bool",
+            "default":0
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}

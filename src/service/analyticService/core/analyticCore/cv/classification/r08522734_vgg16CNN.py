@@ -19,11 +19,45 @@ class r08522734_vgg16CNN(classification):
         
         
         
+        self.model.add(Conv2D((a//4),(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+        self.model.add(Conv2D((a//4),(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+        self.model.add(MaxPooling2D(pool_size=(self.param['pool_size'], self.param['pool_size']),strides=(2,2)))
+
+        self.model.add(Conv2D((a//2),(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+        self.model.add(Conv2D((a//2),(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+        self.model.add(Conv2D((a//2),(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+        self.model.add(MaxPooling2D(pool_size=(self.param['pool_size'], self.param['pool_size']),strides=(2,2)))
         
 
+        if(self.param['vgg16_CCCP']):
+            self.model.add(Conv2D(self.param['hidden_neuron'],(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+            self.model.add(Conv2D(self.param['hidden_neuron'],(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+            self.model.add(Conv2D(self.param['hidden_neuron'],(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+            self.model.add(MaxPooling2D(pool_size=(self.param['pool_size'], self.param['pool_size']),strides=(2,2)))
+
+
+
+        if(self.param['vgg16_CCCP2']):
+            self.model.add(Conv2D(self.param['hidden_neuron'],(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+            self.model.add(Conv2D(self.param['hidden_neuron'],(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+            self.model.add(Conv2D(self.param['hidden_neuron'],(self.param['hidden_kernel_size'],self.param['hidden_kernel_size']),activation=self.param['hidden_activation'],padding='same'))
+            self.model.add(MaxPooling2D(pool_size=(self.param['pool_size'], self.param['pool_size']),strides=(2,2)))
+       
+        
         
         self.model.add(Flatten())
+
+
+        if(self.param['vgg16_fc']):
+            self.model.add(Dropout(self.param['dropout_value']))
+            self.model.add(Dense(500,activation='softmax'))
+
+        if(self.param['vgg16_fc2']):
+            self.model.add(Dropout(self.param['dropout_value']))
+            self.model.add(Dense(10,activation='softmax'))
+
         
+
         self.model.add(Dropout(self.param['dropout_value']))
         self.model.add(Dense(self.outputData['Y'].shape[1],activation='softmax'))
         

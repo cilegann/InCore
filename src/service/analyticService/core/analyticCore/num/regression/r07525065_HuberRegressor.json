@@ -1,0 +1,60 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"r07525065_HuberRegressor",
+    "description": "Linear regression model that is robust to outliers.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"epsilon",
+            "description":"The parameter epsilon controls the number of samples that should be classified as outliers. The smaller the epsilon, the more robust it is to outliers.",
+            "type":"float",
+            "lowerBound":1,
+            "upperBound":10,
+            "default":1.35
+        },
+        {
+            "name":"max_iter",
+            "description":"Maximum number of iterations that scipy.optimize.fmin_l_bfgs_b should run for.",
+            "type":"int",
+			"upperBound":300,
+            "lowerBound":1,
+            "default":100
+        },
+        {
+            "name":"alpha",
+            "description":"Regularization parameter.",
+            "type":"float",
+            "lowerBound":0.0001,
+            "upperBound":1,
+            "default":0.0001
+        },
+        {
+            "name":"warm_start",
+            "description":"This is useful if the stored attributes of a previously used model has to be reused. If set to False, then the coefficients will be rewritten for every call to fit.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"fit_intercept",
+            "description":"Whether or not to fit the intercept. This can be set to False if the data is already centered around the origin.",
+            "type":"bool",
+            "default":1
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}

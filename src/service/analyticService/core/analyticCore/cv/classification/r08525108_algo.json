@@ -11,7 +11,7 @@
             "type":"int",
             "lowerBound":2,
             "upperBound":64,
-            "default":16
+            "default":32
         },
         {
             "name":"hidden_kernel_size",
@@ -26,7 +26,31 @@
             "description":"activation function",
             "type":"enum",
             "list":["linear","tanh","relu","elu","softmax","selu"],
-            "default":"tanh"
+            "default":"relu"
+        },
+        {
+            "name":"drop_rate",
+            "description":"probability of droping hidden_neuron",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.25
+        },
+        {
+            "name":"pooling_size",
+            "description":"size of pooling",
+            "type":"int",
+            "lowerBound":2,
+            "upperBound":8,
+            "default":2
+        },
+        {
+            "name":"pooling_strides",
+            "description":"size of one step in pooling",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":8,
+            "default":2
         },
         {
             "name":"optimizer",
@@ -41,7 +65,7 @@
             "type":"int",
             "lowerBound":5,
             "upperBound":200,
-            "default":20
+            "default":40
         },
         {
             "name":"batch_size",
@@ -49,7 +73,7 @@
             "type":"int",
             "lowerBound":4,
             "upperBound":128,
-            "default":32
+            "default":8
         }
     ],
     "input":[

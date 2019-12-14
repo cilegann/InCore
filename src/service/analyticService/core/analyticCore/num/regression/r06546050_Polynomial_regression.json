@@ -1,0 +1,75 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"r06546050_Polynomial_regression",
+    "description": "polynomial regression is a form of regression analysis in which the relationship between the independent variable x and the dependent variable y is modelled as an nth degree polynomial in x.",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"degree",
+            "description":"The degree of the polynomial features(don't set too big or you will regret).",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":9,
+            "default":2
+        },
+        {
+            "name":"interaction_only",
+            "description":"If true, only interaction features are produced: features that are products of at most degree distinct input features (so not x[1]**2,x[0]*x[2]**3, etc.).",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"include_bias",
+            "description":"If True (default), then include a bias column, the feature in which all polynomial powers are zero (i.e. a column of ones - acts as an intercept term in a linear model).",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"order",
+            "description":"Order of output array in the dense case.'F' order is faster to compute, but may slow down subsequent estimators.",
+            "type":"enum",
+            "list":["C","F"],
+            "default":"C"
+        },
+        {
+            "name":"include_bias",
+            "description":"If True (default), then include a bias column, the feature in which all polynomial powers are zero (i.e. a column of ones - acts as an intercept term in a linear model).",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"fit_intercept",
+            "description":"Whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (i.e. data is expected to be centered).",
+            "type":"bool",
+            "default":1
+        },
+        {
+            "name":"normalize",
+            "description":"This parameter is ignored when fit_intercept is set to False. If True, the regressors X will be normalized before regression by subtracting the mean and dividing by the l2-norm.",
+            "type":"bool",
+            "default":0
+        },
+        {
+            "name":"copy_X",
+            "description":"If True, X will be copied; else, it may be overwritten.",
+            "type":"bool",
+            "default":1
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}

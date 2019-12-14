@@ -1,0 +1,66 @@
+{
+	"dataType": "num",
+	"projectType": "regression",
+	"algoName": "r08525098_huberRegression",
+	"description": "The Huber Regressor optimizes the squared loss for the samples where and the absolute loss for the samples where , where w and sigma are parameters to be optimized.",
+	"lib": "sklearn",
+	"param": [
+		{
+			"name": "alpha",
+			"description": "Regularization parameter",
+			"type": "float",
+			"lowerBound": 0.0001,
+			"upperBound": 1,
+			"default": 0.0001
+		},
+		{
+			"name": "fit_intercept",
+			"description": "Whether or not to fit the intercept. This can be set to False if the data is already centered around the origin.",
+			"type": "bool",
+			"default": 1
+		},
+		{
+			"name": "max_iter",
+			"description": "Maximum number of iterations that scipy.optimize.minimize(method='L-BFGS-B')should run for.",
+			"type": "int",
+			"upperBound": 200,
+			"lowerBound": 1,
+			"default": 100
+		},
+		{
+			"name": "epsilon",
+			"description": "The parameter epsilon controls the number of samples that should be classified as outliers. The smaller the epsilon, the more robust it is to outliers.",
+			"type": "float",
+			"lowerBound": 1,
+			"upperBound": 1.35,
+			"default": 0.0001
+		},
+		{
+			"name": "warm_start",
+			"description": "Whether to calculate the intercept for this model. If set to False, no intercept will be used in calculations (e.g. data is expected to be already centered).",
+			"type": "bool",
+			"default": 1
+		}
+	],
+	"input": [
+		{
+			"name": "X",
+			"description": "input data",
+			"type": "float",
+			"amount": "multiple"
+		},
+		{
+			"name": "CX",
+			"description": "input data",
+			"type": "classifiable",
+			"amount": "single"
+		}
+	],
+	"output": [
+		{
+			"name": "Y",
+			"description": "output data",
+			"type": "float"
+		}
+	]
+}
