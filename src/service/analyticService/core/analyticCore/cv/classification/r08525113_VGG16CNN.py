@@ -16,7 +16,7 @@ class r08525113_VGG16CNN(classification):
         self.model.add(Activation(self.param['hidden_activation']))
 
         self.model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
-
+        self.model.add(Dropout(self.param['dropout']))
         self.model.add(Conv2D(128, (3, 3), padding='same'))
         self.model.add(Activation(self.param['hidden_activation']))
 
@@ -24,6 +24,7 @@ class r08525113_VGG16CNN(classification):
         self.model.add(Activation(self.param['hidden_activation']))
 
         self.model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        self.model.add(Dropout(self.param['dropout']))
 
         self.model.add(Conv2D(256, (3, 3), padding='same'))
         self.model.add(Activation(self.param['hidden_activation']))
@@ -33,6 +34,7 @@ class r08525113_VGG16CNN(classification):
         self.model.add(Activation(self.param['hidden_activation']))
 
         self.model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        self.model.add(Dropout(self.param['dropout']))
 
         self.model.add(Conv2D(512, (3, 3), padding='same'))
         self.model.add(Activation(self.param['hidden_activation']))
@@ -42,6 +44,7 @@ class r08525113_VGG16CNN(classification):
         self.model.add(Activation(self.param['hidden_activation']))
 
         self.model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        self.model.add(Dropout(self.param['dropout']))
 
         self.model.add(Conv2D(512, (3, 3), padding='same'))
         self.model.add(Activation(self.param['hidden_activation']))
@@ -51,11 +54,12 @@ class r08525113_VGG16CNN(classification):
         self.model.add(Activation(self.param['hidden_activation']))
 
         self.model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        self.model.add(Dropout(self.param['dropout']))
 
         self.model.add(Flatten())
         self.model.add(Dense(4096, activation='relu'))
         self.model.add(Dense(4096, activation='relu'))
-        self.model.add(Dropout(0.5))
+        self.model.add(Dropout(self.param['dropout2']))
         self.model.add(Dense(self.outputData['Y'].shape[1], activation='softmax'))
 
         self.model.compile(loss='categorical_crossentropy', optimizer=self.param['optimizer'],metrics=['accuracy'])

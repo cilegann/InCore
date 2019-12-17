@@ -1,0 +1,41 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"r07546035_DummyRegression",
+    "description": "Makes predictions using simple rules",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"strategy",
+            "description":"Strategy to use to generate predictions",
+            "type":"enum",
+            "list":["mean","median","quantile"],
+            "default":"mean"
+        },
+        {
+            "name":"quantile",
+            "description":"A quantile of 0.5 corresponds to the median, while 0.0 to the minimum and 1.0 to the maximum.",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.5
+        }
+   
+       
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[
+        {
+            "name": "y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}

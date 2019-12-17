@@ -1,14 +1,14 @@
 from service.analyticService.core.analyticCore.classificationBase import classification
-from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import AdaBoostClassifier
 import numpy as np
-class r07945013_knn(classification):
+class r07945013_AdaBoost(classification):
     def trainAlgo(self):
-        self.model=KNeighborsRegressor(
-                n_neigbors=self.param['n_neigbors'],
+        self.model=AdaBoostClassifier(
+                n_estimators=self.param['n_estimators'],
                 algorithm=self.param['algorithm'],
-                leaf_size=self.param['leaf_size'],
-                weights=self.param['weights'],
-                p=self.param['p'])
+                random_state=self.param['random_state'],
+                learning_rate=self.param['learning_rate']
+                )
         y=np.argmax(self.outputData['Y'],axis=1)
         self.model.fit(self.inputData['X'],y)
     def predictAlgo(self):

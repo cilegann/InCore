@@ -10,7 +10,7 @@
             "description":"The degree of the polynomial features(don't set too big or you will regret).",
             "type":"int",
             "lowerBound":1,
-            "upperBound":9,
+            "upperBound":5,
             "default":2
         },
         {

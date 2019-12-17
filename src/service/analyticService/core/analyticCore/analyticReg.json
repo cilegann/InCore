@@ -15,7 +15,13 @@
             "r08525098_huberRegression",
             "r07546035_ICRegression",
             "r08525067_huberRegression",
-            "r06546050_Polynomial_regression"
+            "r06546050_Polynomial_regression",
+            "r07546035_DummyRegression",
+            "d08525001_priceRegression",
+            "d08525001_huberRegression",
+            "d08525001_LassoRegression",
+            "r08525067_huberRegressor",
+            "r08543047_ridgeRegression"
         ],
         "classification": [
             "in_knn",
@@ -27,7 +33,9 @@
             "r07525032_RadiusNeighbors",
             "r08543042_ExtraTrees",
             "r07945013_classification",
-            "r07945013_knn"
+            "r07945013_knn",
+            "r07945013_AdaBoost",
+            "r08525098_randomForest"
         ],
         "abnormal": [
             "in_isolationForest",
@@ -66,7 +74,13 @@
             "r08525004_oneLayerCNN",
             "r08525004_AlexNetCNN",
             "r07525060_oneLayerCNN",
-            "r08525113_cifar10CNN"
+            "r08525113_cifar10CNN",
+            "r07525116_algo",
+            "r08525058_LayerCNN",
+            "r08522732_PML_alexnet",
+            "r07525116_CNN",
+            "r08525091_twoLayerCNN",
+            "r08525103_CNN"
         ]
     },
     "nlp": {

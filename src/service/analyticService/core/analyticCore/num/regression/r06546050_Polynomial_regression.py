@@ -17,10 +17,10 @@ class r06546050_Polynomial_regression(regression):
             copy_X = self.param['copy_X']
             )
         self.model.fit(self.after_trans,self.outputData['Y'])
-        np.savetxt("record_for_poly.txt",np.array([self.param['degree'],self.param['interaction_only'],self.param['include_bias'],self.param['order']]), fmt='%s')
+        self.customObj['record_for_poly']=np.array([self.param['degree'],self.param['interaction_only'],self.param['include_bias'],self.param['order']])
 
     def predictAlgo(self):
-        BB = np.loadtxt('record_for_poly.txt', dtype=str)
+        BB=self.customObj['record_for_poly']
         self.premodel = PolynomialFeatures(degree = int(BB[0]),
             interaction_only = int(BB[1]),
             include_bias = int(BB[2]),

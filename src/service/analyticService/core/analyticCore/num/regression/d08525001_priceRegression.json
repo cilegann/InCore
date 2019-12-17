@@ -1,0 +1,62 @@
+{
+    "dataType":"num",
+    "projectType":"regression",
+    "algoName":"d08525001_priceRegression",
+    "description": "Taipei Howard hotel room price string",
+    "lib":"sklearn",
+    "param":[
+        {
+            "name":"price",
+            "description":"Taipei Howard Hotel room price in the hotel.com",
+            "type":"int",
+            "lowerBound":0,
+            "upperBound":20000,
+            "default":1
+        },
+        {
+            "name":"guest_rating",
+            "description":"Taipei Howard Hotel guest_rating in the hotel.com",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":10,
+            "default":1.5
+        },
+        {
+            "name":"star_rate",
+            "description":"Taipei Howard Hotel star_rate in the hotel.com",
+            "type":"float",
+            "lowerBound":3.5,
+            "upperBound":6,
+            "default":4.5
+        },
+        {
+            "name":"check_in_date",
+            "description":"room price log date",
+            "type":"int",
+            "lowerBound":20000000,
+            "upperBound":21000000,
+            "default":20190000
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        },
+        {
+            "name": "CX",
+            "description": "input data",
+            "type":"string",
+            "amount":"single"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"float"
+        }
+    ]
+}

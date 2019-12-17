@@ -66,7 +66,7 @@
             "type":"int",
             "lowerBound":16,
             "upperBound":256,
-            "default":256
+            "default":128
         },
         {
             "name":"GRU_dropout1",
@@ -90,7 +90,7 @@
             "type":"int",
             "lowerBound":16,
             "upperBound":256,
-            "default":256
+            "default":128
         },
         {
             "name":"GRU_dropout2",
@@ -120,7 +120,7 @@
             "description":"optimizer",
             "type":"enum",
             "list":["sgd","rmsprop","adagrad","adam"],
-            "default":"sgd"
+            "default":"adam"
         },
         {
             "name":"epochs",
@@ -134,7 +134,7 @@
             "name":"batch_size",
             "description":"batch size of training",
             "type":"int",
-            "lowerBound":32,
+            "lowerBound":16,
             "upperBound":256,
             "default":32
         }
@@ -155,3 +155,6 @@
         }
     ]
 }
+
+
+

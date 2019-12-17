@@ -18,7 +18,13 @@ class r08525113_cifar10CNN(classification):
         self.model.add(Conv2D(32, (3, 3),input_shape=(32,32,3), padding='same'))
         self.model.add(Activation(self.param['hidden_activation']))
 
+        self.model.add(Conv2D(32, (3, 3), input_shape=(32, 32, 3), padding='same'))
+        self.model.add(Activation(self.param['hidden_activation']))
+
         self.model.add(Conv2D(48, (3, 3),input_shape=(32,32,3), padding='same'))
+        self.model.add(Activation(self.param['hidden_activation']))
+
+        self.model.add(Conv2D(48, (3, 3), input_shape=(32, 32, 3), padding='same'))
         self.model.add(Activation(self.param['hidden_activation']))
 
         self.model.add(MaxPooling2D(pool_size=(2, 2)))

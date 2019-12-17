@@ -1,21 +1,13 @@
 {
     "dataType":"cv",
     "projectType":"classification",
-    "algoName":"r08525059_twoLayerCNN",
-    "description": "Single layer convolutional neural network.",
+    "algoName":"r07525116_CNN",
+    "description": "CNN",
     "lib":"keras",
     "param":[
         {
             "name":"hidden_neuron",
             "description":"number of neurons (filters of Convolutional Layer)",
-            "type":"int",
-            "lowerBound":2,
-            "upperBound":64,
-            "default":16
-        },
-        {
-            "name":"second_hidden_neuron",
-            "description":"number of second neurons",
             "type":"int",
             "lowerBound":2,
             "upperBound":64,
@@ -34,14 +26,14 @@
             "description":"activation function",
             "type":"enum",
             "list":["linear","tanh","relu","elu","softmax","selu"],
-            "default":"tanh"
-        },
+            "default":"relu"
+        }, 
         {
             "name":"optimizer",
             "description":"optimizer",
             "type":"enum",
             "list":["sgd","rmsprop","adagrad","adam"],
-            "default":"sgd"
+            "default":"adam"
         },
         {
             "name":"epochs",
@@ -49,7 +41,7 @@
             "type":"int",
             "lowerBound":5,
             "upperBound":200,
-            "default":200
+            "default":20
         },
         {
             "name":"batch_size",
@@ -57,7 +49,15 @@
             "type":"int",
             "lowerBound":4,
             "upperBound":128,
-            "default":64
+            "default":32
+        },
+        {
+            "name":"dropout",
+            "description":"rate of dropout",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.3
         }
     ],
     "input":[

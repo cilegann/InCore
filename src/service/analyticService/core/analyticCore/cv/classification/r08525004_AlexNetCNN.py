@@ -21,9 +21,9 @@ class r08525004_AlexNetCNN(classification):
         self.model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
        
         self.model.add(Flatten())
-        self.model.add(Dense(4096,activation='relu'))
+        self.model.add(Dense(2048,activation='relu'))
         self.model.add(Dropout(self.param['dropout']))
-        self.model.add(Dense(4096,activation='relu'))
+        self.model.add(Dense(2048,activation='relu'))
         self.model.add(Dropout(self.param['dropout']))
         self.model.add(Dense(self.outputData['Y'].shape[1],activation='softmax'))
         

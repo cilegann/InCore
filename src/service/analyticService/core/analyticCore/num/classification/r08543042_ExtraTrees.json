@@ -9,7 +9,7 @@
             "name":"n_estimators",
             "description":"The maximum number of estimators at which boosting is terminated. In case of perfect fit, the learning procedure is stopped early.",
             "type":"int",
-            "upperBound":100,
+            "upperBound":1000,
             "lowerBound":1,
             "default":50
         },

@@ -4,14 +4,30 @@
     "algoName":"r08525113_VGG16CNN",
     "description": "three layer convolutional neural network.",
     "lib":"keras",
-    "param":[
+   "param":[
         {
             "name":"hidden_neuron",
             "description":"number of neurons (filters of Convolutional Layer)",
             "type":"int",
             "lowerBound":2,
             "upperBound":64,
-            "default":16
+            "default":32
+        },
+        {
+            "name":"dropout",
+            "description":"number of dropout",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.42
+        },
+        {
+            "name":"dropout2",
+            "description":"number of dropout",
+            "type":"float",
+            "lowerBound":0,
+            "upperBound":1,
+            "default":0.62
         },
         {
             "name":"hidden_kernel_size",
@@ -41,7 +57,7 @@
             "type":"int",
             "lowerBound":5,
             "upperBound":200,
-            "default":20
+            "default":98
         },
         {
             "name":"batch_size",
@@ -49,7 +65,7 @@
             "type":"int",
             "lowerBound":4,
             "upperBound":128,
-            "default":32
+            "default":48
         }
     ],
     "input":[

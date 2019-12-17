@@ -11,7 +11,7 @@
             "type":"int",
             "lowerBound":2,
             "upperBound":64,
-            "default":16
+            "default":32
         },
         {
             "name":"dropout",
@@ -19,7 +19,7 @@
             "type":"float",
             "lowerBound":0,
             "upperBound":1,
-            "default":0.25
+            "default":0.45
         },
         {
             "name":"dropout2",
@@ -27,7 +27,7 @@
             "type":"float",
             "lowerBound":0,
             "upperBound":1,
-            "default":0.25
+            "default":0.65
         },
         {
             "name":"hidden_kernel_size",
@@ -57,7 +57,7 @@
             "type":"int",
             "lowerBound":5,
             "upperBound":200,
-            "default":20
+            "default":100
         },
         {
             "name":"batch_size",
@@ -65,7 +65,7 @@
             "type":"int",
             "lowerBound":4,
             "upperBound":128,
-            "default":32
+            "default":48
         }
     ],
     "input":[

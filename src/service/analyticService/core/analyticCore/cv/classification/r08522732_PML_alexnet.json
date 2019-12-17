@@ -1,7 +1,7 @@
 {
     "dataType":"cv",
     "projectType":"classification",
-    "algoName":"r08525059_twoLayerCNN",
+    "algoName":"r08522732_PML_alexnet",
     "description": "Single layer convolutional neural network.",
     "lib":"keras",
     "param":[
@@ -10,31 +10,23 @@
             "description":"number of neurons (filters of Convolutional Layer)",
             "type":"int",
             "lowerBound":2,
-            "upperBound":64,
-            "default":16
-        },
-        {
-            "name":"second_hidden_neuron",
-            "description":"number of second neurons",
-            "type":"int",
-            "lowerBound":2,
-            "upperBound":64,
-            "default":32
+            "upperBound":384,
+            "default":96
         },
         {
             "name":"hidden_kernel_size",
             "description":"size of kernel of Convolutional Layer)",
             "type":"int",
             "lowerBound":2,
-            "upperBound":7,
-            "default":3
+            "upperBound":11,
+            "default":11
         },
         {
             "name":"hidden_activation",
             "description":"activation function",
             "type":"enum",
             "list":["linear","tanh","relu","elu","softmax","selu"],
-            "default":"tanh"
+            "default":"relu"
         },
         {
             "name":"optimizer",
@@ -49,7 +41,15 @@
             "type":"int",
             "lowerBound":5,
             "upperBound":200,
-            "default":200
+            "default":30
+        },
+		{
+            "name":"pixel",
+            "description":"pixel of photo",
+            "type":"int",
+            "lowerBound":28,
+            "upperBound":96,
+            "default":32
         },
         {
             "name":"batch_size",
@@ -57,7 +57,7 @@
             "type":"int",
             "lowerBound":4,
             "upperBound":128,
-            "default":64
+            "default":16
         }
     ],
     "input":[

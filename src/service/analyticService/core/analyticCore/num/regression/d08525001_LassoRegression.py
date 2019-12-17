@@ -1,25 +1,15 @@
 from service.analyticService.core.analyticCore.regressionBase import regression
+from sklearn.linear_model import Lasso
 
-from sklearn.linear_model import LassoLarsIC
-
-
-class r07546035_ICRegression(regression):
+class d08525001_LassoRegression(regression):
     def trainAlgo(self):
-        
-        self.model=LassoLarsIC(
-            
-            criterion=self.param['criterion'],
-            fit_intercept=self.param['fit_intercept'],
+        self.model=Lasso(
+            alpha=self.param['alpha'],
             normalize=self.param['normalize'],
+            fit_intercept=self.param['fit_intercept'],
             max_iter=self.param['max_iter'],
-            eps=self.param['eps'],
             positive=self.param['positive']
-           
             )
-       
         self.model.fit(self.inputData['X'],self.outputData['Y'])
-       
-    
     def predictAlgo(self):
-        
         self.result['Y']=self.model.predict(self.inputData['X'])
