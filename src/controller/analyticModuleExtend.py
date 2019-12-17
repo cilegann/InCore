@@ -10,7 +10,7 @@ import traceback
 import logging
 from utils import get_gpu_statistics,maintaining
 from params import params
-
+from datetime import datetime
 
 
 class formming(FlaskForm):
@@ -29,6 +29,7 @@ def purgeTmp(jsonName,pyName):
 def submit(key):
     param=params()
     maintain=(param.maintainMsg if maintaining() else "0")
+    deadline=datetime.strptime(param.analyticModuleUploadDeadline,"%Y-%m-%d %H:%M")
     with open('allowSubmit.csv') as file:
         lines=file.readlines()
     idd=0
@@ -39,6 +40,17 @@ def submit(key):
             break
     if idd==0:
         return render_template('404.html')
+    if datetime.now()>deadline:
+        deadlineImgs=[
+            'https://cdn.stackward.com/wp-content/uploads/2016/09/38.jpg',
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUrUCkH93azU4TsmZ5iDi1iGp1OVdv958Q8dh1n-eHnRNLm_1Jdg&s',
+            'https://www.lanternaeducation.com/wp-content/uploads/2016/11/deadline-meme.jpg',
+            'https://media.makeameme.org/created/if-everyone-could-5ad967.jpg',
+            'https://media.makeameme.org/created/deadline-means-deadline.jpg',
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkipBr2xaof8H_awUP6fhjJ8woZywZU1EZxPVBucEAdwE3qpKoCg&s'
+        ]
+        from random import choice
+        return f"<center><img src='{choice(deadlineImgs)}'></center>"
     form=formming()
     if form.validate_on_submit():
         logging.info(f"[SUBMIT] {idd} submitting")

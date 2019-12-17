@@ -38,3 +38,5 @@ class params():
         self.maintainEnd=time(1,00)
         self.maintaining=False
         self.maintainMsg="為了提供穩定訓練環境，現在為系統維護時段，您仍可正常使用<br>但可能會出現瞬斷、模型訓練中止等情況。抱歉造成不便"
+
+        self.analyticModuleUploadDeadline='2019-12-18 00:00'
