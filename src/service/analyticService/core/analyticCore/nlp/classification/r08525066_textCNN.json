@@ -1,0 +1,71 @@
+{
+    "dataType":"nlp",
+    "projectType":"classification",
+    "algoName":"r08525066_textCNN",
+    "description": "Text classification with CNN",
+    "lib":"keras",
+    "param":[
+        {
+            "name":"embed_dim",
+            "description":"Dimension of word embedding vector",
+            "type":"int",
+            "lowerBound":16,
+            "upperBound":300,
+            "default":128
+        },
+        {
+            "name":"max_seq_len",
+            "description":"Max length of a sequence",
+            "type":"int",
+            "lowerBound":20,
+            "upperBound":100,
+            "default":50
+        },
+        {
+            "name":"conv_input",
+            "description":"Convolution Filter",
+            "type":"int",
+            "lowerBound":8,
+            "upperBound":256,
+            "default":128
+        },
+        {
+            "name":"optimizer",
+            "description":"optimizer",
+            "type":"enum",
+            "list":["sgd","rmsprop","adagrad","adam"],
+            "default":"adam"
+        },
+        {
+            "name":"epochs",
+            "description":"train epochs",
+            "type":"int",
+            "lowerBound":1,
+            "upperBound":200,
+            "default":10
+        },
+        {
+            "name":"batch_size",
+            "description":"batch size of training",
+            "type":"int",
+            "lowerBound":32,
+            "upperBound":256,
+            "default":32
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"string",
+            "amount":"single"
+        }
+    ],
+    "output":[
+        {
+            "name": "Y",
+            "description": "output data",
+            "type":"classifiable"
+        }
+    ]
+}

@@ -1,0 +1,86 @@
+{
+	"dataType":"cv",
+	"projectType":"classification",
+	"algoName":"r08525091_testCNN",
+	"description": "Two layers convolutional neural network.",
+	"lib":"keras",
+	"param":[
+			{
+					"name":"hidden_neuron",
+					"description":"number of neurons (filters of Convolutional Layer)",
+					"type":"int",
+					"lowerBound":2,
+					"upperBound":64,
+					"default":16
+			},
+			{
+					"name":"second_hidden_neuron",
+					"description":"number of second neurons",
+					"type":"int",
+					"lowerBound":2,
+					"upperBound":64,
+					"default":32
+			},
+			{
+					"name":"hidden_kernel_size",
+					"description":"size of kernel of Convolutional Layer)",
+					"type":"int",
+					"lowerBound":2,
+					"upperBound":7,
+					"default":3
+			},
+			{
+					"name":"hidden_activation",
+					"description":"activation function",
+					"type":"enum",
+					"list":["linear","tanh","relu","elu","softmax","selu"],
+					"default":"tanh"
+			},
+			{
+					"name":"optimizer",
+					"description":"optimizer",
+					"type":"enum",
+					"list":["sgd","rmsprop","adagrad","adam"],
+					"default":"sgd"
+			},
+			{
+					"name":"epochs",
+					"description":"train epochs",
+					"type":"int",
+					"lowerBound":5,
+					"upperBound":200,
+					"default":20
+			},
+			{
+					"name":"batch_size",
+					"description":"batch size of training",
+					"type":"int",
+					"lowerBound":4,
+					"upperBound":128,
+					"default":32
+			},
+			{
+					"name":"dropout_rate",
+					"description":"dropout rate of training",
+					"type":"float",
+					"lowerBound":0,
+					"upperBound":1,
+					"default":0
+			}
+	],
+	"input":[
+			{
+					"name": "X",
+					"description": "input data",
+					"type":"path",
+					"amount":"single"
+			}
+	],
+	"output":[
+			{
+					"name": "Y",
+					"description": "output data",
+					"type":"classifiable"
+			}
+	]
+}

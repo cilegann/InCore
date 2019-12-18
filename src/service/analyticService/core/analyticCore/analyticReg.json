@@ -80,7 +80,8 @@
             "r08522732_PML_alexnet",
             "r07525116_CNN",
             "r08525091_twoLayerCNN",
-            "r08525103_CNN"
+            "r08525103_CNN",
+            "r08525091_testCNN"
         ]
     },
     "nlp": {
@@ -89,7 +90,8 @@
             "in_oneLayerRNN",
             "r08521514_oneLayerRNN",
             "r08521514_ConvRNN",
-            "r08521514_Conv"
+            "r08521514_Conv",
+            "r08525066_textCNN"
         ]
     }
 }
