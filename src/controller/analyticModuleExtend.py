@@ -29,7 +29,7 @@ def purgeTmp(jsonName,pyName):
 def submit(key):
     param=params()
     maintain=(param.maintainMsg if maintaining() else "0")
-    deadline=datetime.strptime(param.analyticModuleUploadDeadline,"%Y-%m-%d %H:%M")
+    deadline=param.analyticModuleUploadDeadline
     with open('allowSubmit.csv') as file:
         lines=file.readlines()
     idd=0
@@ -40,14 +40,16 @@ def submit(key):
             break
     if idd==0:
         return render_template('404.html')
-    if datetime.now()>deadline:
+    if datetime.now()>deadline or not(param.analyticModuleUploadOnline):
         deadlineImgs=[
             'https://cdn.stackward.com/wp-content/uploads/2016/09/38.jpg',
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUrUCkH93azU4TsmZ5iDi1iGp1OVdv958Q8dh1n-eHnRNLm_1Jdg&s',
             'https://www.lanternaeducation.com/wp-content/uploads/2016/11/deadline-meme.jpg',
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkipBr2xaof8H_awUP6fhjJ8woZywZU1EZxPVBucEAdwE3qpKoCg&s',
+            'https://cdn.stackward.com/wp-content/uploads/2016/09/79.jpg',
             'https://media.makeameme.org/created/if-everyone-could-5ad967.jpg',
-            'https://media.makeameme.org/created/deadline-means-deadline.jpg',
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkipBr2xaof8H_awUP6fhjJ8woZywZU1EZxPVBucEAdwE3qpKoCg&s'
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXYD1dE94BLizKdmugI8rfLdKcOiz6cerhScNxI-k65OLhOKOp7g&s',
+            'https://i.pinimg.com/originals/d6/01/ce/d601ce3393c2c5307fca507ec0e8517c.png'
         ]
         from random import choice
         return f"<center><img src='{choice(deadlineImgs)}'></center>"
