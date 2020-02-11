@@ -5,7 +5,7 @@
 ## 大部分程式和架構都是在喝了一瓶酒才開始寫ㄉ ( ´∀｀)つt[ ]
 ## 寫的時候只有我和神知道在幹嘛  (༼•̀ɷ•́༽)
 ## 現在只有神知道了 ( ￣ 3￣)y▂ξ
-## 代碼成分：酒精 (80%)、尼古丁 (10%)、肝(6%)、青春歲月(3%)，以及一點點的 flask,sql,sklearn,keras,matplotlib,bokeh (1%)
+## 代碼成分：酒精 (80%)、肝(6%)、青春歲月(3%)，以及一點點的 flask,sql,sklearn,keras,matplotlib,bokeh (1%)
 ##################################################
 ## Author: Sean Chiu
 ## Copyright: Copyright 2019, InCore
