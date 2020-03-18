@@ -75,3 +75,26 @@ class previewPreprocess(Resource):
         except Exception as e:
             logging.error(f"[{fName}] {traceback.format_exc()}")
             return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400
+
+class getPreprocessParameter(Resource):
+    def get(self):
+        try:
+            parser=reqparse.RequestParser()
+            parser.add_argument('token',type=str,required=True)
+            parser.add_argument('fileUid',type=str,required=True)
+            args=parser.parse_args()
+            if not tokenValidator(args['token']):
+                return {"status":"error","msg":"token error","data":{}},401
+            args.pop('token')
+            logging.info(f'[API_getFileParameter] args:{args}')
+            fid=args['fileUid']
+            _,_,_,_,_,preprocessActionFile=getFileInfo(fid)[0]
+            if preprocessActionFile:
+                with open(preprocessActionFile) as file:
+                    action=json.load(file)
+            else:
+                return {"status":"error","msg":f"file {fid} doesnt have related preprocessing records","data":{}},400
+            return {"status":"success","msg":"","data":action},200
+        except Exception as e:
+            logging.error(f"[API_getModelParameter]{traceback.format_exc()}")
+            return {"status":"error","msg":str(traceback.format_exc()),"data":{}},400

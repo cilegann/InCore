@@ -40,7 +40,7 @@ from service.dataService.controller.delete import DeleteFile
 from service.visualizeService.controller.getImg import getImg
 from service.visualizeService.controller.dataViz import getDataVizAlgoList,doDataViz
 
-from service.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess
+from service.analyticService.controller.preprocess import getPreprocessAlgoList,doPreprocess,previewPreprocess,getPreprocessParameter
 from service.analyticService.controller.correlation import doCorrelation,getCorrelationAlgoList
 from service.analyticService.controller.analytic import getAnalyticAlgoList,getAnalyticAlgoParam,doModelTrain,stopTraining,getModelPreview,doModelTest,doModelPredict,deleteModel,getModelStatus,getModelParameter,getModelFailReason
 
@@ -70,6 +70,7 @@ api.add_resource(doDataViz,'/viz/data/do')
 api.add_resource(getPreprocessAlgoList,'/preprocess/getalgo')
 api.add_resource(doPreprocess,'/preprocess/do')
 api.add_resource(previewPreprocess,'/preprocess/preview')
+api.add_resource(getPreprocessParameter,'/preprocess/get/param')
 api.add_resource(getCorrelationAlgoList,'/correlation/getalgo')
 api.add_resource(doCorrelation,'/correlation/do')
 
