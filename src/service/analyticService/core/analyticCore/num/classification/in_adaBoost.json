@@ -35,5 +35,8 @@
             "description": "output data",
             "type":"classifiable"
         }
+    ],
+    "metric":[
+        "cross_entropy"
     ]
 }

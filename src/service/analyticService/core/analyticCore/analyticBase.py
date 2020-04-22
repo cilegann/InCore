@@ -38,6 +38,10 @@ class analytic():
                 self.mid=mid
             self.paramDef=json.load(open(self.sysparam.analyticServiceRoot+f'core/analyticCore/{self.dataType}/{self.projectType}/{self.algoName}.json'))
             self.lib=self.paramDef["lib"]
+            try:
+                self.metric=self.paramDef["metric"]
+            except:
+                pass
             self.param=None # the input parameter
             self.inputDict=json.loads(algoInfo['input']) # input columns mapping
             self.outputDict=json.loads(algoInfo['output']) # output columns mapping

@@ -19,6 +19,10 @@ prediction result should be saved to self.result['cluster'] as a 1D np array
 
 class clustering(analytic):
 
+    def __init__(self, algoInfo, fid, action='train', mid=None):
+        super().__init__(algoInfo, fid, action, mid)
+        self.metric=list(set(self.metric) & set(["Average silhouette score"])) 
+
     def predict(self):
         self.clearSession()
         self.dataDf['cluster']=self.result['cluster']

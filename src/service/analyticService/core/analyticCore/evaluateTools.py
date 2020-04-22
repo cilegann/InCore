@@ -4,11 +4,6 @@ from sklearn.metrics import precision_recall_fscore_support as score
 from texttable import Texttable
 import json
 
-def crossEntropy( targets,predictions, epsilon=1e-12):
-    predictions = np.clip(predictions, epsilon, 1. - epsilon)
-    N = predictions.shape[0]
-    ce = -np.sum(targets*np.log(predictions+1e-9))/N
-    return ce
 
 def classificationReport(targets,predictions,label,offset=3):
     precision, recall, fscore, support = score(targets, predictions,labels=label)
@@ -35,3 +30,18 @@ def classificationReportTxt(targets,predictions,label,offset=3):
     for tt in txtSplit:
         txt+=(tt+"\n")
     return txt
+
+def cross_entropy( targets,predictions, epsilon=1e-12,indent=2):
+    predictions = np.clip(predictions, epsilon, 1. - epsilon)
+    N = predictions.shape[0]
+    ce = -np.sum(targets*np.log(predictions+1e-9))/N
+    return " "*indent+"cross_entropy: "+str(ce)+"\n"
+
+def MAE(target,prediction,indent=2):
+    return " "*indent+"MAE: "+str((np.abs(target-prediction)).mean())+"\n"
+
+def MSE(target,prediction,indent=2):
+    return " "*indent+"MSE: "+str(((target-prediction)**2).mean())+"\n"
+
+def RMSE(target,prediction,indent=2):
+    return " "*indent+"RMSE: "+str(np.sqrt(((target-prediction)**2).mean()))+"\n"

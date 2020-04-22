@@ -39,5 +39,6 @@
         }
     ],
     "output":[
-    ]
+    ],
+    "metric":["Average silhouette score"]
 }

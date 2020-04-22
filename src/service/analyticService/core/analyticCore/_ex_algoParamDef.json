@@ -90,5 +90,7 @@
             "description": "output4 description",
             "type": "path"
         }
-    ] # For unsupervised project, it is a empty list
+    ], # For unsupervised project, it is a empty list
+
+    "metric":["metric1,metric2"]
 }

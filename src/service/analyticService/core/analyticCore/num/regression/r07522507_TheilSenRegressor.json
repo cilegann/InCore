@@ -78,5 +78,6 @@
             "description": "output data",
             "type":"float"
         }
-    ]
+    ],
+    "metric":["MAE","MSE","RMSE"]
 }
