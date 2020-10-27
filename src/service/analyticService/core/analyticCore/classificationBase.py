@@ -2,7 +2,7 @@ from service.analyticService.core.analyticCore.analyticBase import analytic
 import numpy as np
 import pandas as pd
 from service.visualizeService.core.analyticVizAlgo.heatmap import heatmap
-from service.analyticService.core.analyticCore.evaluateTools import crossEntropy,classificationReport
+from service.analyticService.core.analyticCore.evaluateTools import classificationReport
 from sklearn.metrics import confusion_matrix
 import importlib
 
@@ -20,7 +20,7 @@ class classification(analytic):
             self.txtRes += f"{v}:\n"
             for m in self.metric:
                 attr=getattr(module,m)
-                self.txtRes+=attr(self.outputData[k],seld.result[k])
+                self.txtRes+=attr(self.outputData[k],self.result[k])
             # self.txtRes += f"  Cross Entropy: {crossEntropy(self.outputData[k],self.result[k])}\n"
             real=[str(self.c2d[v][str(i)]) for i in  np.argmax(self.outputData[k],axis=1)]
             predicted=[str(self.c2d[v][str(i)]) for i in  np.argmax(self.result[k],axis=1)]
