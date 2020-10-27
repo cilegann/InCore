@@ -1,0 +1,27 @@
+{
+    "dataType":"num",
+    "projectType":"abnormal",
+    "algoName":"bala_ML12regression",
+    "description":"Return the anomaly score of wind turbine's data using this algorithm",
+    "lib":"keras",
+    "param":[
+        {
+            "name":"n_estimators",
+            "description":"The number of base estimators in the ensemble.",
+            "type":"int",
+            "upperBound":200,
+            "lowerBound":1,
+            "default":100
+        }
+    ],
+    "input":[
+        {
+            "name": "X",
+            "description": "input data",
+            "type":"float",
+            "amount":"multiple"
+        }
+    ],
+    "output":[]
+
+}

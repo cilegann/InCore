@@ -21,7 +21,8 @@
             "d08525001_huberRegression",
             "d08525001_LassoRegression",
             "r08525067_huberRegressor",
-            "r08543047_ridgeRegression"
+            "r08543047_ridgeRegression",
+            "bala_ML12regression"
         ],
         "classification": [
             "in_knn",
@@ -41,7 +42,9 @@
             "in_isolationForest",
             "in_localOutlierFactor",
             "in_ellipticEnvelope",
-            "in_oneClassSVM"
+            "in_oneClassSVM",
+            "bala_ML12",
+            "bala_ML12regression"
         ],
         "clustering": [
             "in_kmeans",
