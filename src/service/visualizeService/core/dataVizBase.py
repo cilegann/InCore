@@ -1,6 +1,7 @@
 from bokeh.embed import json_item,components
 from bokeh.plotting import figure
 from bokeh.models import CustomJS,SaveTool,Tool,CustomAction,HoverTool,CustomJSHover,ColumnDataSource
+from bokeh.io import export_png
 import pandas as pd
 import numpy as np
 from PIL import Image
@@ -11,6 +12,8 @@ from service.dataService.utils import getFileInfo,getDf,getColType
 from utils import sql
 import logging
 import json
+from imgurpython import ImgurClient
+from datetime import datetime
 
 class dataViz():
     def __init__(self,algoInfo,dataCol,fid):
@@ -25,6 +28,7 @@ class dataViz():
             self.imgWH=None
             self.mat_plt=None
             self.component=None
+            self.imgUrl=None
             # logging.debug(f'[dataViz] algoInfo: {self.algoInfo}')
         except Exception as e:
             raise Exception(f'[dataViz][{self.algoInfo["algoname"]}]{e}')
@@ -171,6 +175,30 @@ class dataViz():
     def getComp(self):
         try:
             script,div=components(self.bokeh_fig,wrap_script=False)
-            self.component=({"div":div,"script":script})
+            export_png(self.bokeh_fig, filename=f"./images/test.png")
+            self.uploadImgur()
+            self.component=({"div":div,"script":script,"url":self.imgUrl})
+        except Exception as e:
+            raise Exception(f'[getData] {e}')
+
+    def uploadImgur(self):
+        try:
+            album = '8fcbqoq'
+            image_path = f"./images/test.png"
+            client_id ='eaef9306e37cc22'
+            client_secret = '6ab34e2e1532f1d98973d79e8358314c1c3b25e2T'
+            access_token = "8d7baa970ffe2a6f31eb7f188305933512882d13"
+            refresh_token = "29adec11301611fadb3697f8465670874561c348"
+            
+            config = {
+                'album': album,
+                'name':  'InAnalysisPNG_Name',
+                'title': 'InAnalysisPNG_Title',
+                'description': 'Upload time: {0}'.format(datetime.now())
+            }
+            
+            client = ImgurClient(client_id, client_secret, access_token, refresh_token)
+            image = client.upload_from_path(image_path, config=config, anon=False)
+            self.imgUrl = image['link']
         except Exception as e:
             raise Exception(f'[getData] {e}')
