@@ -41,7 +41,7 @@ class analytic():
             try:
                 self.metric=self.paramDef["metric"]
             except:
-                pass
+                self.metric=[]
             self.param=None # the input parameter
             self.inputDict=json.loads(algoInfo['input']) # input columns mapping
             self.outputDict=json.loads(algoInfo['output']) # output columns mapping
