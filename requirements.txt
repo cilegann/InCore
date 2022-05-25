@@ -18,5 +18,5 @@ pyparsing==2.4.2
 Werkzeug==0.15.4
 WTForms==2.2.1
 emoji==0.5.3
-PyJWT==1.7.1
+PyJWT==2.4.0
 APScheduler==3.6.3
